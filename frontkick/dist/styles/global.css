@@ -1487,3 +1487,73 @@ footer {
   flex-wrap: wrap;
   gap: 8px;
 }
+
+/* ═══════════════════════════════════════
+   BANDEAU COOKIES RGPD
+═══════════════════════════════════════ */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0F172A;
+  border-top: 2px solid var(--blue);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 9999;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.3);
+  flex-wrap: wrap;
+}
+#cookie-banner p {
+  color: #CBD5E1;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  flex: 1;
+  min-width: 200px;
+  margin: 0;
+}
+#cookie-banner a { color: var(--blue-light); text-decoration: underline; }
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.cookie-btn-accept {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.cookie-btn-accept:hover { background: var(--blue-dark); }
+.cookie-btn-refuse {
+  background: transparent;
+  color: #94A3B8;
+  border: 1px solid #334155;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.cookie-btn-refuse:hover { border-color: #94A3B8; color: white; }
+
+/* Lien "Gérer mes cookies" dans le footer */
+.cookie-manage-link {
+  color: #64748B;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.cookie-manage-link:hover { color: #94A3B8; }

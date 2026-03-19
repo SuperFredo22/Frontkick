@@ -42,6 +42,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="header-top">
     <a href="/" class="logo">
@@ -73,10 +74,12 @@ const canonicalURL = new URL(currentPath, siteUrl);
 
 <slot />
 
+<!-- Footer ad -->
 <div class="footer-ad">
   <div class="ad-slot ad-leader"></div>
 </div>
 
+<!-- FOOTER -->
 <footer role="contentinfo">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -104,22 +107,39 @@ const canonicalURL = new URL(currentPath, siteUrl);
       </ul>
     </div>
     <div class="footer-col">
-      <h4>À propos</h4>
+      <h4>Le site</h4>
       <ul>
-        <li><a href="/">Accueil</a></li>
+        <li><a href="/a-propos">À propos</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/politique-confidentialite">Confidentialité</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 Front Kick · Tous droits réservés</span>
-    <span>* Liens affiliés — nous percevons une commission sans surcoût pour vous.</span>
+    <span>* Liens affiliés — commission perçue sans surcoût pour vous.</span>
+    <button class="cookie-manage-link" onclick="showCookieBanner()">Gérer mes cookies</button>
   </div>
 </footer>
 
+<!-- BANDEAU COOKIES RGPD -->
+<div id="cookie-banner" style="display:none;" role="dialog" aria-label="Gestion des cookies">
+  <p>
+    🍪 Ce site utilise des cookies pour mesurer l'audience et afficher des publicités personnalisées (Google AdSense).
+    En cliquant sur "Accepter", vous consentez à l'utilisation de ces cookies.
+    <a href="/politique-confidentialite">En savoir plus</a>
+  </p>
+  <div class="cookie-actions">
+    <button class="cookie-btn-refuse" onclick="refuseCookies()">Refuser</button>
+    <button class="cookie-btn-accept" onclick="acceptCookies()">Accepter</button>
+  </div>
+</div>
+
 <script>
+  // ── Dark mode ──
   const toggle = document.getElementById('darkModeToggle');
-  const saved = localStorage.getItem('darkMode');
-  if (saved === 'true') {
+  if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
     if (toggle) (toggle as HTMLElement).textContent = '☀️';
   }
@@ -131,6 +151,44 @@ const canonicalURL = new URL(currentPath, siteUrl);
       localStorage.setItem('darkMode', String(isDark));
     });
   }
+
+  // ── Cookies ──
+  function showCookieBanner() {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  }
+  function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    hideBanner();
+    // Ici : charger Google Analytics / AdSense dynamiquement
+    loadAnalytics();
+  }
+  function refuseCookies() {
+    localStorage.setItem('cookieConsent', 'refused');
+    hideBanner();
+  }
+  function hideBanner() {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.style.display = 'none';
+  }
+  function loadAnalytics() {
+    // Placeholder — remplacer par votre ID Google Analytics
+    // const script = document.createElement('script');
+    // script.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+    // document.head.appendChild(script);
+  }
+
+  // Afficher le bandeau si pas encore de choix
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('cookieConsent')) {
+      showCookieBanner();
+    }
+  });
+
+  // Exposer les fonctions globalement
+  (window as any).showCookieBanner = showCookieBanner;
+  (window as any).acceptCookies = acceptCookies;
+  (window as any).refuseCookies = refuseCookies;
 </script>
 
 </body>
