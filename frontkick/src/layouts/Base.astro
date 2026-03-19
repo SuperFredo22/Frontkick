@@ -1,0 +1,119 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+const {
+  title = "Front Kick — Le média des sports de combat",
+  description = "Analyses, guides et équipement pour pratiquants et passionnés de sports de combat.",
+  ogImage = "/og-default.png"
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const siteUrl = Astro.site ?? 'https://frontkick.fr';
+const canonicalURL = new URL(currentPath, siteUrl);
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={new URL(ogImage, siteUrl)} />
+  <meta property="og:site_name" content="Front Kick" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogImage, siteUrl)} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/global.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-top">
+      <a href="/" class="nav-logo">🥊 Front<span>Kick</span></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class={currentPath === '/' ? 'active' : ''}>Accueil</a></li>
+      <li><a href="/discipline/mma" class={currentPath.includes('/mma') ? 'active' : ''}>MMA</a></li>
+      <li><a href="/discipline/boxe" class={currentPath.includes('/boxe') ? 'active' : ''}>Boxe</a></li>
+      <li><a href="/discipline/kickboxing" class={currentPath.includes('/kickboxing') ? 'active' : ''}>Kickboxing</a></li>
+      <li><a href="/discipline/muay-thai" class={currentPath.includes('/muay-thai') ? 'active' : ''}>Muay Thaï</a></li>
+      <li><a href="/discipline/grappling" class={currentPath.includes('/grappling') ? 'active' : ''}>Grappling</a></li>
+      <li><a href="/guides" class={currentPath === '/guides' ? 'active' : ''}>Guides</a></li>
+      <li><a href="/actualites" class={currentPath === '/actualites' ? 'active' : ''}>Actualités</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <div class="section" style="padding-top:0;">
+    <div class="newsletter" style="margin: 0;">
+      <div style="font-size:1.5rem; margin-bottom:0.5rem;">📬</div>
+      <div class="newsletter-title">Newsletter hebdo</div>
+      <div class="newsletter-sub">Les meilleurs articles de la semaine. Gratuit.</div>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" class="newsletter-input" placeholder="ton@email.com" />
+        <button class="newsletter-btn">S'abonner</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">🥊 Front<span>Kick</span></div>
+        <div class="footer-desc">Le média des sports de combat. Analyses, guides et équipement pour pratiquants et passionnés.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Disciplines</div>
+        <ul class="footer-links">
+          <li><a href="/discipline/mma">MMA / UFC</a></li>
+          <li><a href="/discipline/boxe">Boxe anglaise</a></li>
+          <li><a href="/discipline/kickboxing">Kickboxing</a></li>
+          <li><a href="/discipline/muay-thai">Muay-Thaï</a></li>
+          <li><a href="/discipline/grappling">Grappling</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Ressources</div>
+        <ul class="footer-links">
+          <li><a href="/guides">Guides débutants</a></li>
+          <li><a href="/equipement">Équipement</a></li>
+          <li><a href="/actualites">Actualités</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">À propos</div>
+        <ul class="footer-links">
+          <li><a href="/">Accueil</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Front Kick · Tous droits réservés</span>
+      <span>* Liens affiliés — nous percevons une commission sans surcoût pour vous.</span>
+    </div>
+  </footer>
+</body>
+</html>

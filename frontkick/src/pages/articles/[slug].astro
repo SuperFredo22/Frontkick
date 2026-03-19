@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map(a => ({ params: { slug: a.slug } }));
+}
+
+const { slug } = Astro.params;
+const article = await getEntry('articles', slug as string);
+if (!article) return Astro.redirect('/');
+const { Content } = await article.render();
+
+const sportEmojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒',
+};
+const catLabels: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse',
+  'actualite': 'Actualité',
+};
+---
+<Base
+  title={`${article.data.title} — Front Kick`}
+  description={article.data.excerpt}
+>
+  <div class="article-page">
+    <a href="/" class="back-link">← Retour à l'accueil</a>
+
+    <!-- Emplacement AdSense haut — brancher ici le script AdSense -->
+    <div class="ad-banner"></div>
+
+    <div class="article-header">
+      <div class="article-tags">
+        <span class="tag red">{sportEmojis[article.data.sport] || '🥊'} {article.data.sport.toUpperCase()}</span>
+        <span class="tag gold">{catLabels[article.data.category] || article.data.category}</span>
+      </div>
+      <h1 class="article-title" set:html={article.data.title}></h1>
+      <div class="article-meta">
+        <span>📅 {article.data.date}</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+      <Content />
+    </div>
+
+    <!-- Emplacement AdSense bas -->
+    <div class="ad-banner"></div>
+  </div>
+</Base>

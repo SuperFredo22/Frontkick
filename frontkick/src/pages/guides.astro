@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('articles');
+const articles = all.sort((a,b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+const catLabels: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+const sportEmojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒',
+};
+---
+<Base title="Tous les articles — Front Kick">
+  <div class="section">
+    <h1 style="font-size:2rem; font-weight:800; margin-bottom:2rem;">📰 Tous les articles</h1>
+    <div class="articles-grid">
+      {articles.map(a => (
+        <a href={`/articles/${a.slug}`} class="article-card">
+          <div class="card-tags">
+            <span class="tag red">{sportEmojis[a.data.sport] || '🥊'} {a.data.sport.toUpperCase()}</span>
+            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
+          </div>
+          <div class="card-title" set:html={a.data.title}></div>
+          <div class="card-excerpt">{a.data.excerpt}</div>
+          <div class="card-meta">
+            <span>{a.data.date}</span>
+            <span class="card-read-link">Lire →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

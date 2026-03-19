@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+const sorted = allArticles.sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+const featured = sorted.find(a => a.data.featured) || sorted[0];
+const recent = sorted.filter(a => a.slug !== featured.slug).slice(0, 6);
+const sidebar = sorted.filter(a => a.slug !== featured.slug).slice(0, 4);
+
+const sportEmojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒',
+};
+const catLabels: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse',
+  'analyse-combat': 'Analyse', 'actualite': 'Actualité',
+};
+---
+<Base>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid">
+      <a href={`/articles/${featured.slug}`} class="hero-main">
+        <div class="hero-emoji">{sportEmojis[featured.data.sport] || '🥊'}</div>
+        <div class="hero-badge">🔥 À LA UNE</div>
+        <h1 class="hero-title" set:html={featured.data.title}></h1>
+        <p class="hero-excerpt">{featured.data.excerpt}</p>
+        <div class="hero-meta">
+          <span>{featured.data.date}</span>
+          <span>{catLabels[featured.data.category] || featured.data.category}</span>
+        </div>
+        <div class="btn-read">Lire l'article →</div>
+      </a>
+
+      <div class="hero-sidebar">
+        {sidebar.map(a => (
+          <a href={`/articles/${a.slug}`} class="sidebar-card">
+            <div class="sidebar-emoji">{sportEmojis[a.data.sport] || '🥊'}</div>
+            <div class="sidebar-card-info">
+              <div class="sidebar-tags">
+                <span class="tag red">{a.data.sport.toUpperCase()}</span>
+                <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
+              </div>
+              <div class="sidebar-title" set:html={a.data.title}></div>
+              <div class="sidebar-date">{a.data.date}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCIPLINES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🥋 Disciplines</div>
+    </div>
+    <div class="disciplines-grid">
+      {[
+        { slug: 'mma', name: 'MMA', sub: 'Mixed Martial Arts · Mondial', emoji: '🥊' },
+        { slug: 'boxe', name: 'Boxe anglaise', sub: 'Boxing · Grande-Bretagne', emoji: '🥊' },
+        { slug: 'kickboxing', name: 'Kickboxing', sub: 'Full contact · USA / Japon', emoji: '🦵' },
+        { slug: 'muay-thai', name: 'Muay-Thaï', sub: 'Art martial · Thaïlande', emoji: '🦵' },
+        { slug: 'grappling', name: 'Grappling', sub: 'BJJ · Judo · Wrestling · Sambo', emoji: '🤼' },
+      ].map(d => (
+        <a href={`/discipline/${d.slug}`} class="discipline-card">
+          <div class="discipline-emoji">{d.emoji}</div>
+          <div class="discipline-name">{d.name}</div>
+          <div class="discipline-sub">{d.sub}</div>
+          <div class="discipline-count">
+            {allArticles.filter(a => a.data.sport === d.slug).length} articles
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- DERNIÈRES PUBLICATIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">📰 Dernières publications</div>
+      <a href="/guides" class="section-link">Voir tout →</a>
+    </div>
+    <div class="articles-grid">
+      {recent.map(a => (
+        <a href={`/articles/${a.slug}`} class="article-card">
+          <div class="card-tags">
+            <span class="tag red">{a.data.sport.toUpperCase()}</span>
+            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
+          </div>
+          <div class="card-title" set:html={a.data.title}></div>
+          <div class="card-excerpt">{a.data.excerpt}</div>
+          <div class="card-meta">
+            <span>{a.data.date}</span>
+            <span class="card-read-link">Lire →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

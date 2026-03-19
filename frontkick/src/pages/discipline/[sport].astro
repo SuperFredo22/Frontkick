@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return ['mma','boxe','kickboxing','muay-thai','grappling'].map(sport => ({ params: { sport } }));
+}
+
+const { sport } = Astro.params;
+const all = await getCollection('articles');
+const articles = all.filter(a => a.data.sport === sport).sort((a,b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+
+const sportNames: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe anglaise', kickboxing: 'Kickboxing',
+  'muay-thai': 'Muay-Thaï', grappling: 'Grappling',
+};
+const sportEmojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼',
+};
+const catLabels: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+---
+<Base title={`${sportNames[sport as string] || sport} — Front Kick`}>
+  <div class="section">
+    <div style="margin-bottom:2rem;">
+      <a href="/" class="back-link">← Retour à l'accueil</a>
+      <h1 style="font-size:2rem; font-weight:800; margin-top:1rem;">
+        {sportEmojis[sport as string]} {sportNames[sport as string] || sport}
+      </h1>
+      <p style="color:var(--text-muted); margin-top:0.5rem;">{articles.length} article{articles.length > 1 ? 's' : ''}</p>
+    </div>
+    <div class="articles-grid">
+      {articles.map(a => (
+        <a href={`/articles/${a.slug}`} class="article-card">
+          <div class="card-tags">
+            <span class="tag red">{a.data.sport.toUpperCase()}</span>
+            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
+          </div>
+          <div class="card-title" set:html={a.data.title}></div>
+          <div class="card-excerpt">{a.data.excerpt}</div>
+          <div class="card-meta">
+            <span>{a.data.date}</span>
+            <span class="card-read-link">Lire →</span>
+          </div>
+        </a>
+      ))}
+      {articles.length === 0 && (
+        <p style="color:var(--text-muted);">Aucun article pour cette discipline pour le moment.</p>
+      )}
+    </div>
+  </div>
+</Base>
