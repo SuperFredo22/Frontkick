@@ -3,52 +3,69 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  return ['mma','boxe','kickboxing','muay-thai','grappling'].map(sport => ({ params: { sport } }));
+  const sports = ['mma','boxe','kickboxing','muay-thai','grappling','karate'];
+  return sports.map(s => ({ params: { sport: s } }));
 }
 
 const { sport } = Astro.params;
 const all = await getCollection('articles');
-const articles = all.filter(a => a.data.sport === sport).sort((a,b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+const articles = all
+  .filter(a => a.data.sport === sport)
+  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 
-const sportNames: Record<string, string> = {
+const labels: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe anglaise', kickboxing: 'Kickboxing',
-  'muay-thai': 'Muay-Thaï', grappling: 'Grappling',
+  'muay-thai': 'Muay-Thaï', grappling: 'Grappling', karate: 'Karaté',
 };
-const sportEmojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼',
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
 };
-const catLabels: Record<string, string> = {
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+};
+const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
   'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
 };
 ---
-<Base title={`${sportNames[sport as string] || sport} — Front Kick`}>
-  <div class="section">
-    <div style="margin-bottom:2rem;">
-      <a href="/" class="back-link">← Retour à l'accueil</a>
-      <h1 style="font-size:2rem; font-weight:800; margin-top:1rem;">
-        {sportEmojis[sport as string]} {sportNames[sport as string] || sport}
-      </h1>
-      <p style="color:var(--text-muted); margin-top:0.5rem;">{articles.length} article{articles.length > 1 ? 's' : ''}</p>
+<Base title={`${labels[sport] || sport} — Front Kick`} description={`Guides et articles sur ${labels[sport] || sport}.`}>
+<div id="app">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>{emojis[sport] || '🥊'} {labels[sport] || sport}</h1>
+      <p>Guides, analyses et conseils pour les pratiquants de {labels[sport] || sport}.</p>
     </div>
-    <div class="articles-grid">
-      {articles.map(a => (
-        <a href={`/articles/${a.slug}`} class="article-card">
-          <div class="card-tags">
-            <span class="tag red">{a.data.sport.toUpperCase()}</span>
-            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
-          </div>
-          <div class="card-title" set:html={a.data.title}></div>
-          <div class="card-excerpt">{a.data.excerpt}</div>
-          <div class="card-meta">
-            <span>{a.data.date}</span>
-            <span class="card-read-link">Lire →</span>
-          </div>
-        </a>
-      ))}
-      {articles.length === 0 && (
-        <p style="color:var(--text-muted);">Aucun article pour cette discipline pour le moment.</p>
-      )}
-    </div>
+
+    {articles.length > 0 ? (
+      <div class="art-grid">
+        {articles.map(a => (
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🥊'}</span>
+              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+            </div>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot">
+                <span>{a.data.date}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <span class="emoji">{emojis[sport] || '🥊'}</span>
+        <h3>Bientôt disponible</h3>
+        <p>Les articles pour cette discipline arrivent prochainement.</p>
+        <a href="/" class="btn">← Retour à l'accueil</a>
+      </div>
+    )}
   </div>
+</div>
 </Base>

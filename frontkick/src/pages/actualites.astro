@@ -7,40 +7,44 @@ const articles = all
   .filter(a => a.data.category === 'actualite')
   .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 
-const sportEmojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒',
+const gradients: Record<string, string> = {
+  mma: 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe: 'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+};
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼',
 };
 ---
-<Base title="Actualités — Front Kick" description="Toutes les actualités des sports de combat.">
-  <div class="section">
-    <h1 style="font-size:2rem; font-weight:800; margin-bottom:0.5rem;">📰 Actualités</h1>
-    <p style="color:var(--text-muted); margin-bottom:2rem;">Les dernières news des sports de combat.</p>
-
+<Base title="Actualités — Front Kick" description="Les dernières actualités des sports de combat.">
+<div id="app">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>📰 Actualités</h1>
+      <p>Les dernières news des sports de combat.</p>
+    </div>
     {articles.length > 0 ? (
-      <div class="articles-grid">
+      <div class="art-grid">
         {articles.map(a => (
-          <a href={`/articles/${a.slug}`} class="article-card">
-            <div class="card-tags">
-              <span class="tag red">{sportEmojis[a.data.sport] || '🥊'} {a.data.sport.toUpperCase()}</span>
-              <span class="tag">Actualité</span>
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🥊'}</span>
             </div>
-            <div class="card-title" set:html={a.data.title}></div>
-            <div class="card-excerpt">{a.data.excerpt}</div>
-            <div class="card-meta">
-              <span>{a.data.date}</span>
-              <span class="card-read-link">Lire →</span>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot"><span>{a.data.date}</span></div>
             </div>
           </a>
         ))}
       </div>
     ) : (
-      <div style="text-align:center; padding:4rem 0; color:var(--text-muted);">
-        <div style="font-size:3rem; margin-bottom:1rem;">🔜</div>
-        <p>Les actualités arrivent bientôt.</p>
-        <p style="margin-top:0.5rem; font-size:0.85rem;">En attendant, retrouve tous nos articles ci-dessous.</p>
-        <a href="/guides" style="display:inline-block; margin-top:1.5rem; background:var(--red); color:white; padding:0.7rem 1.4rem; border-radius:8px; font-weight:700;">Voir tous les articles →</a>
+      <div class="empty-state">
+        <span class="emoji">🔜</span>
+        <h3>Actualités bientôt disponibles</h3>
+        <p>Les news des sports de combat arrivent prochainement.</p>
+        <a href="/guides" class="btn">📖 Voir les guides →</a>
       </div>
     )}
   </div>
+</div>
 </Base>

@@ -5,99 +5,140 @@ import { getCollection } from 'astro:content';
 const allArticles = await getCollection('articles');
 const sorted = allArticles.sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 const featured = sorted.find(a => a.data.featured) || sorted[0];
-const recent = sorted.filter(a => a.slug !== featured.slug).slice(0, 6);
-const sidebar = sorted.filter(a => a.slug !== featured.slug).slice(0, 4);
+const sidebar  = sorted.filter(a => a.slug !== featured.slug).slice(0, 4);
+const recent   = sorted.filter(a => a.slug !== featured.slug).slice(0, 6);
 
-const sportEmojis: Record<string, string> = {
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+};
+const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
   grappling: '🤼', karate: '🥋', equipement: '🛒',
 };
-const catLabels: Record<string, string> = {
+const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
-  'guide-equipement': 'Équipement', 'analyse': 'Analyse',
-  'analyse-combat': 'Analyse', 'actualite': 'Actualité',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
 };
+
+const disciplineCards = [
+  { key: 'mma',        name: 'MMA',          emoji: '🥊', origin: 'Mixed Martial Arts · Mondial' },
+  { key: 'boxe',       name: 'Boxe anglaise', emoji: '🥊', origin: 'Boxing · Grande-Bretagne' },
+  { key: 'kickboxing', name: 'Kickboxing',    emoji: '🦵', origin: 'Full contact · USA / Japon' },
+  { key: 'muay-thai',  name: 'Muay-Thaï',     emoji: '🦵', origin: 'Art martial · Thaïlande' },
+  { key: 'grappling',  name: 'Grappling',     emoji: '🤼', origin: 'BJJ · Judo · Wrestling · Sambo' },
+  { key: 'guides',     name: 'Guides',        emoji: '📖', origin: 'Débutant · Intermédiaire · Avancé' },
+];
 ---
-<Base>
+<Base title="Front Kick — Le Média des Sports de Combat">
+<div id="app">
+
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-grid">
-      <a href={`/articles/${featured.slug}`} class="hero-main">
-        <div class="hero-emoji">{sportEmojis[featured.data.sport] || '🥊'}</div>
-        <div class="hero-badge">🔥 À LA UNE</div>
-        <h1 class="hero-title" set:html={featured.data.title}></h1>
-        <p class="hero-excerpt">{featured.data.excerpt}</p>
-        <div class="hero-meta">
-          <span>{featured.data.date}</span>
-          <span>{catLabels[featured.data.category] || featured.data.category}</span>
-        </div>
-        <div class="btn-read">Lire l'article →</div>
-      </a>
-
-      <div class="hero-sidebar">
-        {sidebar.map(a => (
-          <a href={`/articles/${a.slug}`} class="sidebar-card">
-            <div class="sidebar-emoji">{sportEmojis[a.data.sport] || '🥊'}</div>
-            <div class="sidebar-card-info">
-              <div class="sidebar-tags">
-                <span class="tag red">{a.data.sport.toUpperCase()}</span>
-                <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
-              </div>
-              <div class="sidebar-title" set:html={a.data.title}></div>
-              <div class="sidebar-date">{a.data.date}</div>
-            </div>
-          </a>
-        ))}
+    <a href={`/articles/${featured.slug}`} class="featured-card">
+      <div class="featured-image" style={`background: ${gradients[featured.data.sport] || gradients.mma};`}>
+        <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));">{emojis[featured.data.sport] || '🥊'}</span>
+        <span class="fi-badge">🔥 À la une</span>
       </div>
+      <div class="featured-body">
+        <div class="feat-meta">
+          <span>{catLabel[featured.data.category] || featured.data.category}</span>
+          <span>{featured.data.date}</span>
+        </div>
+        <h2 class="feat-h1" set:html={featured.data.title}></h2>
+        <p class="feat-desc">{featured.data.excerpt}</p>
+        <div class="feat-footer"><span class="read-more">Lire l'article →</span></div>
+      </div>
+    </a>
+
+    <div class="hero-sidebar">
+      {sidebar.map(a => (
+        <a href={`/articles/${a.slug}`} class="mini-card">
+          <div class="mini-icon">{emojis[a.data.sport] || '🥊'}</div>
+          <div>
+            <div class="mini-cat">{a.data.sport} · {catLabel[a.data.category] || a.data.category}</div>
+            <div class="mini-title" set:html={a.data.title}></div>
+            <div class="mini-date">{a.data.date}</div>
+          </div>
+        </a>
+      ))}
     </div>
   </div>
 
   <!-- DISCIPLINES -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-title">🥋 Disciplines</div>
-    </div>
-    <div class="disciplines-grid">
-      {[
-        { slug: 'mma', name: 'MMA', sub: 'Mixed Martial Arts · Mondial', emoji: '🥊' },
-        { slug: 'boxe', name: 'Boxe anglaise', sub: 'Boxing · Grande-Bretagne', emoji: '🥊' },
-        { slug: 'kickboxing', name: 'Kickboxing', sub: 'Full contact · USA / Japon', emoji: '🦵' },
-        { slug: 'muay-thai', name: 'Muay-Thaï', sub: 'Art martial · Thaïlande', emoji: '🦵' },
-        { slug: 'grappling', name: 'Grappling', sub: 'BJJ · Judo · Wrestling · Sambo', emoji: '🤼' },
-      ].map(d => (
-        <a href={`/discipline/${d.slug}`} class="discipline-card">
-          <div class="discipline-emoji">{d.emoji}</div>
-          <div class="discipline-name">{d.name}</div>
-          <div class="discipline-sub">{d.sub}</div>
-          <div class="discipline-count">
-            {allArticles.filter(a => a.data.sport === d.slug).length} articles
+  <div class="sec-bar">
+    <h2>Disciplines</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="sports-hub">
+    {disciplineCards.map(d => (
+      <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card">
+        <div class="sport-hub-top">
+          <span class="sport-emoji">{d.emoji}</span>
+          <div>
+            <div class="sport-name">{d.name}</div>
+            <div class="sport-origin">{d.origin}</div>
           </div>
-        </a>
-      ))}
-    </div>
+        </div>
+        <div class="sport-links">
+          <div class="sport-link"><span>📝 Articles</span></div>
+          <div class="sport-link"><span>📖 Guide →</span></div>
+        </div>
+      </a>
+    ))}
   </div>
 
   <!-- DERNIÈRES PUBLICATIONS -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-title">📰 Dernières publications</div>
-      <a href="/guides" class="section-link">Voir tout →</a>
-    </div>
-    <div class="articles-grid">
-      {recent.map(a => (
-        <a href={`/articles/${a.slug}`} class="article-card">
-          <div class="card-tags">
-            <span class="tag red">{a.data.sport.toUpperCase()}</span>
-            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
-          </div>
-          <div class="card-title" set:html={a.data.title}></div>
-          <div class="card-excerpt">{a.data.excerpt}</div>
-          <div class="card-meta">
-            <span>{a.data.date}</span>
-            <span class="card-read-link">Lire →</span>
-          </div>
-        </a>
-      ))}
-    </div>
+  <div class="main-layout">
+    <main>
+      <div class="sec-bar">
+        <h2>Dernières publications</h2>
+        <div class="sec-line"></div>
+        <a href="/guides" class="see-all">Voir tout →</a>
+      </div>
+      <div class="art-grid">
+        {recent.map(a => (
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] || '🥊'}</span>
+              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+            </div>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot">
+                <span>{a.data.date}</span>
+                <span class="atype t-guide">{catLabel[a.data.category] || a.data.category}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+
+    <aside class="sidebar-col">
+      <div class="nl-widget">
+        <div class="widget-head">📬 Newsletter hebdo</div>
+        <p>Les meilleurs articles de la semaine. Gratuit.</p>
+        <input class="nl-input" type="email" placeholder="votre@email.com" />
+        <button class="nl-btn">S'abonner</button>
+      </div>
+      <div class="widget">
+        <div class="widget-head">🏆 Prochains événements</div>
+        <div class="widget-body">
+          <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
+          <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
+          <div class="ev-item"><div class="ev-date">06 Sep</div><div>UFC Paris 2026</div></div>
+        </div>
+      </div>
+      <div class="ad-slot ad-rect"></div>
+    </aside>
   </div>
+
+</div>
 </Base>

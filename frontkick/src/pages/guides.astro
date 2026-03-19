@@ -3,34 +3,48 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('articles');
-const articles = all.sort((a,b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
-const catLabels: Record<string, string> = {
-  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
-  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+const articles = all
+  .filter(a => a.data.category === 'guide-debutant' || a.data.category === 'guide-equipement')
+  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
 };
-const sportEmojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒',
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
+};
+const catLabel: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'guide-equipement': 'Équipement',
 };
 ---
-<Base title="Tous les articles — Front Kick">
-  <div class="section">
-    <h1 style="font-size:2rem; font-weight:800; margin-bottom:2rem;">📰 Tous les articles</h1>
-    <div class="articles-grid">
+<Base title="Guides — Front Kick" description="Tous les guides pour débutants en sports de combat.">
+<div id="app">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>📖 Guides</h1>
+      <p>Tout ce qu'il faut savoir pour débuter et progresser dans les sports de combat.</p>
+    </div>
+    <div class="art-grid">
       {articles.map(a => (
-        <a href={`/articles/${a.slug}`} class="article-card">
-          <div class="card-tags">
-            <span class="tag red">{sportEmojis[a.data.sport] || '🥊'} {a.data.sport.toUpperCase()}</span>
-            <span class="tag gold">{catLabels[a.data.category] || a.data.category}</span>
+        <a href={`/articles/${a.slug}`} class="art-card">
+          <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+            <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🥊'}</span>
+            <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
           </div>
-          <div class="card-title" set:html={a.data.title}></div>
-          <div class="card-excerpt">{a.data.excerpt}</div>
-          <div class="card-meta">
-            <span>{a.data.date}</span>
-            <span class="card-read-link">Lire →</span>
+          <div class="art-body">
+            <div class="art-title-sm" set:html={a.data.title}></div>
+            <div class="art-excerpt">{a.data.excerpt}</div>
+            <div class="art-foot">
+              <span>{a.data.date}</span>
+            </div>
           </div>
         </a>
       ))}
     </div>
   </div>
+</div>
 </Base>

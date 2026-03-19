@@ -12,42 +12,67 @@ const article = await getEntry('articles', slug as string);
 if (!article) return Astro.redirect('/');
 const { Content } = await article.render();
 
-const sportEmojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒',
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
 };
-const catLabels: Record<string, string> = {
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
+};
+const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
-  'guide-equipement': 'Équipement', 'analyse': 'Analyse',
-  'actualite': 'Actualité',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
 };
 ---
 <Base
-  title={`${article.data.title} — Front Kick`}
+  title={`${article.data.title.replace(/<[^>]+>/g, '')} — Front Kick`}
   description={article.data.excerpt}
 >
-  <div class="article-page">
-    <a href="/" class="back-link">← Retour à l'accueil</a>
+<div id="app">
+  <div class="article-wrap">
+    <div class="art-main">
+      <a href="/" class="back-btn">← Retour à l'accueil</a>
 
-    <!-- Emplacement AdSense haut — brancher ici le script AdSense -->
-    <div class="ad-banner"></div>
+      <!-- AdSense haut -->
+      <div class="ad-slot ad-leader" style="margin-bottom:24px;"></div>
 
-    <div class="article-header">
-      <div class="article-tags">
-        <span class="tag red">{sportEmojis[article.data.sport] || '🥊'} {article.data.sport.toUpperCase()}</span>
-        <span class="tag gold">{catLabels[article.data.category] || article.data.category}</span>
+      <!-- Header article -->
+      <div class="art-image-hero" style={`background: ${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; height:260px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:28px; position:relative; overflow:hidden;`}>
+        <span style="font-size:5rem; filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));">{emojis[article.data.sport] || '🥊'}</span>
       </div>
-      <h1 class="article-title" set:html={article.data.title}></h1>
-      <div class="article-meta">
-        <span>📅 {article.data.date}</span>
+
+      <div class="art-tags">
+        <span class="art-tag">{article.data.sport.toUpperCase()}</span>
+        <span class="art-tag">{catLabel[article.data.category] || article.data.category}</span>
       </div>
+
+      <h1 class="art-h1" set:html={article.data.title}></h1>
+      <p class="art-lead">{article.data.excerpt}</p>
+
+      <div class="art-meta-row">
+        <span>📅 <strong>{article.data.date}</strong></span>
+      </div>
+
+      <div class="art-content">
+        <Content />
+      </div>
+
+      <!-- AdSense bas -->
+      <div class="ad-slot ad-leader" style="margin-top:40px;"></div>
     </div>
 
-    <div class="article-body">
-      <Content />
-    </div>
-
-    <!-- Emplacement AdSense bas -->
-    <div class="ad-banner"></div>
+    <aside class="art-sidebar">
+      <div class="nl-widget">
+        <div class="widget-head">📬 Newsletter</div>
+        <p>Les meilleurs articles chaque semaine.</p>
+        <input class="nl-input" type="email" placeholder="votre@email.com" />
+        <button class="nl-btn">S'abonner</button>
+      </div>
+      <div class="ad-slot ad-rect"></div>
+    </aside>
   </div>
+</div>
 </Base>
