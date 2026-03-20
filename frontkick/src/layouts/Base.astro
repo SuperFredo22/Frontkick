@@ -71,20 +71,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <a href="/discipline/muay-thai"  class={`nav-link ${currentPath.includes('/muay-thai') ? 'active' : ''}`}>Muay Thaï</a>
       <a href="/discipline/grappling"  class={`nav-link ${currentPath.includes('/grappling') ? 'active' : ''}`}>Grappling</a>
 
-      <!-- Dropdown "Autres disciplines" — CSS hover pur -->
-      <div class="nav-dropdown">
-        <button class={`nav-link nav-dropdown-btn ${['/sanda','/lethwei','/savate','/sambo','/k1','/karate'].some(s => currentPath.includes(s)) ? 'active' : ''}`} tabindex="0" aria-haspopup="true">
-          AUTRES ▾
-        </button>
-        <div class="nav-dropdown-menu" role="menu">
-          <a href="/discipline/sanda" role="menuitem">🐉 Sanda</a>
-          <a href="/discipline/lethwei" role="menuitem">💀 Lethwei</a>
-          <a href="/discipline/savate" role="menuitem">🇫🇷 Savate</a>
-          <a href="/discipline/sambo" role="menuitem">🇷🇺 Sambo</a>
-          <a href="/discipline/k1" role="menuitem">⚡ K-1 / Glory</a>
-          <a href="/discipline/karate" role="menuitem">🥋 Karaté</a>
-        </div>
-      </div>
+      <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/k1','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
 
       <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
       <a href="/actualites" class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>

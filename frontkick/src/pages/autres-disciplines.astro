@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+
+const disciplines = [
+  { slug: "sanda",   label: "Sanda",                emoji: "🐉", desc: "Le kickboxing chinois avec projections",        gradient: "linear-gradient(135deg,#7c2d12,#ea580c)" },
+  { slug: "lethwei", label: "Lethwei",               emoji: "💀", desc: "L'art martial birman le plus brutal au monde",  gradient: "linear-gradient(135deg,#1c1917,#78716c)" },
+  { slug: "savate",  label: "Savate Boxe Française", emoji: "🇫🇷", desc: "L'art du pied et du poing, made in France",    gradient: "linear-gradient(135deg,#1e3a5f,#2563EB)" },
+  { slug: "sambo",   label: "Sambo",                 emoji: "🇷🇺", desc: "L'art martial russe de Khabib et Fedor",       gradient: "linear-gradient(135deg,#1a1a1a,#dc2626)" },
+  { slug: "k1",      label: "K-1 / Glory",           emoji: "⚡", desc: "Le kickboxing de haut niveau, frappes pures",  gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)" },
+  { slug: "karate",  label: "Karaté",                emoji: "🥋", desc: "Kata, kumite et philosophie martiale",          gradient: "linear-gradient(135deg,#1a1a2e,#e94560)" },
+];
+---
+<Base title="Autres disciplines — Front Kick" description="Découvrez les sports de combat les plus nichés : Sanda, Lethwei, Savate, Sambo, K-1, Karaté.">
+<div id="app">
+  <div style="max-width:1000px; margin:0 auto; padding:0 16px;">
+    <div class="list-hero">
+      <h1>🥋 Autres disciplines</h1>
+      <p>Les sports de combat les plus nichés — méconnus mais fascinants.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; margin-bottom:48px;">
+      {disciplines.map(d => (
+        <a href={`/discipline/${d.slug}`} style={`background:${d.gradient}; border-radius:16px; padding:32px 24px; display:flex; flex-direction:column; gap:12px; text-decoration:none; transition:transform 0.2s, box-shadow 0.2s;`} class="disc-bubble">
+          <span style="font-size:2.8rem;">{d.emoji}</span>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:white; letter-spacing:.05em;">{d.label}</div>
+          <div style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.5;">{d.desc}</div>
+          <div style="margin-top:auto; font-size:0.8rem; color:rgba(255,255,255,0.5); font-weight:600;">Voir les articles →</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+<style>
+.disc-bubble:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,.4); }
+</style>
+</Base>
