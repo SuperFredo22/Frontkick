@@ -1,178 +1,184 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Source: ufc.com/rankings — Dernière mise à jour UFC : Mardi 17 mars 2026
 const rankings = {
+
   // ── HOMMES ──
-  "Lourd (93 kg+)": {
-    gender: "men", emoji: "🦣",
-    gradient: "linear-gradient(135deg,#0F172A,#1E88E5)",
+  "Poids Mouche (57 kg)": {
+    gender: "men", emoji: "⚖️",
+    champion: "Joshua Van",
+    gradient: "linear-gradient(135deg,#0f2027,#2563EB)",
     fighters: [
-      { rank: "C", name: "Jon Jones",          record: "27-1-0",  country: "🇺🇸" },
-      { rank: 1,   name: "Tom Aspinall",        record: "15-3-0",  country: "🇬🇧" },
-      { rank: 2,   name: "Ciryl Gane",          record: "12-2-0",  country: "🇫🇷" },
-      { rank: 3,   name: "Sergei Pavlovich",    record: "18-2-0",  country: "🇷🇺" },
-      { rank: 4,   name: "Curtis Blaydes",      record: "18-4-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Alexander Volkov",    record: "37-10-0", country: "🇷🇺" },
+      { rank: 1,  name: "Alexandre Pantoja",   record: "30-5-0",  country: "🇧🇷" },
+      { rank: 2,  name: "Manel Kape",          record: "19-6-0",  country: "🇦🇴" },
+      { rank: 3,  name: "Tatsuro Taira",       record: "16-0-0",  country: "🇯🇵" },
+      { rank: 4,  name: "Brandon Royval",      record: "17-8-0",  country: "🇺🇸" },
+      { rank: 5,  name: "Kyoji Horiguchi",     record: "32-6-0",  country: "🇯🇵" },
     ]
   },
-  "Mi-Lourd (93 kg)": {
+  "Poids Coq (61 kg)": {
+    gender: "men", emoji: "🐓",
+    champion: "Petr Yan",
+    gradient: "linear-gradient(135deg,#1c1917,#d97706)",
+    fighters: [
+      { rank: 1,  name: "Merab Dvalishvili",   record: "17-4-0",  country: "🇬🇪" },
+      { rank: 2,  name: "Umar Nurmagomedov",   record: "18-0-0",  country: "🇷🇺" },
+      { rank: 2,  name: "Sean O'Malley",       record: "18-2-0",  country: "🇺🇸" },
+      { rank: 4,  name: "Cory Sandhagen",      record: "17-5-0",  country: "🇺🇸" },
+      { rank: 5,  name: "Song Yadong",         record: "20-7-2",  country: "🇨🇳" },
+    ]
+  },
+  "Poids Plume (66 kg)": {
     gender: "men", emoji: "🦅",
-    gradient: "linear-gradient(135deg,#1e3a5f,#0ea5e9)",
+    champion: "Alexander Volkanovski",
+    gradient: "linear-gradient(135deg,#7f1d1d,#DC2626)",
     fighters: [
-      { rank: "C", name: "Alex Pereira",        record: "12-2-0",  country: "🇧🇷" },
-      { rank: 1,   name: "Magomed Ankalaev",    record: "19-1-1",  country: "🇷🇺" },
-      { rank: 2,   name: "Jiří Procházka",      record: "32-4-1",  country: "🇨🇿" },
-      { rank: 3,   name: "Khalil Rountree Jr.", record: "13-5-1",  country: "🇺🇸" },
-      { rank: 4,   name: "Jamahal Hill",        record: "12-2-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Carlos Ulberg",       record: "15-1-0",  country: "🇳🇿" },
+      { rank: 1,  name: "Movsar Evloev",       record: "18-0-0",  country: "🇷🇺" },
+      { rank: 2,  name: "Diego Lopes",         record: "25-6-0",  country: "🇧🇷" },
+      { rank: 3,  name: "Lerone Murphy",       record: "13-0-1",  country: "🇬🇧" },
+      { rank: 4,  name: "Yair Rodriguez",      record: "17-4-0",  country: "🇲🇽" },
+      { rank: 5,  name: "Aljamain Sterling",   record: "23-4-0",  country: "🇺🇸" },
     ]
   },
-  "Moyen (84 kg)": {
-    gender: "men", emoji: "🥊",
-    gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)",
+  "Poids Léger (70 kg)": {
+    gender: "men", emoji: "⚡",
+    champion: "Islam Makhachev",
+    gradient: "linear-gradient(135deg,#78350f,#F59E0B)",
     fighters: [
-      { rank: "C", name: "Dricus Du Plessis",   record: "22-2-0",  country: "🇿🇦" },
-      { rank: 1,   name: "Israel Adesanya",     record: "24-3-0",  country: "🇳🇿" },
-      { rank: 2,   name: "Sean Strickland",     record: "29-6-0",  country: "🇺🇸" },
-      { rank: 3,   name: "Robert Whittaker",    record: "26-7-0",  country: "🇦🇺" },
-      { rank: 4,   name: "Khamzat Chimaev",     record: "14-0-0",  country: "🇸🇪" },
-      { rank: 5,   name: "Bo Nickal",           record: "7-0-0",   country: "🇺🇸" },
+      { rank: 1,  name: "Justin Gaethje",      record: "25-5-0",  country: "🇺🇸", note: "INTÉRIMAIRE" },
+      { rank: 2,  name: "Arman Tsarukyan",     record: "22-3-0",  country: "🇦🇲" },
+      { rank: 3,  name: "Charles Oliveira",    record: "34-10-0", country: "🇧🇷" },
+      { rank: 4,  name: "Max Holloway",        record: "26-7-0",  country: "🇺🇸" },
+      { rank: 5,  name: "Benoît Saint Denis",  record: "13-2-0",  country: "🇫🇷" },
     ]
   },
   "Welter (77 kg)": {
-    gender: "men", emoji: "⚡",
+    gender: "men", emoji: "🥊",
+    champion: "Vacant",
     gradient: "linear-gradient(135deg,#064e3b,#10B981)",
     fighters: [
-      { rank: "C", name: "Belal Muhammad",      record: "23-3-0",  country: "🇺🇸" },
-      { rank: 1,   name: "Leon Edwards",        record: "22-4-0",  country: "🇬🇧" },
-      { rank: 2,   name: "Shavkat Rakhmonov",   record: "18-0-0",  country: "🇰🇿" },
-      { rank: 3,   name: "Jack Della Maddalena",record: "17-2-0",  country: "🇦🇺" },
-      { rank: 4,   name: "Gilbert Burns",       record: "22-7-0",  country: "🇧🇷" },
-      { rank: 5,   name: "Sean Brady",          record: "17-1-0",  country: "🇺🇸" },
+      { rank: 1,  name: "Jack Della Maddalena",record: "17-2-0",  country: "🇦🇺" },
+      { rank: 2,  name: "Ian Machado Garry",   record: "15-0-0",  country: "🇮🇪" },
+      { rank: 3,  name: "Michael Morales",     record: "17-0-0",  country: "🇪🇨" },
+      { rank: 4,  name: "Belal Muhammad",      record: "23-3-0",  country: "🇺🇸" },
+      { rank: 5,  name: "Carlos Prates",       record: "18-4-0",  country: "🇧🇷" },
     ]
   },
-  "Léger (70 kg)": {
-    gender: "men", emoji: "🏃",
-    gradient: "linear-gradient(135deg,#78350f,#F59E0B)",
+  "Moyen (84 kg)": {
+    gender: "men", emoji: "🦾",
+    champion: "Khamzat Chimaev",
+    gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)",
     fighters: [
-      { rank: "C", name: "Islam Makhachev",     record: "26-1-0",  country: "🇷🇺" },
-      { rank: 1,   name: "Arman Tsarukyan",     record: "22-3-0",  country: "🇦🇲" },
-      { rank: 2,   name: "Charles Oliveira",    record: "34-10-0", country: "🇧🇷" },
-      { rank: 3,   name: "Justin Gaethje",      record: "25-5-0",  country: "🇺🇸" },
-      { rank: 4,   name: "Dustin Poirier",      record: "30-9-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Dan Hooker",          record: "24-12-0", country: "🇳🇿" },
+      { rank: 1,  name: "Dricus Du Plessis",   record: "22-2-0",  country: "🇿🇦" },
+      { rank: 2,  name: "Nassourdine Imavov",  record: "16-3-0",  country: "🇫🇷" },
+      { rank: 3,  name: "Sean Strickland",     record: "29-6-0",  country: "🇺🇸" },
+      { rank: 4,  name: "Israel Adesanya",     record: "24-3-0",  country: "🇳🇿" },
+      { rank: 5,  name: "Caio Borralho",       record: "17-1-0",  country: "🇧🇷" },
     ]
   },
-  "Plume (66 kg)": {
-    gender: "men", emoji: "🦁",
-    gradient: "linear-gradient(135deg,#7f1d1d,#DC2626)",
+  "Mi-Lourd (93 kg)": {
+    gender: "men", emoji: "🦣",
+    champion: "Alex Pereira",
+    gradient: "linear-gradient(135deg,#1e3a5f,#0ea5e9)",
     fighters: [
-      { rank: "C", name: "Ilia Topuria",        record: "16-0-0",  country: "🇬🇪" },
-      { rank: 1,   name: "Alexander Volkanovski",record: "26-4-0", country: "🇦🇺" },
-      { rank: 2,   name: "Brian Ortega",        record: "16-3-0",  country: "🇺🇸" },
-      { rank: 3,   name: "Diego Lopes",         record: "25-6-0",  country: "🇧🇷" },
-      { rank: 4,   name: "Movsar Evloev",       record: "18-0-0",  country: "🇷🇺" },
-      { rank: 5,   name: "Yair Rodriguez",      record: "17-4-0",  country: "🇲🇽" },
+      { rank: 1,  name: "Magomed Ankalaev",    record: "19-1-1",  country: "🇷🇺" },
+      { rank: 2,  name: "Jiří Procházka",      record: "32-4-1",  country: "🇨🇿" },
+      { rank: 3,  name: "Carlos Ulberg",       record: "15-1-0",  country: "🇳🇿" },
+      { rank: 4,  name: "Khalil Rountree Jr.", record: "13-5-1",  country: "🇺🇸" },
+      { rank: 5,  name: "Jan Błachowicz",      record: "30-11-0", country: "🇵🇱" },
     ]
   },
-  "Bantam (61 kg)": {
-    gender: "men", emoji: "🐆",
-    gradient: "linear-gradient(135deg,#1c1917,#d97706)",
+  "Lourd (93 kg+)": {
+    gender: "men", emoji: "🏔️",
+    champion: "Jon Jones",
+    gradient: "linear-gradient(135deg,#0F172A,#1E88E5)",
     fighters: [
-      { rank: "C", name: "Petr Yan",            record: "20-5-0",  country: "🇷🇺" },
-      { rank: 1,   name: "Merab Dvalishvili",   record: "17-4-0",  country: "🇬🇪" },
-      { rank: 2,   name: "Umar Nurmagomedov",   record: "18-0-0",  country: "🇷🇺" },
-      { rank: 3,   name: "Sean O'Malley",       record: "18-2-0",  country: "🇺🇸" },
-      { rank: 4,   name: "Cory Sandhagen",      record: "17-5-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Song Yadong",         record: "20-7-2",  country: "🇨🇳" },
+      { rank: 1,  name: "Ciryl Gane",          record: "12-2-0",  country: "🇫🇷" },
+      { rank: 2,  name: "Alexander Volkov",    record: "37-10-0", country: "🇷🇺" },
+      { rank: 3,  name: "Sergei Pavlovich",    record: "18-2-0",  country: "🇷🇺" },
+      { rank: 4,  name: "Curtis Blaydes",      record: "18-4-0",  country: "🇺🇸" },
+      { rank: 4,  name: "Waldo Cortes Acosta", record: "17-2-0",  country: "🇩🇴" },
     ]
   },
-  "Mouche (57 kg)": {
-    gender: "men", emoji: "⚡",
-    gradient: "linear-gradient(135deg,#0f2027,#2563EB)",
-    fighters: [
-      { rank: "C", name: "Joshua Van",          record: "15-2-0",  country: "🇦🇺" },
-      { rank: 1,   name: "Alexandre Pantoja",   record: "30-5-0",  country: "🇧🇷" },
-      { rank: 2,   name: "Manel Kape",          record: "19-6-0",  country: "🇦🇴" },
-      { rank: 3,   name: "Tatsuro Taira",       record: "16-0-0",  country: "🇯🇵" },
-      { rank: 4,   name: "Brandon Royval",      record: "17-8-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Brandon Moreno",      record: "23-8-2",  country: "🇲🇽" },
-    ]
-  },
+
   // ── FEMMES ──
-  "F. Bantam (61 kg)": {
-    gender: "women", emoji: "👑",
-    gradient: "linear-gradient(135deg,#4a044e,#a21caf)",
+  "F. Paille (52 kg)": {
+    gender: "women", emoji: "🌸",
+    champion: "Zhang Weili",
+    gradient: "linear-gradient(135deg,#1e3a5f,#06b6d4)",
     fighters: [
-      { rank: "C", name: "Kayla Harrison",      record: "19-1-0",  country: "🇺🇸" },
-      { rank: 1,   name: "Julianna Peña",       record: "12-5-0",  country: "🇺🇸" },
-      { rank: 2,   name: "Raquel Pennington",   record: "15-8-0",  country: "🇺🇸" },
-      { rank: 3,   name: "Pannie Kianzad",      record: "20-8-0",  country: "🇮🇷" },
-      { rank: 4,   name: "Amanda Nunes",        record: "22-8-0",  country: "🇧🇷" },
-      { rank: 5,   name: "Irene Aldana",        record: "16-8-0",  country: "🇲🇽" },
+      { rank: 1,  name: "Zhang Weili",         record: "26-4-0",  country: "🇨🇳" },
+      { rank: 2,  name: "Tatiana Suarez",      record: "11-0-0",  country: "🇺🇸" },
+      { rank: 3,  name: "Virna Jandiroba",     record: "22-4-0",  country: "🇧🇷" },
+      { rank: 4,  name: "Yan Xiaonan",         record: "17-3-0",  country: "🇨🇳" },
+      { rank: 5,  name: "Gillian Robertson",   record: "13-7-0",  country: "🇨🇦" },
     ]
   },
   "F. Mouche (57 kg)": {
     gender: "women", emoji: "💎",
+    champion: "Valentina Shevchenko",
     gradient: "linear-gradient(135deg,#701a75,#e879f9)",
     fighters: [
-      { rank: "C", name: "Valentina Shevchenko",record: "26-4-1",  country: "🇰🇬" },
-      { rank: 1,   name: "Natalia Silva",       record: "18-5-1",  country: "🇧🇷" },
-      { rank: 2,   name: "Manon Fiorot",        record: "13-2-0",  country: "🇫🇷" },
-      { rank: 3,   name: "Erin Blanchfield",    record: "11-2-0",  country: "🇺🇸" },
-      { rank: 4,   name: "Maycee Barber",       record: "15-2-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Alexa Grasso",        record: "16-4-0",  country: "🇲🇽" },
+      { rank: 1,  name: "Natalia Silva",       record: "18-5-1",  country: "🇧🇷" },
+      { rank: 2,  name: "Manon Fiorot",        record: "13-2-0",  country: "🇫🇷" },
+      { rank: 3,  name: "Erin Blanchfield",    record: "11-2-0",  country: "🇺🇸" },
+      { rank: 3,  name: "Alexa Grasso",        record: "16-4-0",  country: "🇲🇽" },
+      { rank: 5,  name: "Maycee Barber",       record: "15-2-0",  country: "🇺🇸" },
     ]
   },
-  "F. Paille (52 kg)": {
-    gender: "women", emoji: "🌸",
-    gradient: "linear-gradient(135deg,#1e3a5f,#06b6d4)",
+  "F. Bantam (61 kg)": {
+    gender: "women", emoji: "👑",
+    champion: "Kayla Harrison",
+    gradient: "linear-gradient(135deg,#4a044e,#a21caf)",
     fighters: [
-      { rank: "C", name: "Zhang Weili",         record: "26-4-0",  country: "🇨🇳" },
-      { rank: 1,   name: "Mackenzie Dern",      record: "16-5-0",  country: "🇺🇸" },
-      { rank: 2,   name: "Xiaonan Yan",         record: "17-3-0",  country: "🇨🇳" },
-      { rank: 3,   name: "Virna Jandiroba",     record: "22-4-0",  country: "🇧🇷" },
-      { rank: 4,   name: "Tatiana Suarez",      record: "11-0-0",  country: "🇺🇸" },
-      { rank: 5,   name: "Luana Pinheiro",      record: "12-3-0",  country: "🇧🇷" },
+      { rank: 1,  name: "Julianna Peña",       record: "12-5-0",  country: "🇺🇸" },
+      { rank: 2,  name: "Raquel Pennington",   record: "15-8-0",  country: "🇺🇸" },
+      { rank: 3,  name: "Norma Dumont",        record: "9-3-0",   country: "🇧🇷" },
+      { rank: 4,  name: "Ketlen Vieira",       record: "14-4-0",  country: "🇧🇷" },
+      { rank: 5,  name: "Yana Santos",         record: "21-9-2",  country: "🇷🇺" },
     ]
   },
 };
 
-const menDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "men");
+const menDivisions   = Object.entries(rankings).filter(([,v]) => v.gender === "men");
 const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "women");
 ---
-<Base title="Classements UFC — Front Kick" description="Classements UFC à jour par catégorie de poids. Toutes les divisions hommes et femmes.">
+<Base title="Classements UFC — Front Kick" description="Classements UFC officiels à jour par catégorie de poids. Toutes les divisions hommes et femmes.">
 <div id="app">
   <div style="max-width:1200px; margin:0 auto; padding:0 16px;">
 
     <div class="list-hero">
       <h1>🏆 Classements UFC</h1>
-      <p>Classements officiels par catégorie — Top 5 challengers + Champion. Mis à jour mars 2026.</p>
+      <p>Source officielle : <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:var(--blue);">ufc.com/rankings</a> — Mise à jour UFC : <strong>17 mars 2026</strong></p>
     </div>
 
     <!-- HOMMES -->
     <div style="margin-bottom:40px;">
-      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:var(--blue-light); margin-bottom:20px; display:flex; align-items:center; gap:10px;">
-        ♂️ Divisions masculines
-      </h2>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:var(--blue-light); margin-bottom:20px;">♂️ Divisions masculines</h2>
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;">
         {menDivisions.map(([category, data]) => (
-          <div style={`background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;`}>
-            <div style={`background:${data.gradient}; padding:14px 20px; display:flex; align-items:center; gap:10px;`}>
-              <span style="font-size:1.4rem;">{data.emoji}</span>
-              <span style="font-family:'Bebas Neue',sans-serif; font-size:1.15rem; color:white; letter-spacing:.05em;">{category}</span>
+          <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
+            <div style={`background:${data.gradient}; padding:14px 20px;`}>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:1.2rem;">{data.emoji}</span>
+                <span style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">{category}</span>
+              </div>
+              <div style="font-size:0.78rem; color:rgba(255,255,255,.6); letter-spacing:.04em; text-transform:uppercase;">
+                Champion : <strong style="color:rgba(255,255,255,.9);">{data.champion}</strong>
+              </div>
             </div>
             {data.fighters.map((f, i) => (
-              <div style={`display:flex; align-items:center; gap:12px; padding:11px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''} ${f.rank === 'C' ? 'background:rgba(245,158,11,.07);' : ''}`}>
-                <div style={`min-width:34px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:700; ${f.rank === 'C' ? 'color:#F59E0B;' : 'color:var(--text-light);'}`}>
-                  {f.rank === 'C' ? '🏆' : `#${f.rank}`}
+              <div style={`display:flex; align-items:center; gap:12px; padding:10px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
+                <div style="min-width:32px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text-light);">
+                  #{f.rank}
                 </div>
                 <div style="flex:1;">
-                  <div style={`font-weight:700; font-size:0.9rem; ${f.rank === 'C' ? 'color:#F59E0B;' : ''}`}>
+                  <div style="font-weight:700; font-size:0.88rem;">
                     {f.country} {f.name}
-                    {f.rank === 'C' && <span style="font-size:0.65rem; background:#F59E0B; color:#000; border-radius:4px; padding:1px 5px; margin-left:6px; font-weight:800;">CHAMP</span>}
+                    {f.note && <span style="font-size:0.62rem; background:#F59E0B; color:#000; border-radius:4px; padding:1px 5px; margin-left:5px; font-weight:800;">{f.note}</span>}
                   </div>
-                  <div style="font-size:0.75rem; color:var(--text-light);">{f.record}</div>
+                  <div style="font-size:0.73rem; color:var(--text-light);">{f.record}</div>
                 </div>
               </div>
             ))}
@@ -183,27 +189,27 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
 
     <!-- FEMMES -->
     <div style="margin-bottom:48px;">
-      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#e879f9; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
-        ♀️ Divisions féminines
-      </h2>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#e879f9; margin-bottom:20px;">♀️ Divisions féminines</h2>
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;">
         {womenDivisions.map(([category, data]) => (
-          <div style={`background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;`}>
-            <div style={`background:${data.gradient}; padding:14px 20px; display:flex; align-items:center; gap:10px;`}>
-              <span style="font-size:1.4rem;">{data.emoji}</span>
-              <span style="font-family:'Bebas Neue',sans-serif; font-size:1.15rem; color:white; letter-spacing:.05em;">{category}</span>
+          <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
+            <div style={`background:${data.gradient}; padding:14px 20px;`}>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="font-size:1.2rem;">{data.emoji}</span>
+                <span style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">{category}</span>
+              </div>
+              <div style="font-size:0.78rem; color:rgba(255,255,255,.6); letter-spacing:.04em; text-transform:uppercase;">
+                Champion : <strong style="color:rgba(255,255,255,.9);">{data.champion}</strong>
+              </div>
             </div>
             {data.fighters.map((f, i) => (
-              <div style={`display:flex; align-items:center; gap:12px; padding:11px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''} ${f.rank === 'C' ? 'background:rgba(232,121,249,.07);' : ''}`}>
-                <div style={`min-width:34px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:700; ${f.rank === 'C' ? 'color:#e879f9;' : 'color:var(--text-light);'}`}>
-                  {f.rank === 'C' ? '👑' : `#${f.rank}`}
+              <div style={`display:flex; align-items:center; gap:12px; padding:10px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
+                <div style="min-width:32px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text-light);">
+                  #{f.rank}
                 </div>
                 <div style="flex:1;">
-                  <div style={`font-weight:700; font-size:0.9rem; ${f.rank === 'C' ? 'color:#e879f9;' : ''}`}>
-                    {f.country} {f.name}
-                    {f.rank === 'C' && <span style="font-size:0.65rem; background:#e879f9; color:#000; border-radius:4px; padding:1px 5px; margin-left:6px; font-weight:800;">CHAMP</span>}
-                  </div>
-                  <div style="font-size:0.75rem; color:var(--text-light);">{f.record}</div>
+                  <div style="font-weight:700; font-size:0.88rem;">{f.country} {f.name}</div>
+                  <div style="font-size:0.73rem; color:var(--text-light);">{f.record}</div>
                 </div>
               </div>
             ))}
@@ -212,10 +218,9 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
       </div>
     </div>
 
-    <!-- Note -->
     <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:48px; font-size:0.82rem; color:var(--text-light); display:flex; gap:10px; align-items:flex-start;">
       <span style="font-size:1.1rem; flex-shrink:0;">ℹ️</span>
-      <span>Classements mis à jour manuellement à partir de <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:var(--blue);">ufc.com/rankings</a>. Dernière mise à jour : <strong>Mars 2026</strong>. Les classements UFC sont officiellement mis à jour chaque semaine après chaque événement.</span>
+      <span>Classements mis à jour manuellement depuis <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:var(--blue);">ufc.com/rankings</a>. Dernière maj UFC : <strong>Mardi 17 mars 2026</strong>. Les classements officiels UFC sont mis à jour après chaque événement.</span>
     </div>
 
   </div>
