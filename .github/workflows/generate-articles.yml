@@ -1,0 +1,58 @@
+name: 🤖 Génération automatique d'articles Frontkick (GRATUIT)
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Nombre d articles (1 à 5)'
+        required: false
+        default: '1'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Générer et publier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ⚙️ Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: ✍️ Générer article(s)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          COUNT=${{ github.event.inputs.count || '1' }}
+          echo "→ Génération de $COUNT article(s) via Gemini (gratuit)"
+          for i in $(seq 1 $COUNT); do
+            echo "━━━ Article $i / $COUNT ━━━"
+            node scripts/generate-article.mjs
+            if [ $i -lt $COUNT ]; then sleep 2; fi
+          done
+
+      - name: 📤 Commit & Push
+        run: |
+          git config --global user.name  "Frontkick Bot"
+          git config --global user.email "bot@frontkick.fr"
+          git add src/content/articles/
+          if git diff --staged --quiet; then
+            echo "ℹ️ Aucun changement"
+          else
+            COUNT=$(git diff --staged --name-only | wc -l | tr -d ' ')
+            git commit -m "🤖 $COUNT article(s) — $(date +'%d/%m/%Y %H:%M')"
+            git push
+            echo "✅ $COUNT article(s) publié(s) sur frontkick.fr"
+          fi
