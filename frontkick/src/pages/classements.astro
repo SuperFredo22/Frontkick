@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Classements UFC officiels (source: ufc.com) — à mettre à jour manuellement ou via API
+const rankings = {
+  "Heavyweight (93 kg+)": [
+    { rank: "C", name: "Jon Jones", record: "27-1-0", country: "🇺🇸" },
+    { rank: 1, name: "Tom Aspinall", record: "15-3-0", country: "🇬🇧" },
+    { rank: 2, name: "Ciryl Gane", record: "12-2-0", country: "🇫🇷" },
+    { rank: 3, name: "Sergei Pavlovich", record: "18-2-0", country: "🇷🇺" },
+    { rank: 4, name: "Curtis Blaydes", record: "18-4-0", country: "🇺🇸" },
+    { rank: 5, name: "Alexander Volkov", record: "37-10-0", country: "🇷🇺" },
+  ],
+  "Light Heavyweight (93 kg)": [
+    { rank: "C", name: "Aleksandar Rakic", record: "15-3-0", country: "🇦🇹" },
+    { rank: 1, name: "Magomed Ankalaev", record: "19-1-1", country: "🇷🇺" },
+    { rank: 2, name: "Alex Pereira", record: "12-2-0", country: "🇧🇷" },
+    { rank: 3, name: "Jamahal Hill", record: "12-2-0", country: "🇺🇸" },
+    { rank: 4, name: "Jiří Procházka", record: "32-4-1", country: "🇨🇿" },
+    { rank: 5, name: "Carlos Ulberg", record: "15-1-0", country: "🇳🇿" },
+  ],
+  "Middleweight (84 kg)": [
+    { rank: "C", name: "Dricus Du Plessis", record: "22-2-0", country: "🇿🇦" },
+    { rank: 1, name: "Israel Adesanya", record: "24-3-0", country: "🇳🇿" },
+    { rank: 2, name: "Sean Strickland", record: "29-6-0", country: "🇺🇸" },
+    { rank: 3, name: "Robert Whittaker", record: "26-7-0", country: "🇦🇺" },
+    { rank: 4, name: "Khamzat Chimaev", record: "14-0-0", country: "🇸🇪" },
+    { rank: 5, name: "Bo Nickal", record: "7-0-0", country: "🇺🇸" },
+  ],
+  "Welterweight (77 kg)": [
+    { rank: "C", name: "Belal Muhammad", record: "23-3-0", country: "🇺🇸" },
+    { rank: 1, name: "Leon Edwards", record: "22-4-0", country: "🇬🇧" },
+    { rank: 2, name: "Shavkat Rakhmonov", record: "18-0-0", country: "🇰🇿" },
+    { rank: 3, name: "Jack Della Maddalena", record: "17-2-0", country: "🇦🇺" },
+    { rank: 4, name: "Gilbert Burns", record: "22-7-0", country: "🇧🇷" },
+    { rank: 5, name: "Sean Brady", record: "17-1-0", country: "🇺🇸" },
+  ],
+  "Lightweight (70 kg)": [
+    { rank: "C", name: "Islam Makhachev", record: "26-1-0", country: "🇷🇺" },
+    { rank: 1, name: "Dustin Poirier", record: "30-9-0", country: "🇺🇸" },
+    { rank: 2, name: "Charles Oliveira", record: "34-10-0", country: "🇧🇷" },
+    { rank: 3, name: "Arman Tsarukyan", record: "22-3-0", country: "🇦🇲" },
+    { rank: 4, name: "Justin Gaethje", record: "25-5-0", country: "🇺🇸" },
+    { rank: 5, name: "Dan Hooker", record: "24-12-0", country: "🇳🇿" },
+  ],
+  "Featherweight (66 kg)": [
+    { rank: "C", name: "Ilia Topuria", record: "16-0-0", country: "🇬🇪" },
+    { rank: 1, name: "Alexander Volkanovski", record: "26-4-0", country: "🇦🇺" },
+    { rank: 2, name: "Brian Ortega", record: "16-3-0", country: "🇺🇸" },
+    { rank: 3, name: "Diego Lopes", record: "25-6-0", country: "🇧🇷" },
+    { rank: 4, name: "Movsar Evloev", record: "18-0-0", country: "🇷🇺" },
+    { rank: 5, name: "Yair Rodriguez", record: "17-4-0", country: "🇲🇽" },
+  ],
+};
+---
+<Base title="Classements UFC — Front Kick" description="Classements officiels UFC par catégorie de poids. Champions, top 5 et challengers à jour.">
+<div id="app">
+  <div style="max-width:1100px; margin:0 auto; padding: 0 16px;">
+    <div class="list-hero">
+      <h1>🏆 Classements UFC</h1>
+      <p>Classements par catégorie de poids — Champions et top 5 challengers.</p>
+    </div>
+
+    <!-- Filtre catégories -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+      {Object.keys(rankings).map(cat => (
+        <a href={`#${cat.toLowerCase().replace(/[^a-z0-9]/g,'-')}`}
+           style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:6px 16px; font-size:0.8rem; font-weight:600; color:var(--text-light); text-decoration:none; white-space:nowrap; transition:all 0.2s;"
+           class="cat-pill">
+          {cat}
+        </a>
+      ))}
+    </div>
+
+    <!-- Grille classements -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:24px; margin-bottom:48px;">
+      {Object.entries(rankings).map(([category, fighters]) => (
+        <div id={category.toLowerCase().replace(/[^a-z0-9]/g,'-')}
+             style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
+
+          <!-- Header catégorie -->
+          <div style="background:linear-gradient(135deg,#0F172A,#1E88E5); padding:16px 20px;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; color:white; letter-spacing:.05em;">{category}</div>
+          </div>
+
+          <!-- Liste fighters -->
+          <div style="padding:0;">
+            {fighters.map((f, i) => (
+              <div style={`display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--border); ${i === fighters.length-1 ? 'border-bottom:none;' : ''} ${f.rank === 'C' ? 'background:rgba(30,136,229,.06);' : ''}`}>
+                <!-- Rang -->
+                <div style={`min-width:36px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; ${f.rank === 'C' ? 'color:#F59E0B;' : 'color:var(--text-light);'}`}>
+                  {f.rank === 'C' ? '🏆' : `#${f.rank}`}
+                </div>
+                <!-- Nom + record -->
+                <div style="flex:1;">
+                  <div style={`font-weight:700; font-size:0.95rem; ${f.rank === 'C' ? 'color:#F59E0B;' : ''}`}>
+                    {f.country} {f.name}
+                    {f.rank === 'C' && <span style="font-size:0.7rem; background:#F59E0B; color:#000; border-radius:4px; padding:1px 6px; margin-left:6px; font-weight:800;">CHAMPION</span>}
+                  </div>
+                  <div style="font-size:0.78rem; color:var(--text-light); margin-top:2px;">{f.record}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Note mise à jour -->
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px 20px; margin-bottom:48px; font-size:0.83rem; color:var(--text-light); display:flex; gap:12px; align-items:center;">
+      <span style="font-size:1.2rem;">ℹ️</span>
+      <span>Classements mis à jour manuellement. Source : <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:var(--blue);">ufc.com/rankings</a>. Dernière mise à jour : Mars 2026.</span>
+    </div>
+  </div>
+</div>
+</Base>

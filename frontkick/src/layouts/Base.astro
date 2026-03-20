@@ -71,23 +71,24 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <a href="/discipline/muay-thai"  class={`nav-link ${currentPath.includes('/muay-thai') ? 'active' : ''}`}>Muay Thaï</a>
       <a href="/discipline/grappling"  class={`nav-link ${currentPath.includes('/grappling') ? 'active' : ''}`}>Grappling</a>
 
-      <!-- Dropdown "Autres disciplines" -->
+      <!-- Dropdown "Autres disciplines" — CSS hover pur -->
       <div class="nav-dropdown">
-        <button class={`nav-link nav-dropdown-btn ${['/sanda','/lethwei','/savate','/sambo','/k1','/karate'].some(s => currentPath.includes(s)) ? 'active' : ''}`}>
-          Autres ▾
+        <button class={`nav-link nav-dropdown-btn ${['/sanda','/lethwei','/savate','/sambo','/k1','/karate'].some(s => currentPath.includes(s)) ? 'active' : ''}`} tabindex="0" aria-haspopup="true">
+          AUTRES ▾
         </button>
-        <div class="nav-dropdown-menu">
-          <a href="/discipline/sanda">🐉 Sanda</a>
-          <a href="/discipline/lethwei">💀 Lethwei</a>
-          <a href="/discipline/savate">🇫🇷 Savate</a>
-          <a href="/discipline/sambo">🇷🇺 Sambo</a>
-          <a href="/discipline/k1">⚡ K-1 / Glory</a>
-          <a href="/discipline/karate">🥋 Karaté</a>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="/discipline/sanda" role="menuitem">🐉 Sanda</a>
+          <a href="/discipline/lethwei" role="menuitem">💀 Lethwei</a>
+          <a href="/discipline/savate" role="menuitem">🇫🇷 Savate</a>
+          <a href="/discipline/sambo" role="menuitem">🇷🇺 Sambo</a>
+          <a href="/discipline/k1" role="menuitem">⚡ K-1 / Glory</a>
+          <a href="/discipline/karate" role="menuitem">🥋 Karaté</a>
         </div>
       </div>
 
       <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
       <a href="/actualites" class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>
+      <a href="/classements" class={`nav-link ${currentPath.startsWith('/classements') ? 'active' : ''}`}>Classements</a>
     </div>
   </nav>
 </header>
@@ -131,6 +132,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
         <li><a href="/guides">Guides débutants</a></li>
         <li><a href="/equipement">Équipement</a></li>
         <li><a href="/actualites">Actualités</a></li>
+        <li><a href="/classements">Classements UFC</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -178,23 +180,6 @@ const canonicalURL = new URL(currentPath, siteUrl);
       localStorage.setItem('darkMode', String(isDark));
     });
   }
-
-  // ── Dropdown nav ──
-  document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
-    const btn = dropdown.querySelector('.nav-dropdown-btn');
-    const menu = dropdown.querySelector('.nav-dropdown-menu') as HTMLElement;
-    if (btn && menu) {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-      });
-    }
-  });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.nav-dropdown-menu').forEach(m => {
-      (m as HTMLElement).style.display = 'none';
-    });
-  });
 
   // ── Cookies ──
   function showCookieBanner() {

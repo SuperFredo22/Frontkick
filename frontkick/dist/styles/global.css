@@ -1559,30 +1559,61 @@ footer {
 .cookie-manage-link:hover { color: #94A3B8; }
 
 /* ═══════════════════════════════════════
-   NAV DROPDOWN
+   NAV DROPDOWN — CSS pur (hover + focus-within)
 ═══════════════════════════════════════ */
-.nav-dropdown { position: relative; display: inline-block; }
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
 .nav-dropdown-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+.nav-dropdown-btn:hover,
+.nav-dropdown:hover .nav-dropdown-btn,
+.nav-dropdown:focus-within .nav-dropdown-btn {
+  color: #fff;
 }
 .nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   background: #1E293B;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 8px 0;
-  min-width: 200px;
-  z-index: 1000;
-  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  min-width: 210px;
+  z-index: 9000;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  pointer-events: auto;
+}
+/* Afficher au hover OU au focus-within (accessibilité) */
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  display: block;
+}
+/* Pont invisible pour ne pas fermer en passant de btn à menu */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
 }
 .nav-dropdown-menu a {
   display: block;
@@ -1595,5 +1626,5 @@ footer {
 }
 .nav-dropdown-menu a:hover {
   background: rgba(30,136,229,.15);
-  color: var(--blue-light);
+  color: #fff;
 }
