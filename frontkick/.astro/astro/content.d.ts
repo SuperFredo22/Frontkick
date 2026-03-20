@@ -190,6 +190,13 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
+"k1-guide-debutant.md": {
+	id: "k1-guide-debutant.md";
+  slug: "k1-guide-debutant";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
 "karate-kyokushin-guide.md": {
 	id: "karate-kyokushin-guide.md";
   slug: "karate-kyokushin-guide";
@@ -200,6 +207,13 @@ declare module 'astro:content' {
 "kickboxing-debutant-guide.md": {
 	id: "kickboxing-debutant-guide.md";
   slug: "kickboxing-debutant-guide";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"lethwei-guide-debutant.md": {
+	id: "lethwei-guide-debutant.md";
+  slug: "lethwei-guide-debutant";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -228,6 +242,27 @@ declare module 'astro:content' {
 "muay-thai-roundhouse-kick.md": {
 	id: "muay-thai-roundhouse-kick.md";
   slug: "muay-thai-roundhouse-kick";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"sambo-guide-debutant.md": {
+	id: "sambo-guide-debutant.md";
+  slug: "sambo-guide-debutant";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"sanda-guide-debutant.md": {
+	id: "sanda-guide-debutant.md";
+  slug: "sanda-guide-debutant";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"savate-guide-debutant.md": {
+	id: "savate-guide-debutant.md";
+  slug: "savate-guide-debutant";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">

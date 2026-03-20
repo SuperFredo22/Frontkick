@@ -6,7 +6,7 @@ interface Props {
 }
 const {
   title = "Front Kick — Le Média des Sports de Combat",
-  description = "Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï et arts martiaux.",
+  description = "Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï, sanda, lethwei et bien plus.",
   ogImage = "/og-default.png"
 } = Astro.props;
 
@@ -39,6 +39,10 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles/global.css" />
+
+  <!-- Google AdSense — se charge uniquement après consentement cookies -->
+  <!-- ID à remplacer par votre vrai ca-pub-XXXXXXXXXX après validation AdSense -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script> -->
 </head>
 <body>
 
@@ -58,14 +62,32 @@ const canonicalURL = new URL(currentPath, siteUrl);
   </div>
   <nav class="nav-bar" role="navigation" aria-label="Navigation principale">
     <div class="nav-inner">
-      <a href="/"                      class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>Accueil</a>
+      <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>Accueil</a>
+
+      <!-- Disciplines principales -->
       <a href="/discipline/mma"        class={`nav-link ${currentPath.includes('/mma') ? 'active' : ''}`}>MMA</a>
       <a href="/discipline/boxe"       class={`nav-link ${currentPath.includes('/boxe') ? 'active' : ''}`}>Boxe</a>
       <a href="/discipline/kickboxing" class={`nav-link ${currentPath.includes('/kickboxing') ? 'active' : ''}`}>Kickboxing</a>
       <a href="/discipline/muay-thai"  class={`nav-link ${currentPath.includes('/muay-thai') ? 'active' : ''}`}>Muay Thaï</a>
       <a href="/discipline/grappling"  class={`nav-link ${currentPath.includes('/grappling') ? 'active' : ''}`}>Grappling</a>
-      <a href="/guides"                class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
-      <a href="/actualites"            class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>
+
+      <!-- Dropdown "Autres disciplines" -->
+      <div class="nav-dropdown">
+        <button class={`nav-link nav-dropdown-btn ${['/sanda','/lethwei','/savate','/sambo','/k1','/karate'].some(s => currentPath.includes(s)) ? 'active' : ''}`}>
+          Autres ▾
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="/discipline/sanda">🐉 Sanda</a>
+          <a href="/discipline/lethwei">💀 Lethwei</a>
+          <a href="/discipline/savate">🇫🇷 Savate</a>
+          <a href="/discipline/sambo">🇷🇺 Sambo</a>
+          <a href="/discipline/k1">⚡ K-1 / Glory</a>
+          <a href="/discipline/karate">🥋 Karaté</a>
+        </div>
+      </div>
+
+      <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
+      <a href="/actualites" class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>
     </div>
   </nav>
 </header>
@@ -74,7 +96,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
 
 <slot />
 
-<!-- Footer ad -->
+<!-- Footer ad placeholder (activé après validation AdSense) -->
 <div class="footer-ad">
   <div class="ad-slot ad-leader"></div>
 </div>
@@ -93,9 +115,14 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <ul>
         <li><a href="/discipline/mma">MMA / UFC</a></li>
         <li><a href="/discipline/boxe">Boxe anglaise</a></li>
-        <li><a href="/discipline/kickboxing">Kickboxing</a></li>
         <li><a href="/discipline/muay-thai">Muay-Thaï</a></li>
+        <li><a href="/discipline/kickboxing">Kickboxing</a></li>
         <li><a href="/discipline/grappling">Grappling</a></li>
+        <li><a href="/discipline/sanda">Sanda</a></li>
+        <li><a href="/discipline/lethwei">Lethwei</a></li>
+        <li><a href="/discipline/savate">Savate</a></li>
+        <li><a href="/discipline/sambo">Sambo</a></li>
+        <li><a href="/discipline/k1">K-1 / Glory</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -117,7 +144,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Front Kick · Tous droits réservés</span>
+    <span>© 2026 Front Kick · Tous droits réservés · Frédéric Laviemienandy</span>
     <span>* Liens affiliés — commission perçue sans surcoût pour vous.</span>
     <button class="cookie-manage-link" onclick="showCookieBanner()">Gérer mes cookies</button>
   </div>
@@ -127,7 +154,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
 <div id="cookie-banner" style="display:none;" role="dialog" aria-label="Gestion des cookies">
   <p>
     🍪 Ce site utilise des cookies pour mesurer l'audience et afficher des publicités personnalisées (Google AdSense).
-    En cliquant sur "Accepter", vous consentez à l'utilisation de ces cookies.
+    En cliquant sur "Accepter", vous consentez à leur utilisation.
     <a href="/politique-confidentialite">En savoir plus</a>
   </p>
   <div class="cookie-actions">
@@ -152,6 +179,23 @@ const canonicalURL = new URL(currentPath, siteUrl);
     });
   }
 
+  // ── Dropdown nav ──
+  document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+    const btn = dropdown.querySelector('.nav-dropdown-btn');
+    const menu = dropdown.querySelector('.nav-dropdown-menu') as HTMLElement;
+    if (btn && menu) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+    }
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav-dropdown-menu').forEach(m => {
+      (m as HTMLElement).style.display = 'none';
+    });
+  });
+
   // ── Cookies ──
   function showCookieBanner() {
     const banner = document.getElementById('cookie-banner');
@@ -160,7 +204,6 @@ const canonicalURL = new URL(currentPath, siteUrl);
   function acceptCookies() {
     localStorage.setItem('cookieConsent', 'accepted');
     hideBanner();
-    // Ici : charger Google Analytics / AdSense dynamiquement
     loadAnalytics();
   }
   function refuseCookies() {
@@ -172,20 +215,14 @@ const canonicalURL = new URL(currentPath, siteUrl);
     if (banner) banner.style.display = 'none';
   }
   function loadAnalytics() {
-    // Placeholder — remplacer par votre ID Google Analytics
-    // const script = document.createElement('script');
-    // script.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
-    // document.head.appendChild(script);
+    // À activer quand vous avez votre ID AdSense/Analytics
+    // const s = document.createElement('script');
+    // s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+    // document.head.appendChild(s);
   }
-
-  // Afficher le bandeau si pas encore de choix
   window.addEventListener('DOMContentLoaded', () => {
-    if (!localStorage.getItem('cookieConsent')) {
-      showCookieBanner();
-    }
+    if (!localStorage.getItem('cookieConsent')) showCookieBanner();
   });
-
-  // Exposer les fonctions globalement
   (window as any).showCookieBanner = showCookieBanner;
   (window as any).acceptCookies = acceptCookies;
   (window as any).refuseCookies = refuseCookies;
