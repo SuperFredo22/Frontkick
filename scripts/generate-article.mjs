@@ -50,106 +50,35 @@ async function collectNews() {
 
 const ARTICLE_TYPES = {
 
-  // Type A — Actualité (1 run sur 3)
   actualite: {
     category: 'actualite',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling'],
     needsRss: true,
-    prompt: (sport, date, headlines) => `
-Tu es rédacteur expert en sports de combat pour Frontkick.fr.
-Réponds UNIQUEMENT avec un objet JSON valide. Pas de backticks.
-
-Format JSON :
-{
-  "filename": "slug-kebab-sans-accent-max-60",
-  "title": "Titre accrocheur en français avec noms réels",
-  "sport": "${sport}",
-  "category": "actualite",
-  "date": "${date}",
-  "excerpt": "Description 120-150 caractères",
-  "featured": false,
-  "content": "Contenu Markdown"
-}
-
-Règles content : intro sans H2, 3-5 sections ##, termine par --- puis **Conclusion :**, 400-600 mots.
-
-ACTUALITÉS RÉCUPÉRÉES AUJOURD'HUI :
-${headlines.slice(0, 6).map((h, i) => `${i + 1}. ${h.title}`).join('\n')}
-
-Écris un article d'actualité sur ${sport} en ${date}.
-Développe, contextualise, cite des combattants et événements réels.
-Donne des faits, résultats, enjeux. Ton journalistique expert.
-`,
+    prompt: (sport, date, headlines) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
+{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"actualite","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
+Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
+Actualités: ${headlines.slice(0,4).map((h,i)=>`${i+1}. ${h.title}`).join(' | ')}
+Écris un article actu ${sport} basé sur ces titres.`,
   },
 
-  // Type B — Fond / discipline méconnue / déclinaison (1 run sur 3)
   fond: {
     category: 'guide-debutant',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling', 'karate'],
     needsRss: false,
-    prompt: (sport, date) => `
-Tu es rédacteur expert en sports de combat pour Frontkick.fr.
-Réponds UNIQUEMENT avec un objet JSON valide. Pas de backticks.
-
-Format JSON :
-{
-  "filename": "slug-kebab-sans-accent-max-60",
-  "title": "Titre accrocheur en français",
-  "sport": "${sport}",
-  "category": "guide-debutant",
-  "date": "${date}",
-  "excerpt": "Description 120-150 caractères",
-  "featured": false,
-  "content": "Contenu Markdown"
-}
-
-Règles content : intro sans H2, 3-5 sections ##, termine par --- puis **Conclusion :**, 400-600 mots.
-
-Écris un article de FOND original sur un de ces thèmes (choisis le plus intéressant) :
-- Une discipline ou style méconnu lié à ${sport} (ex: karaté ashihara, lethwei birman, dambe africain, combat sambo, pancrace grec antique, capoeira angola vs regional...)
-- Une technique ou concept précis et mal compris des débutants
-- L'histoire fascinante d'une discipline ou d'un style de combat
-- Un comparatif entre deux styles proches (ex: Muay-Thaï vs Kickboxing K-1)
-- Un programme ou conseil d'entraînement très concret
-
-Sois précis, instructif, avec des faits historiques ou techniques réels.
-`,
+    prompt: (sport, date) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
+{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"guide-debutant","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
+Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
+Écris un article de fond original sur ${sport} : discipline méconnue, style rare, histoire fascinante, ou comparatif de styles. Sois précis et instructif.`,
   },
 
-  // Type C — Personnalité inattendue / culture pop + arts martiaux (1 run sur 3)
   personnalite: {
     category: 'analyse',
     sports: ['mma', 'boxe', 'karate', 'grappling', 'muay-thai'],
     needsRss: false,
-    prompt: (sport, date) => `
-Tu es rédacteur expert en sports de combat pour Frontkick.fr.
-Réponds UNIQUEMENT avec un objet JSON valide. Pas de backticks.
-
-Format JSON :
-{
-  "filename": "slug-kebab-sans-accent-max-60",
-  "title": "Titre accrocheur en français",
-  "sport": "${sport}",
-  "category": "analyse",
-  "date": "${date}",
-  "excerpt": "Description 120-150 caractères",
-  "featured": false,
-  "content": "Contenu Markdown"
-}
-
-Règles content : intro sans H2, 3-5 sections ##, termine par --- puis **Conclusion :**, 400-600 mots.
-
-Écris un article sur une PERSONNALITÉ INATTENDUE liée aux sports de combat ou arts martiaux.
-Choisis parmi ces profils (prends celui qui te semble le plus surprenant et méconnu) :
-- Acteur/actrice qui pratique sérieusement un art martial (ex: Keanu Reeves judo/jiu-jitsu, Tom Hardy BJJ, Ashton Kutcher BJJ ceinture noire, Demi Lovato MMA, Ed O'Neill BJJ ceinture noire sous Machado...)
-- Musicien/artiste qui pratique ou a pratiqué un sport de combat (ex: Elvis Presley ceinture noire karaté, ...)
-- Personnalité historique ou politique connue pour sa pratique martiale
-- Athlète d'un autre sport qui a une carrière en sport de combat (ex: sportif olympique reconverti)
-- Philosophe, écrivain ou intellectuel pratiquant les arts martiaux
-
-Sois précis sur les grades, les disciplines pratiquées, les anecdotes réelles.
-Ton : fasciné, journalistique, accessible au grand public.
-`,
+    prompt: (sport, date) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
+{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"analyse","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
+Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
+Écris un article sur une célébrité inattendue liée aux arts martiaux : acteur, musicien, personnalité publique qui pratique sérieusement un sport de combat. Cite grades et anecdotes réelles.`,
   },
 };
 
