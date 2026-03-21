@@ -3,8 +3,8 @@ import { join } from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const ARTICLES_DIR   = 'src/content/articles';
-const GEMINI_MODEL   = 'gemini-1.5-flash';
-const GEMINI_URL     = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_URL   = `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
 if (!GEMINI_API_KEY) {
   console.error('❌ Variable GEMINI_API_KEY manquante');
