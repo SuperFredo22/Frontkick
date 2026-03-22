@@ -52,32 +52,44 @@ const ARTICLE_TYPES = {
     category: 'actualite',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling'],
     needsRss: true,
-    prompt: (sport, date, headlines) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
-{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"actualite","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
-Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
-Actualités: ${headlines.slice(0,4).map((h,i)=>`${i+1}. ${h.title}`).join(' | ')}
-Écris un article actu ${sport} basé sur ces titres.`,
+    prompt: (sport, date, headlines) => `Tu es rédacteur pour Frontkick.fr, média sports de combat.
+Génère un article d'actualité sur ${sport} en ${date}.
+Actualités du jour : ${headlines.slice(0,4).map((h,i)=>`${i+1}. ${h.title}`).join(' | ')}
+Développe, contextualise, cite des combattants et événements réels.
+Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title, excerpt (120-150 chars), content (markdown: intro sans H2, 3 sections ##, termine par --- puis **Conclusion :**, 400 mots français).`,
   },
 
   fond: {
     category: 'guide-debutant',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling', 'karate'],
     needsRss: false,
-    prompt: (sport, date) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
-{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"guide-debutant","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
-Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
-Écris un article de fond original sur ${sport} : discipline méconnue, style rare, histoire fascinante, ou comparatif de styles. Sois précis et instructif.`,
+    prompt: (sport, date) => `Tu es rédacteur pour Frontkick.fr, média sports de combat.
+Génère un article de fond original sur ${sport} en ${date}.
+Sujet : discipline méconnue, style rare, histoire fascinante, ou comparatif de styles liés à ${sport}.
+Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title, excerpt (120-150 chars), content (markdown: intro sans H2, 3 sections ##, termine par --- puis **Conclusion :**, 400 mots français).`,
   },
 
   personnalite: {
     category: 'analyse',
     sports: ['mma', 'boxe', 'karate', 'grappling', 'muay-thai'],
     needsRss: false,
-    prompt: (sport, date) => `Rédacteur Frontkick.fr. JSON uniquement, pas de backticks.
-{"filename":"slug-max-60","title":"titre FR","sport":"${sport}","category":"analyse","date":"${date}","excerpt":"120-150 cars","featured":false,"content":"markdown"}
-Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 400 mots, français.
-Écris un article sur une célébrité inattendue liée aux arts martiaux : acteur, musicien, personnalité publique qui pratique sérieusement un sport de combat. Cite grades et anecdotes réelles.`,
+    prompt: (sport, date) => `Tu es rédacteur pour Frontkick.fr, média sports de combat.
+Génère un article sur une célébrité inattendue liée aux arts martiaux en ${date}.
+Sujet : acteur, musicien ou personnalité publique qui pratique sérieusement un sport de combat. Cite grades et anecdotes réelles.
+Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title, excerpt (120-150 chars), content (markdown: intro sans H2, 3 sections ##, termine par --- puis **Conclusion :**, 400 mots français).`,
   },
+};
+
+// ─── Schema JSON que Gemini doit respecter ────────────────────────────────────
+const RESPONSE_SCHEMA = {
+  type: 'object',
+  properties: {
+    filename: { type: 'string' },
+    title:    { type: 'string' },
+    excerpt:  { type: 'string' },
+    content:  { type: 'string' },
+  },
+  required: ['filename', 'title', 'excerpt', 'content'],
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -95,20 +107,17 @@ async function callGemini(prompt) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.9, maxOutputTokens: 800 },
+      generationConfig: {
+        temperature: 0.9,
+        maxOutputTokens: 1200,
+        responseMimeType: 'application/json',  // ✅ Force JSON natif
+        responseSchema: RESPONSE_SCHEMA,        // ✅ Structure garantie
+      },
     }),
   });
   if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`);
   const data = await res.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-}
-
-function parseArticle(raw) {
-  const cleaned = raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
-  const start = cleaned.indexOf('{');
-  const end   = cleaned.lastIndexOf('}');
-  if (start === -1 || end === -1) throw new Error('Pas de JSON dans la réponse');
-  return JSON.parse(cleaned.slice(start, end + 1));
 }
 
 function slugify(str) {
@@ -119,13 +128,15 @@ function slugify(str) {
     .slice(0, 70);
 }
 
-function buildMarkdown(a) {
+function buildMarkdown(a, sport, category, date) {
+  const title   = a.title.replace(/"/g,'\\"');
+  const excerpt = (a.excerpt||'').replace(/"/g,'\\"');
   return `---
-title: "${a.title.replace(/"/g,'\\"')}"
-sport: ${a.sport}
-category: ${a.category}
-date: "${a.date}"
-excerpt: "${(a.excerpt||'').replace(/"/g,'\\"')}"
+title: "${title}"
+sport: ${sport}
+category: ${category}
+date: "${date}"
+excerpt: "${excerpt}"
 featured: false
 ---
 
@@ -151,11 +162,18 @@ async function main() {
   }
 
   const prompt = type.prompt(sport, dateStr, headlines);
-  console.log('🤖 Génération via Gemini...');
+  console.log('🤖 Génération via Gemini (mode JSON natif)...');
   const raw = await callGemini(prompt);
 
-  const article = parseArticle(raw);
-  for (const f of ['title','sport','category','content','filename']) {
+  let article;
+  try {
+    article = JSON.parse(raw);
+  } catch(e) {
+    console.error('❌ Réponse brute:', raw.slice(0, 300));
+    throw new Error(`JSON invalide : ${e.message}`);
+  }
+
+  for (const f of ['title','content','filename']) {
     if (!article[f]) throw new Error(`Champ manquant: ${f}`);
   }
 
@@ -168,7 +186,7 @@ async function main() {
   }
 
   mkdirSync(ARTICLES_DIR, { recursive: true });
-  writeFileSync(filepath, buildMarkdown({ ...article, sport, category: type.category, date: dateStr }), 'utf-8');
+  writeFileSync(filepath, buildMarkdown(article, sport, type.category, dateStr), 'utf-8');
 
   console.log(`✅ Article créé : ${filepath}`);
   console.log(`   Titre : ${article.title}`);
