@@ -2,9 +2,9 @@ import { writeFileSync, existsSync, mkdirSync, appendFileSync } from 'fs';
 import { join } from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const ARTICLES_DIR   = 'frontkick/src/content/articles'; // ✅ CORRIGÉ
-const GEMINI_MODEL   = 'gemini-2.0-flash';
-const GEMINI_URL     = `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+const ARTICLES_DIR   = 'frontkick/src/content/articles';
+const GEMINI_MODEL   = 'gemini-2.5-flash-lite-preview-06-17';
+const GEMINI_URL     = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
 if (!GEMINI_API_KEY) {
   console.error('❌ Variable GEMINI_API_KEY manquante');
@@ -46,8 +46,6 @@ async function collectNews() {
   return results.filter(r => r.status === 'fulfilled').flatMap(r => r.value);
 }
 
-// ─── Les 3 types d'articles, un par run ──────────────────────────────────────
-
 const ARTICLE_TYPES = {
 
   actualite: {
@@ -84,12 +82,11 @@ Content: intro sans H2, 3-4 sections ##, termine par --- puis **Conclusion :**, 
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-// Détermine le type selon l'heure UTC (répartition sur les 3 runs journaliers)
 function getArticleType() {
   const hour = new Date().getUTCHours();
-  if (hour < 9)  return 'actualite';    // run 7h UTC  → actu
-  if (hour < 15) return 'fond';         // run 12h UTC → fond
-  return 'personnalite';                // run 18h UTC → personnalité
+  if (hour < 9)  return 'actualite';
+  if (hour < 15) return 'fond';
+  return 'personnalite';
 }
 
 async function callGemini(prompt) {
@@ -98,7 +95,7 @@ async function callGemini(prompt) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.9, maxOutputTokens: 2500 },
+      generationConfig: { temperature: 0.9, maxOutputTokens: 800 },
     }),
   });
   if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`);
