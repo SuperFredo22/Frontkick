@@ -1,7 +1,7 @@
 ---
 title: "Guide complet du MMA pour débutants : tout ce que vous devez savoir avant de commencer"
 description: "Vous voulez vous lancer dans le MMA ? Ce guide complet couvre les disciplines de base, l'équipement nécessaire, comment choisir une salle et les attentes réalistes pour un débutant."
-pubDate: 2026-03-18
+date: 2026-03-18
 sport: mma
 category: guide-debutant
 ---

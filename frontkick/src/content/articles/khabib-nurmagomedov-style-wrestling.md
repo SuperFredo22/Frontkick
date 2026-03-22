@@ -1,7 +1,7 @@
 ---
 title: "Khabib Nurmagomedov : décryptage du style de combat le plus dominant de l'UFC"
 description: "Analyse approfondie du style de combat de Khabib Nurmagomedov — son wrestling daghestanais, sa gestion du rythme et pourquoi personne n'a jamais trouvé la réponse à sa domination."
-pubDate: 2026-03-19
+date: 2026-03-19
 sport: mma
 category: analyse
 ---

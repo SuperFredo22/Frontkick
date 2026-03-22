@@ -1,7 +1,7 @@
 ---
 title: "Comment choisir ses gants de boxe : guide complet 2026"
 description: "Cuir ou synthétique ? 10 oz ou 16 oz ? Marque premium ou entrée de gamme ? Ce guide exhaustif vous aide à choisir les gants de boxe adaptés à votre pratique et votre budget."
-pubDate: 2026-03-22
+date: 2026-03-22
 sport: equipement
 category: guide-equipement
 ---

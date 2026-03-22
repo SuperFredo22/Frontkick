@@ -1,7 +1,7 @@
 ---
 title: "Nutrition optimale pour les arts martiaux : quoi manger et quand"
 description: "L'alimentation est la base de la performance en arts martiaux. Guide complet sur les macronutriments, le timing nutritionnel et les stratégies pratiques pour les combattants."
-pubDate: 2026-03-21
+date: 2026-03-21
 sport: mma
 category: conseil-entrainement
 ---

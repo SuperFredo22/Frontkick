@@ -1,7 +1,7 @@
 ---
 title: "BJJ pour débutants : les 5 positions fondamentales que vous devez maîtriser"
 description: "Le Brazilian Jiu-Jitsu repose sur une hiérarchie de positions. Découvrez les 5 positions fondamentales, leur logique et comment les utiliser."
-pubDate: 2026-03-19
+date: 2026-03-19
 sport: grappling
 category: guide-debutant
 ---

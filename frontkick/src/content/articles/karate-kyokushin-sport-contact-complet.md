@@ -1,7 +1,7 @@
 ---
 title: "Kyokushin : le karaté full contact qui a révolutionné les sports de combat"
 description: "Le Kyokushin est la forme la plus dure du karaté. Fondé par Mas Oyama, ce style full contact a produit des champions mondiaux et influencé toute une génération de combattants."
-pubDate: 2026-03-14
+date: 2026-03-14
 sport: mma
 category: analyse
 ---

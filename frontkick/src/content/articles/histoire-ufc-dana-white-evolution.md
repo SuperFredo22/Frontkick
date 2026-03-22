@@ -1,7 +1,7 @@
 ---
 title: "L'histoire de l'UFC : de l'événement marginal au sport le plus en vogue au monde"
 description: "Comment l'UFC est passé d'un spectacle controversé interdit dans la plupart des États américains à la plus grande organisation de sports de combat au monde. L'histoire complète."
-pubDate: 2026-03-20
+date: 2026-03-20
 sport: mma
 category: analyse
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Guide débutant boxe anglaise : les 6 coups fondamentaux expliqués"
 description: "Jab, croisé, crochet, uppercut... Maîtrisez les 6 coups de base de la boxe anglaise avec des explications techniques détaillées pour bien débuter."
-pubDate: 2026-03-19
+date: 2026-03-19
 sport: boxe
 category: guide-debutant
 ---

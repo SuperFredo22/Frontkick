@@ -1,7 +1,7 @@
 ---
 title: "K-1 et Glory : le kickboxing de haut niveau, frappes pures debout"
 description: "K-1 et Glory sont les deux plus grandes organisations mondiales de kickboxing. Histoire, règles, champions mythiques et ce qui rend ces compétitions si spectaculaires."
-pubDate: 2026-03-22
+date: 2026-03-22
 sport: kickboxing
 category: analyse
 ---

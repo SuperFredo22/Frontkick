@@ -1,7 +1,7 @@
 ---
 title: "UFC 310 : Analyse complète des résultats et performances marquantes"
 description: "Retour détaillé sur l'UFC 310, ses combats principaux, les performances standout et ce que ces résultats signifient pour les classements MMA."
-pubDate: 2026-03-20
+date: 2026-03-20
 sport: mma
 category: analyse
 ---

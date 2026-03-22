@@ -1,7 +1,7 @@
 ---
 title: "Tyson Fury vs Oleksandr Usyk : analyse tactique du combat du siècle"
 description: "Décryptage tactique complet du duel Fury-Usyk : comment deux styles radicalement opposés se sont affrontés et ce que ce combat nous enseigne sur la boxe moderne."
-pubDate: 2026-03-16
+date: 2026-03-16
 sport: boxe
 category: analyse
 ---

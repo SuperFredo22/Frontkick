@@ -1,7 +1,7 @@
 ---
 title: "Introduction au Muay Thaï : l'art des 8 membres expliqué"
 description: "Découvrez le Muay Thaï, son histoire, ses techniques fondamentales et pourquoi cette discipline thaïlandaise est l'une des plus complètes au monde."
-pubDate: 2026-03-21
+date: 2026-03-21
 sport: muay-thai
 category: guide-debutant
 ---
