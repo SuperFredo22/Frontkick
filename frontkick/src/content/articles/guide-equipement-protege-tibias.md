@@ -1,7 +1,7 @@
 ---
 title: "Choisir ses protège-tibias : guide complet pour le Muay Thaï et le MMA"
-description: "Protège-tibias MMA ou Muay Thaï ? Que vous pratiquiez le sparring pieds-poings ou le MMA, ce guide vous aide à trouver la protection adaptée à votre pratique."
-date: 2026-03-21
+excerpt: "Protège-tibias MMA ou Muay Thaï ? Que vous pratiquiez le sparring pieds-poings ou le MMA, ce guide vous aide à trouver la protection adaptée à votre pratique."
+date: "2026-03-21"
 sport: equipement
 category: guide-equipement
 ---

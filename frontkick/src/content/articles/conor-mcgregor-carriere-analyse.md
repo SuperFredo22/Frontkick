@@ -1,7 +1,7 @@
 ---
 title: "Conor McGregor : l'ascension, le règne et l'héritage d'un phénomène"
-description: "Conor McGregor a changé le MMA pour toujours — sa technique, son marketing, ses combats mémorables et son impact sur le sport. Analyse complète d'une carrière hors norme."
-date: 2026-03-19
+excerpt: "Conor McGregor a changé le MMA pour toujours — sa technique, son marketing, ses combats mémorables et son impact sur le sport. Analyse complète d'une carrière hors norme."
+date: "2026-03-19"
 sport: mma
 category: analyse
 ---

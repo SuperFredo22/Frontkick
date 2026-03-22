@@ -1,7 +1,7 @@
 ---
 title: "Lethwei : la boxe birmane, l'art martial le plus brutal au monde"
-description: "Le Lethwei est la discipline de combat la plus dure qui soit : pas de gants, coups de tête autorisés, victoire uniquement par KO. Découverte d'un art martial fascinant et méconnu."
-date: 2026-03-18
+excerpt: "Le Lethwei est la discipline de combat la plus dure qui soit : pas de gants, coups de tête autorisés, victoire uniquement par KO. Découverte d'un art martial fascinant et méconnu."
+date: "2026-03-18"
 sport: mma
 category: analyse
 ---

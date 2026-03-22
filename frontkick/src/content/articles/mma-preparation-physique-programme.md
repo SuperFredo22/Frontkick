@@ -1,7 +1,7 @@
 ---
 title: "Programme de préparation physique pour le MMA : 8 semaines pour être prêt"
-description: "Un programme de conditioning complet sur 8 semaines spécifiquement conçu pour les combattants MMA : force, endurance, explosivité et récupération."
-date: 2026-03-22
+excerpt: "Un programme de conditioning complet sur 8 semaines spécifiquement conçu pour les combattants MMA : force, endurance, explosivité et récupération."
+date: "2026-03-22"
 sport: mma
 category: conseil-entrainement
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Judo : les bases des chutes et projections pour débutants"
-description: "Le judo est l'un des sports de combat les plus complets pour les débutants. Découvrez les ukemi (chutes) et les premières projections à maîtriser avant tout."
-date: 2026-03-17
+excerpt: "Le judo est l'un des sports de combat les plus complets pour les débutants. Découvrez les ukemi (chutes) et les premières projections à maîtriser avant tout."
+date: "2026-03-17"
 sport: mma
 category: guide-debutant
 ---

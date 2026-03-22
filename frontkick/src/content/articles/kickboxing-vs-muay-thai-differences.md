@@ -1,7 +1,7 @@
 ---
 title: "Kickboxing vs Muay Thaï : quelles sont les vraies différences ?"
-description: "Beaucoup confondent kickboxing et Muay Thaï. Pourtant ces deux disciplines ont des différences fondamentales en termes de règles, techniques et philosophie. Comparatif complet."
-date: 2026-03-14
+excerpt: "Beaucoup confondent kickboxing et Muay Thaï. Pourtant ces deux disciplines ont des différences fondamentales en termes de règles, techniques et philosophie. Comparatif complet."
+date: "2026-03-14"
 sport: kickboxing
 category: analyse
 ---

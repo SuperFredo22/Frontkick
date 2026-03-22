@@ -1,7 +1,7 @@
 ---
 title: "Kickboxing pour débutants : premiers pas, équipement et progression"
-description: "Tout ce qu'il faut savoir pour commencer le kickboxing : les techniques de base, l'équipement indispensable et comment progresser rapidement."
-date: 2026-03-20
+excerpt: "Tout ce qu'il faut savoir pour commencer le kickboxing : les techniques de base, l'équipement indispensable et comment progresser rapidement."
+date: "2026-03-20"
 sport: kickboxing
 category: guide-debutant
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Israel Adesanya : l'analyse du meilleur striker de l'histoire de l'UFC"
-description: "Décryptage complet du striking d'Israel Adesanya — son influence du kickboxing K-1, sa gestion de la distance, ses feintes et pourquoi il a redéfini le striking en MMA."
-date: 2026-03-18
+excerpt: "Décryptage complet du striking d'Israel Adesanya — son influence du kickboxing K-1, sa gestion de la distance, ses feintes et pourquoi il a redéfini le striking en MMA."
+date: "2026-03-18"
 sport: mma
 category: analyse
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Quel sac de frappe choisir ? Guide d'achat complet par discipline"
-description: "Sac lourd, sac de vitesse, sac banane, sac de sol... Le choix est vaste. Ce guide vous aide à identifier quel sac de frappe correspond à votre pratique et votre espace disponible."
-date: 2026-03-20
+excerpt: "Sac lourd, sac de vitesse, sac banane, sac de sol... Le choix est vaste. Ce guide vous aide à identifier quel sac de frappe correspond à votre pratique et votre espace disponible."
+date: "2026-03-20"
 sport: equipement
 category: guide-equipement
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Gérer le stress de la compétition en arts martiaux : techniques mentales éprouvées"
-description: "La peur de la compétition, le stress pré-combat, le doute — tous les combattants y font face. Découvrez les techniques mentales utilisées par les pros pour transformer l'anxiété en performance."
-date: 2026-03-16
+excerpt: "La peur de la compétition, le stress pré-combat, le doute — tous les combattants y font face. Découvrez les techniques mentales utilisées par les pros pour transformer l'anxiété en performance."
+date: "2026-03-16"
 sport: mma
 category: conseil-entrainement
 ---

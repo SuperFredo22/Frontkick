@@ -1,7 +1,7 @@
 ---
 title: "Le low kick en Muay Thaï et Kickboxing : technique, puissance et application"
-description: "Le low kick est l'une des armes les plus redoutables des sports de combat pieds-poings. Maîtrisez sa technique, sa mécanique et ses applications tactiques."
-date: 2026-03-15
+excerpt: "Le low kick est l'une des armes les plus redoutables des sports de combat pieds-poings. Maîtrisez sa technique, sa mécanique et ses applications tactiques."
+date: "2026-03-15"
 sport: muay-thai
 category: conseil-entrainement
 ---

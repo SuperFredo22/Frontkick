@@ -1,7 +1,7 @@
 ---
 title: "Les 10 soumissions les plus efficaces en MMA : technique et application"
-description: "Du rear naked choke au heel hook en passant par le triangle, découvrez les 10 soumissions les plus redoutables du MMA avec leur mécanique et leurs situations d'application."
-date: 2026-03-17
+excerpt: "Du rear naked choke au heel hook en passant par le triangle, découvrez les 10 soumissions les plus redoutables du MMA avec leur mécanique et leurs situations d'application."
+date: "2026-03-17"
 sport: mma
 category: analyse
 ---

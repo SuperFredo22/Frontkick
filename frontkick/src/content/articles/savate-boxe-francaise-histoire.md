@@ -1,7 +1,7 @@
 ---
 title: "La Savate : histoire et techniques de la boxe française"
-description: "La Savate ou boxe française est le seul art martial d'origine française reconnu mondialement. Son histoire fascinante et ses techniques élégantes méritent d'être (re)découvertes."
-date: 2026-03-15
+excerpt: "La Savate ou boxe française est le seul art martial d'origine française reconnu mondialement. Son histoire fascinante et ses techniques élégantes méritent d'être (re)découvertes."
+date: "2026-03-15"
 sport: mma
 category: analyse
 ---

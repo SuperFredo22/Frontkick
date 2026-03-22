@@ -1,7 +1,7 @@
 ---
 title: "Gi vs No-Gi : quelle est la meilleure approche pour progresser en grappling ?"
-description: "Faut-il s'entraîner en kimono (Gi) ou sans (No-Gi) ? Ce débat divise la communauté du grappling. Voici une analyse honnête des avantages de chaque approche."
-date: 2026-03-21
+excerpt: "Faut-il s'entraîner en kimono (Gi) ou sans (No-Gi) ? Ce débat divise la communauté du grappling. Voici une analyse honnête des avantages de chaque approche."
+date: "2026-03-21"
 sport: grappling
 category: conseil-entrainement
 ---
