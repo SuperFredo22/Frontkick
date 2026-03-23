@@ -1,6 +1,6 @@
 ---
 title: "Sambo : l'art martial russe redoutable au sol comme debout"
-sport: sambo
+sport: autres
 category: guide-debutant
 date: "Mars 2026"
 featured: true
