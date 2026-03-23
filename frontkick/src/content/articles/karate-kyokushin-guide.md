@@ -1,6 +1,6 @@
 ---
 title: "Kyokushin : le karaté le plus dur du monde"
-sport: grappling
+sport: karate
 category: analyse
 date: "Décembre 2025"
 excerpt: "Contact plein, pas de protections au visage, combats d'une intensité rare : le Kyokushin est le style de karaté le plus exigeant physiquement."
