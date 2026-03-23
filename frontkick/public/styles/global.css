@@ -1628,3 +1628,22 @@ footer {
   background: rgba(30,136,229,.15);
   color: #fff;
 }
+
+/* ── Breadcrumb ─────────────────────────────────────── */
+.breadcrumb a:hover { color: var(--blue) !important; }
+
+/* ── Article : share section ─────────────────────────── */
+.share-section a:hover,
+.share-section button:hover { opacity: 0.85; }
+
+/* ── Articles similaires ─────────────────────────────── */
+.similar-section .art-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* ── Affiliés équipement ─────────────────────────────── */
+.aff-card { text-decoration: none; }
+.aff-card:hover { transform: translateY(-4px); }
+
+/* ── Reading progress bar ────────────────────────────── */
+#reading-progress { pointer-events: none; }
