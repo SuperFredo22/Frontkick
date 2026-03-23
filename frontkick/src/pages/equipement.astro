@@ -5,36 +5,128 @@ import { getCollection } from 'astro:content';
 const all = await getCollection('articles');
 const articles = all
   .filter(a => a.data.category === 'guide-equipement' || a.data.sport === 'equipement')
-  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+  .sort((a, b) => {
+    if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
+    const da = new Date(a.data.date).getTime() || 0;
+    const db = new Date(b.data.date).getTime() || 0;
+    return db - da;
+  });
 
-const sportEmojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒',
+const gradients: Record<string, string> = {
+  mma: 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe: 'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing: 'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai': 'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling: 'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate: 'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement: 'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  autres: 'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
 };
----
-<Base title="Équipement — Front Kick" description="Guides d'achat et recommandations d'équipement pour les sports de combat.">
-  <div class="section">
-    <h1 style="font-size:2rem; font-weight:800; margin-bottom:0.5rem;">🛒 Équipement</h1>
-    <p style="color:var(--text-muted); margin-bottom:2rem;">Guides d'achat, comparatifs et recommandations — avec des liens affiliés sélectionnés.</p>
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
+};
 
-    <div class="articles-grid">
-      {articles.map(a => (
-        <a href={`/articles/${a.slug}`} class="article-card">
-          <div class="card-tags">
-            <span class="tag red">{sportEmojis[a.data.sport] || '🥊'} {a.data.sport.toUpperCase()}</span>
-            <span class="tag gold">Équipement</span>
-          </div>
-          <div class="card-title" set:html={a.data.title}></div>
-          <div class="card-excerpt">{a.data.excerpt}</div>
-          <div class="card-meta">
-            <span>{a.data.date}</span>
-            <span class="card-read-link">Lire →</span>
-          </div>
-        </a>
-      ))}
-      {articles.length === 0 && (
-        <p style="color:var(--text-muted);">Aucun article équipement pour le moment.</p>
-      )}
+// Liens affiliés Amazon par catégorie (à remplacer par vos vrais liens affiliés)
+const affiliateLinks = [
+  {
+    label: "🥊 Gants de boxe",
+    desc: "Gants d'entraînement et de compétition — toutes marques",
+    url: "https://www.amazon.fr/s?k=gants+de+boxe&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+  {
+    label: "🥋 Protège-tibias",
+    desc: "Indispensable pour le muay thaï et le kickboxing",
+    url: "https://www.amazon.fr/s?k=protege+tibias+muay+thai&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+  {
+    label: "🏋️ Sac de frappe",
+    desc: "Sacs suspendus, sur pied et d'angle — pour la maison et la salle",
+    url: "https://www.amazon.fr/s?k=sac+de+frappe&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+  {
+    label: "🩱 Shorts MMA / Muay Thaï",
+    desc: "Shorts de combat pour l'entraînement et la compétition",
+    url: "https://www.amazon.fr/s?k=short+mma+muay+thai&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+  {
+    label: "🦺 Protège-dents",
+    desc: "Protection buccale pour tous les sports de contact",
+    url: "https://www.amazon.fr/s?k=protege+dents+boxe&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+  {
+    label: "🎯 Corde à sauter",
+    desc: "Cardio, coordination et endurance — outil de base du boxeur",
+    url: "https://www.amazon.fr/s?k=corde+a+sauter+boxe&tag=VOTRE-TAG-20",
+    cta: "Voir sur Amazon →",
+  },
+];
+---
+<Base title="Équipement Sports de Combat — Front Kick" description="Guides d'achat, comparatifs et recommandations d'équipement pour les sports de combat — boxe, MMA, muay thaï, kickboxing, grappling.">
+<div id="app">
+  <div class="list-page">
+
+    <!-- Hero -->
+    <div class="list-hero">
+      <h1>🛒 Équipement</h1>
+      <p>Choisissez le bon équipement pour votre discipline — sélection vérifiée et liens affiliés Amazon.*</p>
     </div>
+
+    <!-- Grille affiliés Amazon -->
+    <div style="margin-bottom:48px;">
+      <div class="sec-bar" style="margin-bottom:20px;">
+        <h2 style="font-size:1.15rem;margin:0;font-weight:700;">🔗 Acheter sur Amazon</h2>
+        <div class="sec-line"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
+        {affiliateLinks.map(item => (
+          <a href={item.url} target="_blank" rel="noopener noreferrer sponsored" class="aff-card" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='var(--blue)'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor=''">
+            <div style="font-size:1.05rem;font-weight:700;color:var(--text);">{item.label}</div>
+            <div style="font-size:0.83rem;color:var(--text-light);line-height:1.5;flex:1;">{item.desc}</div>
+            <div style="font-size:0.8rem;color:var(--blue);font-weight:700;margin-top:4px;">{item.cta}</div>
+          </a>
+        ))}
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px;">* Liens affiliés — en tant que Partenaire Amazon, nous percevons une commission sur les achats qualifiés, sans surcoût pour vous.</p>
+    </div>
+
+    <!-- Articles équipement -->
+    {articles.length > 0 && (
+      <div>
+        <div class="sec-bar" style="margin-bottom:20px;">
+          <h2 style="font-size:1.15rem;margin:0;font-weight:700;">📖 Guides d'équipement</h2>
+          <div class="sec-line"></div>
+        </div>
+        <div class="art-grid">
+          {articles.map(a => (
+            <a href={`/articles/${a.slug}`} class="art-card">
+              <div class="art-image" style={`background:${gradients[a.data.sport] || gradients.equipement};display:flex;align-items:center;justify-content:center;`}>
+                <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🛒'}</span>
+                <span class="art-cat-tag">Équipement</span>
+              </div>
+              <div class="art-body">
+                <div class="art-title-sm" set:html={a.data.title}></div>
+                <div class="art-excerpt">{a.data.excerpt}</div>
+                <div class="art-foot">
+                  <span>{a.data.date}</span>
+                  <span class="atype t-guide">Guide</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {articles.length === 0 && (
+      <p style="color:var(--text-muted);text-align:center;padding:2rem;">Aucun article équipement pour le moment — revenez bientôt !</p>
+    )}
+
   </div>
+</div>
 </Base>
