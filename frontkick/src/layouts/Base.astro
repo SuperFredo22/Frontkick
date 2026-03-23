@@ -44,6 +44,30 @@ const canonicalURL = new URL(currentPath, siteUrl);
 
   <slot name="head" />
 
+  <!-- Google Analytics 4 — se charge uniquement après consentement cookies -->
+  <!-- Remplacez G-XXXXXXXXXX par votre vrai ID de mesure GA4 -->
+  <!-- Pour obtenir votre ID : analytics.google.com → Admin → Flux de données → ID de mesure -->
+  <script is:inline>
+    window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // ← Remplacer ici
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied'
+    });
+    // Si consentement déjà donné, charger GA immédiatement
+    if (typeof window !== 'undefined' && localStorage.getItem('cookieConsent') === 'accepted') {
+      gtag('consent', 'update', {'analytics_storage': 'granted'});
+      (function(){
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', window.GA_MEASUREMENT_ID, {page_path: window.location.pathname});
+      })();
+    }
+  </script>
+
   <!-- Google AdSense — se charge uniquement après consentement cookies -->
   <!-- ID à remplacer par votre vrai ca-pub-XXXXXXXXXX après validation AdSense -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script> -->
@@ -191,10 +215,24 @@ const canonicalURL = new URL(currentPath, siteUrl);
     if (banner) banner.style.display = 'none';
   }
   function loadAnalytics() {
-    // À activer quand vous avez votre ID AdSense/Analytics
-    // const s = document.createElement('script');
-    // s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
-    // document.head.appendChild(s);
+    if (!window.GA_MEASUREMENT_ID || window.GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
+    if (window._gaLoaded) return;
+    window._gaLoaded = true;
+    // Mettre à jour le consentement GA4
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {'analytics_storage': 'granted'});
+    }
+    // Charger le script GA4
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+    document.head.appendChild(s);
+    s.onload = function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', window.GA_MEASUREMENT_ID, {page_path: window.location.pathname});
+    };
   }
   window.addEventListener('DOMContentLoaded', () => {
     if (!localStorage.getItem('cookieConsent')) showCookieBanner();
