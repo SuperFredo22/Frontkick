@@ -1,6 +1,6 @@
 ---
 title: "Sanda : le sport de combat chinois qui mêle frappes et projections"
-sport: sanda
+sport: autres
 category: guide-debutant
 date: "Mars 2026"
 featured: true
