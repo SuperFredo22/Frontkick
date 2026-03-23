@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articles');
+
+const articlesData = allArticles.map(a => ({
+  slug: a.slug,
+  title: a.data.title,
+  excerpt: a.data.excerpt || '',
+  sport: a.data.sport,
+  category: a.data.category,
+  date: a.data.date,
+}));
+
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  lethwei:      'linear-gradient(135deg, #4a1942 0%, #C026D3 100%)',
+  sanda:        'linear-gradient(135deg, #7c2d12 0%, #EA580C 100%)',
+  sambo:        'linear-gradient(135deg, #14532d 0%, #16A34A 100%)',
+  savate:       'linear-gradient(135deg, #1e1b4b 0%, #7C3AED 100%)',
+};
+
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒',
+  lethwei: '👊', sanda: '🥋', sambo: '🤼', savate: '🦵',
+};
+
+const catLabel: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+
+const gradientsJSON = JSON.stringify(gradients);
+const emojisJSON = JSON.stringify(emojis);
+const catLabelJSON = JSON.stringify(catLabel);
+const articlesJSON = JSON.stringify(articlesData);
+---
+<Base title="Recherche — Front Kick" description="Recherchez parmi tous les articles de Front Kick sur les sports de combat.">
+  <div id="search-page" style="max-width:1200px;margin:0 auto;padding:2rem 1rem;">
+
+    <div class="sec-bar" style="margin-bottom:1.5rem;">
+      <h1 style="font-size:1.6rem;margin:0;">Recherche</h1>
+      <div class="sec-line"></div>
+    </div>
+
+    <div id="search-query-display" style="margin-bottom:1rem;color:#94a3b8;font-size:1rem;"></div>
+
+    <div id="results-grid" class="art-grid"></div>
+    <div id="no-results" style="display:none;text-align:center;padding:3rem;color:#64748b;font-size:1.1rem;"></div>
+
+  </div>
+</Base>
+
+<script define:vars={{ articlesData: articlesJSON, gradientsJSON, emojisJSON, catLabelJSON }}>
+  const articles = JSON.parse(articlesData);
+  const gradients = JSON.parse(gradientsJSON);
+  const emojis = JSON.parse(emojisJSON);
+  const catLabel = JSON.parse(catLabelJSON);
+
+  const defaultGradient = 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)';
+  const defaultEmoji = '🥊';
+
+  function getQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+  }
+
+  function filterArticles(q) {
+    if (!q) return [];
+    const lower = q.toLowerCase();
+    return articles.filter(a =>
+      a.title.toLowerCase().includes(lower) ||
+      a.excerpt.toLowerCase().includes(lower)
+    );
+  }
+
+  function renderCard(a) {
+    const grad = gradients[a.sport] || defaultGradient;
+    const emoji = emojis[a.sport] || defaultEmoji;
+    const label = catLabel[a.category] || a.category;
+    return `
+      <a href="/articles/${a.slug}" class="art-card">
+        <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:2.8rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">${emoji}</span>
+          <span class="art-cat-tag">${label}</span>
+        </div>
+        <div class="art-body">
+          <div class="art-title-sm">${a.title}</div>
+          <div class="art-excerpt">${a.excerpt}</div>
+          <div class="art-foot">
+            <span>${a.date}</span>
+            <span class="atype t-guide">${label}</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }
+
+  function render() {
+    const q = getQuery();
+    const queryDisplay = document.getElementById('search-query-display');
+    const grid = document.getElementById('results-grid');
+    const noResults = document.getElementById('no-results');
+
+    if (!q) {
+      queryDisplay.textContent = 'Entrez un terme de recherche dans la barre ci-dessus.';
+      grid.innerHTML = '';
+      noResults.style.display = 'none';
+      return;
+    }
+
+    queryDisplay.innerHTML = `Résultats pour : <strong>"${q}"</strong>`;
+
+    const results = filterArticles(q);
+
+    if (results.length === 0) {
+      grid.innerHTML = '';
+      noResults.style.display = 'block';
+      noResults.innerHTML = `Aucun résultat pour <strong>"${q}"</strong>`;
+    } else {
+      noResults.style.display = 'none';
+      grid.innerHTML = results.map(renderCard).join('');
+    }
+  }
+
+  render();
+  window.addEventListener('popstate', render);
+</script>
