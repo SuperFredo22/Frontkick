@@ -21,16 +21,12 @@ const gradients: Record<string, string> = {
   grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
   karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
   equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
-  lethwei:      'linear-gradient(135deg, #4a1942 0%, #C026D3 100%)',
-  sanda:        'linear-gradient(135deg, #7c2d12 0%, #EA580C 100%)',
-  sambo:        'linear-gradient(135deg, #14532d 0%, #16A34A 100%)',
-  savate:       'linear-gradient(135deg, #1e1b4b 0%, #7C3AED 100%)',
+  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
 };
 
 const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒',
-  lethwei: '👊', sanda: '🥋', sambo: '🤼', savate: '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
 };
 
 const catLabel: Record<string, string> = {
@@ -47,9 +43,21 @@ const articlesJSON = JSON.stringify(articlesData);
   <div id="search-page" style="max-width:1200px;margin:0 auto;padding:2rem 1rem;">
 
     <div class="sec-bar" style="margin-bottom:1.5rem;">
-      <h1 style="font-size:1.6rem;margin:0;">Recherche</h1>
+      <h1 style="font-size:1.6rem;margin:0;">🔍 Recherche</h1>
       <div class="sec-line"></div>
     </div>
+
+    <!-- Barre de recherche sur la page -->
+    <form id="pageSearchForm" style="display:flex;gap:.5rem;margin-bottom:1.5rem;" onsubmit="handleSearchSubmit(event)">
+      <input
+        id="pageSearchInput"
+        type="text"
+        placeholder="Rechercher un article, un sport, un nom…"
+        style="flex:1;padding:.7rem 1rem;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;font-size:1rem;outline:none;"
+        autocomplete="off"
+      />
+      <button type="submit" style="padding:.7rem 1.2rem;background:#1E88E5;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">Rechercher</button>
+    </form>
 
     <div id="search-query-display" style="margin-bottom:1rem;color:#94a3b8;font-size:1rem;"></div>
 
@@ -70,7 +78,7 @@ const articlesJSON = JSON.stringify(articlesData);
 
   function getQuery() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('q') || '';
+    return (params.get('q') || '').trim();
   }
 
   function filterArticles(q) {
@@ -78,7 +86,9 @@ const articlesJSON = JSON.stringify(articlesData);
     const lower = q.toLowerCase();
     return articles.filter(a =>
       a.title.toLowerCase().includes(lower) ||
-      a.excerpt.toLowerCase().includes(lower)
+      (a.excerpt && a.excerpt.toLowerCase().includes(lower)) ||
+      (a.sport && a.sport.toLowerCase().includes(lower)) ||
+      (a.category && a.category.toLowerCase().includes(lower))
     );
   }
 
@@ -109,9 +119,13 @@ const articlesJSON = JSON.stringify(articlesData);
     const queryDisplay = document.getElementById('search-query-display');
     const grid = document.getElementById('results-grid');
     const noResults = document.getElementById('no-results');
+    const input = document.getElementById('pageSearchInput');
+
+    // Pré-remplir le champ avec le terme de recherche
+    if (input && q) input.value = q;
 
     if (!q) {
-      queryDisplay.textContent = 'Entrez un terme de recherche dans la barre ci-dessus.';
+      queryDisplay.textContent = 'Entrez un terme de recherche ci-dessus ou dans la barre du header.';
       grid.innerHTML = '';
       noResults.style.display = 'none';
       return;
@@ -124,11 +138,23 @@ const articlesJSON = JSON.stringify(articlesData);
     if (results.length === 0) {
       grid.innerHTML = '';
       noResults.style.display = 'block';
-      noResults.innerHTML = `Aucun résultat pour <strong>"${q}"</strong>`;
+      noResults.innerHTML = `Aucun résultat pour <strong>"${q}"</strong> — essayez un autre terme.`;
     } else {
       noResults.style.display = 'none';
       grid.innerHTML = results.map(renderCard).join('');
+      queryDisplay.innerHTML = `<strong>${results.length} résultat${results.length > 1 ? 's' : ''}</strong> pour : <strong>"${q}"</strong>`;
     }
+  }
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const input = document.getElementById('pageSearchInput');
+    const q = input.value.trim();
+    if (!q) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('q', q);
+    window.history.pushState({}, '', url.toString());
+    render();
   }
 
   render();
