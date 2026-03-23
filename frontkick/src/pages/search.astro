@@ -47,116 +47,208 @@ const articlesJSON = JSON.stringify(articlesData);
       <div class="sec-line"></div>
     </div>
 
-    <!-- Barre de recherche sur la page -->
+    <!-- Barre de recherche inline -->
     <form id="pageSearchForm" style="display:flex;gap:.5rem;margin-bottom:1.5rem;" onsubmit="handleSearchSubmit(event)">
       <input
         id="pageSearchInput"
         type="text"
-        placeholder="Rechercher un article, un sport, un nom…"
-        style="flex:1;padding:.7rem 1rem;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;font-size:1rem;outline:none;"
+        placeholder="Ex : boxe, connor, muay thai, khabib, technique…"
+        style="flex:1;padding:.75rem 1rem;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#f1f5f9;font-size:1rem;outline:none;"
         autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
       />
-      <button type="submit" style="padding:.7rem 1.2rem;background:#1E88E5;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">Rechercher</button>
+      <button type="submit" style="padding:.75rem 1.4rem;background:#1E88E5;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600;">Rechercher</button>
     </form>
 
-    <div id="search-query-display" style="margin-bottom:1rem;color:#94a3b8;font-size:1rem;"></div>
+    <div id="search-query-display" style="margin-bottom:1.2rem;color:#94a3b8;font-size:.95rem;min-height:1.5rem;"></div>
 
     <div id="results-grid" class="art-grid"></div>
-    <div id="no-results" style="display:none;text-align:center;padding:3rem;color:#64748b;font-size:1.1rem;"></div>
+    <div id="no-results" style="display:none;text-align:center;padding:3rem 1rem;color:#64748b;font-size:1.05rem;line-height:1.7;"></div>
 
   </div>
 </Base>
 
 <script define:vars={{ articlesData: articlesJSON, gradientsJSON, emojisJSON, catLabelJSON }}>
-  const articles = JSON.parse(articlesData);
-  const gradients = JSON.parse(gradientsJSON);
-  const emojis = JSON.parse(emojisJSON);
-  const catLabel = JSON.parse(catLabelJSON);
+/* ══════════════════════════════════════════════
+   MOTEUR DE RECHERCHE FRONTKICK
+   - Normalisation unicode (accents, casse)
+   - Fuzzy matching par mot (Levenshtein)
+   - Scoring par champ (titre > sport > excerpt)
+   - Tri par pertinence décroissante
+══════════════════════════════════════════════ */
 
-  const defaultGradient = 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)';
-  const defaultEmoji = '🥊';
+const articles = JSON.parse(articlesData);
+const gradients = JSON.parse(gradientsJSON);
+const emojis = JSON.parse(emojisJSON);
+const catLabel = JSON.parse(catLabelJSON);
 
-  function getQuery() {
-    const params = new URLSearchParams(window.location.search);
-    return (params.get('q') || '').trim();
-  }
+const DEFAULT_GRADIENT = 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)';
+const DEFAULT_EMOJI = '🥊';
 
-  function filterArticles(q) {
-    if (!q) return [];
-    const lower = q.toLowerCase();
-    return articles.filter(a =>
-      a.title.toLowerCase().includes(lower) ||
-      (a.excerpt && a.excerpt.toLowerCase().includes(lower)) ||
-      (a.sport && a.sport.toLowerCase().includes(lower)) ||
-      (a.category && a.category.toLowerCase().includes(lower))
-    );
-  }
+// ── Normalisation ─────────────────────────────
+function norm(str) {
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')  // supprime accents
+    .replace(/['']/g, "'")
+    .replace(/[^\w\s'-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
-  function renderCard(a) {
-    const grad = gradients[a.sport] || defaultGradient;
-    const emoji = emojis[a.sport] || defaultEmoji;
-    const label = catLabel[a.category] || a.category;
-    return `
-      <a href="/articles/${a.slug}" class="art-card">
-        <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
-          <span style="font-size:2.8rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">${emoji}</span>
-          <span class="art-cat-tag">${label}</span>
-        </div>
-        <div class="art-body">
-          <div class="art-title-sm">${a.title}</div>
-          <div class="art-excerpt">${a.excerpt}</div>
-          <div class="art-foot">
-            <span>${a.date}</span>
-            <span class="atype t-guide">${label}</span>
-          </div>
-        </div>
-      </a>
-    `;
-  }
-
-  function render() {
-    const q = getQuery();
-    const queryDisplay = document.getElementById('search-query-display');
-    const grid = document.getElementById('results-grid');
-    const noResults = document.getElementById('no-results');
-    const input = document.getElementById('pageSearchInput');
-
-    // Pré-remplir le champ avec le terme de recherche
-    if (input && q) input.value = q;
-
-    if (!q) {
-      queryDisplay.textContent = 'Entrez un terme de recherche ci-dessus ou dans la barre du header.';
-      grid.innerHTML = '';
-      noResults.style.display = 'none';
-      return;
+// ── Distance de Levenshtein optimisée ─────────
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (Math.abs(a.length - b.length) > 3) return 99;
+  const m = a.length, n = b.length;
+  let prev = Array.from({length: n+1}, (_, i) => i);
+  for (let i = 1; i <= m; i++) {
+    const curr = [i];
+    for (let j = 1; j <= n; j++) {
+      curr[j] = a[i-1] === b[j-1]
+        ? prev[j-1]
+        : 1 + Math.min(prev[j], curr[j-1], prev[j-1]);
     }
+    prev = curr;
+  }
+  return prev[n];
+}
 
-    queryDisplay.innerHTML = `Résultats pour : <strong>"${q}"</strong>`;
+// ── Vérifie si un mot de query matche un mot du texte ──
+function wordMatches(qWord, tWord) {
+  if (tWord.includes(qWord)) return true;           // substring exact
+  const ql = qWord.length, tl = tWord.length;
+  if (ql < 3) return qWord === tWord;               // mots courts : exact seulement
+  const maxDist = ql >= 7 ? 2 : ql >= 4 ? 1 : 0;  // tolérance selon longueur
+  return levenshtein(qWord, tWord) <= maxDist;
+}
 
-    const results = filterArticles(q);
+// ── Score de pertinence ────────────────────────
+function scoreArticle(queryWords, article) {
+  if (!queryWords.length) return 0;
 
-    if (results.length === 0) {
-      grid.innerHTML = '';
-      noResults.style.display = 'block';
-      noResults.innerHTML = `Aucun résultat pour <strong>"${q}"</strong> — essayez un autre terme.`;
-    } else {
-      noResults.style.display = 'none';
-      grid.innerHTML = results.map(renderCard).join('');
-      queryDisplay.innerHTML = `<strong>${results.length} résultat${results.length > 1 ? 's' : ''}</strong> pour : <strong>"${q}"</strong>`;
+  const fields = [
+    { text: norm(article.title),    weight: 12 },
+    { text: norm(article.sport),    weight: 6  },
+    { text: norm(article.category), weight: 3  },
+    { text: norm(article.excerpt),  weight: 4  },
+    { text: norm(article.slug).replace(/-/g, ' '), weight: 5 },
+  ];
+
+  let totalScore = 0;
+  let matchedWords = 0;
+
+  for (const qWord of queryWords) {
+    let bestFieldScore = 0;
+    for (const field of fields) {
+      const textWords = field.text.split(' ').filter(w => w.length > 1);
+      for (const tWord of textWords) {
+        if (wordMatches(qWord, tWord)) {
+          bestFieldScore = Math.max(bestFieldScore, field.weight);
+          break;
+        }
+      }
+    }
+    if (bestFieldScore > 0) {
+      totalScore += bestFieldScore;
+      matchedWords++;
     }
   }
 
-  function handleSearchSubmit(e) {
-    e.preventDefault();
-    const input = document.getElementById('pageSearchInput');
-    const q = input.value.trim();
-    if (!q) return;
-    const url = new URL(window.location.href);
-    url.searchParams.set('q', q);
-    window.history.pushState({}, '', url.toString());
-    render();
+  // Bonus : tous les mots de la query ont matché
+  if (matchedWords === queryWords.length && queryWords.length > 1) totalScore += 5;
+  // Malus : mots non matchés
+  const missedWords = queryWords.length - matchedWords;
+  if (missedWords > 0 && matchedWords === 0) return 0; // rien trouvé
+
+  return totalScore;
+}
+
+// ── Recherche principale ───────────────────────
+function search(rawQuery) {
+  const queryWords = norm(rawQuery).split(' ').filter(w => w.length >= 2);
+  if (!queryWords.length) return [];
+
+  const scored = articles
+    .map(a => ({ article: a, score: scoreArticle(queryWords, a) }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  return scored.map(x => x.article);
+}
+
+// ── Rendu d'une carte article ──────────────────
+function renderCard(a) {
+  const grad = gradients[a.sport] || DEFAULT_GRADIENT;
+  const emoji = emojis[a.sport] || DEFAULT_EMOJI;
+  const label = catLabel[a.category] || a.category;
+  return `
+    <a href="/articles/${a.slug}" class="art-card">
+      <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:2.8rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">${emoji}</span>
+        <span class="art-cat-tag">${label}</span>
+      </div>
+      <div class="art-body">
+        <div class="art-title-sm">${a.title}</div>
+        <div class="art-excerpt">${a.excerpt}</div>
+        <div class="art-foot">
+          <span>${a.date}</span>
+          <span class="atype t-guide">${label}</span>
+        </div>
+      </div>
+    </a>`;
+}
+
+// ── Rendu de la page ───────────────────────────
+function render() {
+  const q = new URLSearchParams(window.location.search).get('q') || '';
+  const queryDisplay = document.getElementById('search-query-display');
+  const grid = document.getElementById('results-grid');
+  const noResults = document.getElementById('no-results');
+  const input = document.getElementById('pageSearchInput');
+
+  if (input && q) input.value = q;
+
+  if (!q.trim()) {
+    queryDisplay.textContent = 'Entrez un terme de recherche ci-dessus ou dans la barre du header.';
+    grid.innerHTML = '';
+    noResults.style.display = 'none';
+    return;
   }
 
+  const results = search(q);
+
+  if (results.length === 0) {
+    grid.innerHTML = '';
+    noResults.style.display = 'block';
+    noResults.innerHTML = `
+      <div style="font-size:2rem;margin-bottom:.8rem;">🔍</div>
+      <strong>Aucun résultat pour « ${q} »</strong><br>
+      <span style="font-size:.9rem;margin-top:.5rem;display:block;">
+        Essayez un autre terme, vérifiez l'orthographe, ou parcourez les disciplines depuis <a href="/" style="color:#1E88E5;">l'accueil</a>.
+      </span>`;
+    queryDisplay.innerHTML = `Recherche : <strong>"${q}"</strong>`;
+  } else {
+    noResults.style.display = 'none';
+    grid.innerHTML = results.map(renderCard).join('');
+    queryDisplay.innerHTML =
+      `<strong>${results.length} résultat${results.length > 1 ? 's' : ''}</strong> pour : <strong>"${q}"</strong>`;
+  }
+}
+
+// ── Soumission du form inline ──────────────────
+function handleSearchSubmit(e) {
+  e.preventDefault();
+  const q = document.getElementById('pageSearchInput').value.trim();
+  if (!q) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set('q', q);
+  window.history.pushState({}, '', url.toString());
   render();
-  window.addEventListener('popstate', render);
+}
+
+render();
+window.addEventListener('popstate', render);
 </script>
