@@ -2,7 +2,7 @@
 title: "Sambo : l'art martial russe qui a conquis le MMA mondial"
 excerpt: "Le Sambo est le système de combat développé en URSS qui allie projections de judo, techniques de lutte et soumissions. Découvrez pourquoi il produit les meilleurs grapplers du monde."
 date: "2026-03-16"
-sport: mma
+sport: sambo
 category: analyse
 ---
 
