@@ -1,6 +1,6 @@
 ---
 title: "Lethwei : le sport de combat birman où tout est permis"
-sport: lethwei
+sport: autres
 category: guide-debutant
 date: "Mars 2026"
 featured: true
