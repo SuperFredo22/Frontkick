@@ -3,9 +3,14 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('articles');
-const articles = all
-  .filter(a => a.data.category === 'guide-debutant' || a.data.category === 'guide-equipement')
-  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+const guides = all
+  .filter(a => a.data.category === 'guide-debutant' || a.data.category === 'guide-equipement' || a.data.category === 'conseil-entrainement')
+  .sort((a, b) => {
+    if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
+    const da = new Date(a.data.date).getTime() || 0;
+    const db = new Date(b.data.date).getTime() || 0;
+    return db - da;
+  });
 
 const gradients: Record<string, string> = {
   mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
@@ -13,38 +18,121 @@ const gradients: Record<string, string> = {
   kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
   'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
   grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
 };
 const emojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
 };
 const catLabel: Record<string, string> = {
-  'guide-debutant': 'Guide Débutant', 'guide-equipement': 'Équipement',
+  'guide-debutant': 'Guide Débutant',
+  'guide-equipement': 'Équipement',
+  'conseil-entrainement': 'Conseil',
 };
+const sportLabel: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
+  grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
+};
+
+// Sports disponibles parmi les guides
+const sportsInGuides = [...new Set(guides.map(a => a.data.sport))].sort();
+const guidesJSON = JSON.stringify(guides.map(a => ({
+  slug: a.slug,
+  title: a.data.title,
+  excerpt: a.data.excerpt || '',
+  sport: a.data.sport,
+  category: a.data.category,
+  date: a.data.date,
+})));
+const gradientsJSON = JSON.stringify(gradients);
+const emojisJSON = JSON.stringify(emojis);
+const catLabelJSON = JSON.stringify(catLabel);
+const sportLabelJSON = JSON.stringify(sportLabel);
 ---
-<Base title="Guides — Front Kick" description="Tous les guides pour débutants en sports de combat.">
+<Base title="Guides — Front Kick" description="Tous les guides pour débutants et pratiquants en sports de combat — débutant, équipement, entraînement.">
 <div id="app">
   <div class="list-page">
     <div class="list-hero">
       <h1>📖 Guides</h1>
-      <p>Tout ce qu'il faut savoir pour débuter et progresser dans les sports de combat.</p>
+      <p>Tout ce qu'il faut savoir pour débuter et progresser — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
     </div>
-    <div class="art-grid">
-      {articles.map(a => (
-        <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-            <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🥊'}</span>
-            <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
-          </div>
-          <div class="art-body">
-            <div class="art-title-sm" set:html={a.data.title}></div>
-            <div class="art-excerpt">{a.data.excerpt}</div>
-            <div class="art-foot">
-              <span>{a.data.date}</span>
-            </div>
-          </div>
-        </a>
+
+    <!-- Filtres par sport -->
+    <div class="filter-bar" id="filter-bar" style="margin-bottom:24px;">
+      <button class="filter-btn active" data-sport="tous" onclick="filterGuides('tous',this)">Tous</button>
+      {sportsInGuides.map(sport => (
+        <button class="filter-btn" data-sport={sport} onclick={`filterGuides('${sport}',this)`}>
+          {emojis[sport] || '🥋'} {sportLabel[sport] || sport}
+        </button>
       ))}
     </div>
+
+    <div id="guides-grid" class="art-grid"></div>
+    <div id="no-guides" style="display:none;text-align:center;padding:3rem;color:var(--text-muted);">Aucun guide pour ce filtre.</div>
   </div>
 </div>
 </Base>
+
+<script define:vars={{ guidesJSON, gradientsJSON, emojisJSON, catLabelJSON, sportLabelJSON }}>
+const guides = JSON.parse(guidesJSON);
+const gradients = JSON.parse(gradientsJSON);
+const emojis = JSON.parse(emojisJSON);
+const catLabel = JSON.parse(catLabelJSON);
+const sportLabel = JSON.parse(sportLabelJSON);
+const DEFAULT_GRAD = 'linear-gradient(135deg,#0F172A,#1E88E5)';
+
+function renderCard(a) {
+  const grad = gradients[a.sport] || DEFAULT_GRAD;
+  const emoji = emojis[a.sport] || '🥊';
+  const label = catLabel[a.category] || a.category;
+  const sport = sportLabel[a.sport] || a.sport;
+  return `
+    <a href="/articles/${a.slug}" class="art-card">
+      <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:2.8rem;">${emoji}</span>
+        <span class="art-cat-tag">${label}</span>
+      </div>
+      <div class="art-body">
+        <div class="art-title-sm">${a.title}</div>
+        <div class="art-excerpt">${a.excerpt}</div>
+        <div class="art-foot">
+          <span>${a.date}</span>
+          <span class="atype t-guide">${sport}</span>
+        </div>
+      </div>
+    </a>`;
+}
+
+let currentSport = 'tous';
+
+function filterGuides(sport, btn) {
+  currentSport = sport;
+  // Mise à jour boutons
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  render();
+}
+
+function render() {
+  const grid = document.getElementById('guides-grid');
+  const noGuides = document.getElementById('no-guides');
+  const count = document.getElementById('guides-count');
+  const filtered = currentSport === 'tous'
+    ? guides
+    : guides.filter(a => a.sport === currentSport);
+  if (count) count.textContent = filtered.length;
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noGuides.style.display = 'block';
+  } else {
+    noGuides.style.display = 'none';
+    grid.innerHTML = filtered.map(renderCard).join('');
+  }
+}
+
+// Exposer filterGuides pour onclick inline
+window.filterGuides = filterGuides;
+render();
+</script>
