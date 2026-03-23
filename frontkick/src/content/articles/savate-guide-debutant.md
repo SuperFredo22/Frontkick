@@ -1,6 +1,6 @@
 ---
 title: "Savate : la boxe française, art de pied et de poing made in France"
-sport: savate
+sport: autres
 category: guide-debutant
 date: "Mars 2026"
 featured: true
