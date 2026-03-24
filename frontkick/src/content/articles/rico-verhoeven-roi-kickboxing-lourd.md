@@ -16,7 +16,7 @@ Son style est fondé sur plusieurs piliers techniques :
 
 **La gestion de distance** : avec 2 mètres d'envergure, Verhoeven utilise son jab long pour maintenir les adversaires à l'extérieur de leur zone de frappe. Il crée un no-man's land où lui peut frapper mais l'adversaire ne peut pas.
 
-**Le FightFocus / push kick** : Verhoeven utilise abondamment ce coup pour reprendre la distance quand un adversaire rentre dans son espace. Sa version est particulièrement efficace grâce à sa hauteur et la force de ses jambes.
+**Le front kick / push kick** : Verhoeven utilise abondamment ce coup pour reprendre la distance quand un adversaire rentre dans son espace. Sa version est particulièrement efficace grâce à sa hauteur et la force de ses jambes.
 
 **Les combinaisons courtes** : contrairement à certains lourds qui misent sur le coup unique, Verhoeven enchaîne jab-direct-crochet avec une régularité qui accumule les points sur les juges.
 
