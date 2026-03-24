@@ -22,7 +22,7 @@ Jab, croisé, crochet, uppercut. Même base que la boxe. Si vous venez de la box
 
 **Le roundhouse kick** (coup de pied circulaire) : le coup de pied le plus courant en kickboxing. On pivote sur l'avant-pied d'appui, la hanche tourne, le tibia frappe la cible. Cible : les côtes, les bras, la tête.
 
-**Le FightFocus** (teep) : frappe directe vers l'avant avec la plante du pied. Excellente arme de contrôle de distance.
+**Le front kick** (teep) : frappe directe vers l'avant avec la plante du pied. Excellente arme de contrôle de distance.
 
 **Le side kick** : frappe latérale avec le talon. Très puissante mais plus lente.
 
