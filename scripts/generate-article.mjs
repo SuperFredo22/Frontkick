@@ -52,7 +52,7 @@ const ARTICLE_TYPES = {
     category: 'actualite',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling'],
     needsRss: true,
-    prompt: (sport, date, headlines) => `Tu es rédacteur pour FightFocus.fr, média sports de combat.
+    prompt: (sport, date, headlines) => `Tu es rédacteur pour fightfocus.fr, média sports de combat.
 Génère un article d'actualité sur ${sport} en ${date}.
 Actualités du jour : ${headlines.slice(0,4).map((h,i)=>`${i+1}. ${h.title}`).join(' | ')}
 Développe, contextualise, cite des combattants et événements réels.
@@ -63,7 +63,7 @@ Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title
     category: 'guide-debutant',
     sports: ['mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling', 'karate'],
     needsRss: false,
-    prompt: (sport, date) => `Tu es rédacteur pour FightFocus.fr, média sports de combat.
+    prompt: (sport, date) => `Tu es rédacteur pour fightfocus.fr, média sports de combat.
 Génère un article de fond original sur ${sport} en ${date}.
 Sujet : discipline méconnue, style rare, histoire fascinante, ou comparatif de styles liés à ${sport}.
 Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title, excerpt (120-150 chars), content (markdown: intro sans H2, 3 sections ##, termine par --- puis **Conclusion :**, 400 mots français).`,
@@ -73,7 +73,7 @@ Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title
     category: 'analyse',
     sports: ['mma', 'boxe', 'karate', 'grappling', 'muay-thai'],
     needsRss: false,
-    prompt: (sport, date) => `Tu es rédacteur pour FightFocus.fr, média sports de combat.
+    prompt: (sport, date) => `Tu es rédacteur pour fightfocus.fr, média sports de combat.
 Génère un article sur une célébrité inattendue liée aux arts martiaux en ${date}.
 Sujet : acteur, musicien ou personnalité publique qui pratique sérieusement un sport de combat. Cite grades et anecdotes réelles.
 Réponds avec les champs : filename (slug kebab sans accent max 60 chars), title, excerpt (120-150 chars), content (markdown: intro sans H2, 3 sections ##, termine par --- puis **Conclusion :**, 400 mots français).`,
