@@ -6,7 +6,7 @@ interface Props {
   ogType?: string;
 }
 const {
-  title = "Front Kick — Le Média des Sports de Combat",
+  title = "FightFocus — Le Média des Sports de Combat",
   description = "Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï, sanda, lethwei et bien plus.",
   ogImage = "/og-default.png",
   ogType = "website"
@@ -32,7 +32,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={new URL(ogImage, siteUrl)} />
-  <meta property="og:site_name" content="Front Kick" />
+  <meta property="og:site_name" content="FightFocus" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
@@ -79,7 +79,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
 <header>
   <div class="header-top">
     <a href="/" class="logo">
-      <img src="/images/frontkick-logo.png" alt="Front Kick" />
+      <img src="/images/frontkick-logo.png" alt="FightFocus" />
     </a>
     <div class="header-actions">
       <form id="searchForm" action="/search" method="get">
@@ -124,7 +124,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <div class="footer-inner">
     <div class="footer-brand">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.05em;color:#fff;">
-        Front<span style="color:#38BDF8;">Kick</span>
+        Fight<span style="color:#38BDF8;">Focus</span>
       </div>
       <p>Le média des sports de combat.<br/>Analyses, guides et équipement pour pratiquants et passionnés.</p>
     </div>
@@ -163,7 +163,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Front Kick · Tous droits réservés · Frédéric Laviemienandy</span>
+    <span>© 2026 FightFocus · Tous droits réservés · Frédéric Laviemienandy</span>
     <span>* Liens affiliés — commission perçue sans surcoût pour vous.</span>
     <button class="cookie-manage-link" onclick="showCookieBanner()">Gérer mes cookies</button>
   </div>
