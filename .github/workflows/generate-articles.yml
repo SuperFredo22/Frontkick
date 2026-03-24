@@ -1,4 +1,4 @@
-name: 🤖 Génération automatique d'articles Frontkick (GRATUIT)
+name: 🤖 Génération automatique d'articles FightFocus (GRATUIT)
 
 on:
   schedule:
@@ -45,8 +45,8 @@ jobs:
 
       - name: 📤 Commit & Push
         run: |
-          git config --global user.name  "Frontkick Bot"
-          git config --global user.email "bot@frontkick.fr"
+          git config --global user.name  "FightFocus Bot"
+          git config --global user.email "bot@fightfocus.fr"
           git add frontkick/src/content/articles/
           if git diff --staged --quiet; then
             echo "ℹ️ Aucun changement"
@@ -54,7 +54,7 @@ jobs:
             COUNT=$(git diff --staged --name-only | wc -l | tr -d ' ')
             git commit -m "🤖 $COUNT article(s) — $(date +'%d/%m/%Y %H:%M')"
             git push
-            echo "✅ $COUNT article(s) publié(s) sur frontkick.fr"
+            echo "✅ $COUNT article(s) publié(s) sur fightfocus.fr"
           fi
 
       - name: 📋 Résumé
