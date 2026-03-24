@@ -77,7 +77,12 @@ const jsonLd = {
     "@type": "Organization",
     "name": "FightFocus",
     "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/images/fightfocus-logo.png`
+    }
   },
+  "keywords": [article.data.sport, article.data.category, "sports de combat", "FightFocus"],
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": articleUrl
@@ -220,6 +225,21 @@ const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
         <input class="nl-input" type="email" id="nl-email" placeholder="votre@email.com" />
         <button class="nl-btn" onclick="subscribeNewsletter()">S'abonner</button>
         <div id="nl-feedback" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
+      </div>
+
+      <!-- Widget navigation interne SEO -->
+      <div class="widget" style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <div class="widget-head" style="font-weight:700;margin-bottom:12px;font-size:0.9rem;">🔗 Explorer FightFocus</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="/discipline/mma" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 MMA / UFC</a></li>
+          <li><a href="/discipline/boxe" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 Boxe anglaise</a></li>
+          <li><a href="/discipline/muay-thai" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Muay Thaï</a></li>
+          <li><a href="/discipline/kickboxing" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Kickboxing</a></li>
+          <li><a href="/discipline/grappling" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🤼 Grappling / BJJ</a></li>
+          <li><a href="/guides" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">📖 Guides débutants</a></li>
+          <li><a href="/equipement" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🛒 Équipement</a></li>
+          <li><a href="/classements" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🏆 Classements UFC</a></li>
+        </ul>
       </div>
 
       <!-- Widget discipline -->
