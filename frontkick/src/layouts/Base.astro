@@ -13,7 +13,7 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-const siteUrl = Astro.site ?? 'https://frontkick.vercel.app';
+const siteUrl = Astro.site ?? 'https://fightfocus.fr';
 const canonicalURL = new URL(currentPath, siteUrl);
 ---
 <!DOCTYPE html>
@@ -24,6 +24,8 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="google-site-verification" content="s_3JA_wJFz2bQ93Se9Y7qfwhreJA5ZD1F6R04EeJeBc" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="FightFocus" />
   <meta name="theme-color" content="#0F172A" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -35,6 +37,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <meta property="og:site_name" content="FightFocus" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@fightfocus_fr" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={new URL(ogImage, siteUrl)} />
@@ -44,6 +47,29 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <link rel="stylesheet" href="/styles/global.css" />
 
   <slot name="head" />
+  <!-- JSON-LD : WebSite + SearchAction -->
+  <script type="application/ld+json" is:inline>{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FightFocus",
+    "url": "https://fightfocus.fr",
+    "description": "FightFocus est le média dédié aux sports de combat : MMA, boxe, muay thai, analyses, guides et équipement.",
+    "inLanguage": "fr-FR",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://fightfocus.fr/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FightFocus",
+      "url": "https://fightfocus.fr",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fightfocus.fr/images/fightfocus-logo.png"
+      }
+    }
+  }</script>
 
   <!-- Google Analytics 4 — se charge uniquement après consentement cookies -->
   <!-- Remplacez G-XXXXXXXXXX par votre vrai ID de mesure GA4 -->
@@ -69,8 +95,12 @@ const canonicalURL = new URL(currentPath, siteUrl);
     }
   </script>
 
-  <!-- Google AdSense — se charge uniquement après consentement cookies -->
-  <!-- ID à remplacer par votre vrai ca-pub-XXXXXXXXXX après validation AdSense -->
+  <!-- ═══════════════════════════════════════════════════════
+       GOOGLE ADSENSE — Activer après validation du compte
+       1. Aller sur : https://adsense.google.com
+       2. Remplacer ca-pub-XXXXXXXXXX par votre vrai Publisher ID
+       3. Décommenter la ligne ci-dessous
+       ═══════════════════════════════════════════════════════ -->
   <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script> -->
 </head>
 <body>
