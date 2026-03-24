@@ -51,7 +51,7 @@ const sportLabel: Record<string, string> = {
   grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
 };
 
-const siteUrl = 'https://frontkick.vercel.app';
+const siteUrl = 'https://frontkick.vercel.app'; // URL Vercel — à mettre à jour quand fightfocus.fr est connecté
 const articleUrl = `${siteUrl}/articles/${slug}`;
 const cleanTitle = article.data.title.replace(/<[^>]+>/g, '');
 
@@ -75,7 +75,7 @@ const jsonLd = {
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Front Kick",
+    "name": "FightFocus",
     "url": siteUrl,
   },
   "mainEntityOfPage": {
@@ -97,12 +97,12 @@ const breadcrumbLd = {
 // Encodage pour partage social
 const shareTitle = encodeURIComponent(cleanTitle);
 const shareUrl = encodeURIComponent(articleUrl);
-const twitterUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}&via=frontkick_fr`;
+const twitterUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}&via=fightfocus_fr`;
 const whatsappUrl = `https://wa.me/?text=${shareTitle}%20${shareUrl}`;
 const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
 ---
 <Base
-  title={`${cleanTitle} — Front Kick`}
+  title={`${cleanTitle} — FightFocus`}
   description={article.data.excerpt}
   ogType="article"
 >
