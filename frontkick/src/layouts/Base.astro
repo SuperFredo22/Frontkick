@@ -6,8 +6,8 @@ interface Props {
   ogType?: string;
 }
 const {
-  title = "FightFocus — Le Média des Sports de Combat",
-  description = "FightFocus — Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï, sanda, lethwei et bien plus.",
+  title = "FightFocus - MMA, Boxe, Muay Thai : Actu, Guides et Analyses",
+  description = "FightFocus est le média dédié aux sports de combat : MMA, boxe, muay thai, analyses, guides et équipement.",
   ogImage = "/og-default.png",
   ogType = "website"
 } = Astro.props;
@@ -79,7 +79,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
 <header>
   <div class="header-top">
     <a href="/" class="logo">
-      <img src="/images/frontkick-logo.png" alt="FightFocus" />
+      <img src="/images/fightfocus-logo.png" alt="FightFocus" />
     </a>
     <div class="header-actions">
       <form id="searchForm" action="/search" method="get">
