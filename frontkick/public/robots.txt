@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://frontkick.vercel.app/sitemap-index.xml
-
+Sitemap: https://fightfocus.fr/sitemap-index.xml
