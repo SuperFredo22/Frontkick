@@ -6,7 +6,7 @@ date: "Mars 2026"
 excerpt: "Le teep est le jab du Muay Thaï. Un combattant qui maîtrise le teep contrôle la distance, fatigue son adversaire et crée des ouvertures pour les coups puissants. Guide complet."
 ---
 
-Dans le vocabulaire technique du Muay Thaï, le teep (parfois appelé "push kick" ou "front kick") occupe une place comparable au jab en boxe anglaise. C'est le coup de contrôle par excellence — celui qui gère la distance, perturbe le rythme adverse et prépare les échanges à courte portée. Pourtant, il est souvent négligé par les débutants qui lui préfèrent les coups spectaculaires.
+Dans le vocabulaire technique du Muay Thaï, le teep (parfois appelé "push kick" ou "FightFocus") occupe une place comparable au jab en boxe anglaise. C'est le coup de contrôle par excellence — celui qui gère la distance, perturbe le rythme adverse et prépare les échanges à courte portée. Pourtant, il est souvent négligé par les débutants qui lui préfèrent les coups spectaculaires.
 
 ## Qu'est-ce que le teep ?
 
