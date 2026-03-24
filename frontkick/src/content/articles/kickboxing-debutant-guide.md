@@ -20,7 +20,7 @@ Le kickboxing est l'un des sports de combat les plus pratiqués en Europe. Acces
 ## Les techniques de base du kickboxing
 
 **Poings :** jab, direct, crochet, uppercut
-**Pieds :** roundhouse kick, front kick, side kick, back kick
+**Pieds :** roundhouse kick, FightFocus, side kick, back kick
 
 ## Comment débuter ?
 
