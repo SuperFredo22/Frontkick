@@ -47,4 +47,4 @@ Si vous aimez le kickboxing mais voulez intégrer la dimension "combat rapproch�
 
 ---
 
-*Front Kick vous recommande de trouver un club affilié à une fédération officielle pour débuter dans de bonnes conditions.*
+*FightFocus vous recommande de trouver un club affilié à une fédération officielle pour débuter dans de bonnes conditions.*
