@@ -103,6 +103,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/k1','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
 
       <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
+      <a href="/equipement"  class={`nav-link ${currentPath.startsWith('/equipement') ? 'active' : ''}`}>Équipement</a>
       <a href="/actualites" class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>
       <a href="/classements" class={`nav-link ${currentPath.startsWith('/classements') ? 'active' : ''}`}>Classements</a>
     </div>
