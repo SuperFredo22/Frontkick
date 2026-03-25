@@ -3,13 +3,17 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('articles');
+function parseDate(d: string): number {
+  const parsed = new Date(d);
+  if (!isNaN(parsed.getTime())) return parsed.getTime();
+  const y = d?.match(/\d{4}/);
+  return y ? parseInt(y[0]) * 1000000 : 0;
+}
 const articles = all
   .filter(a => a.data.category === 'guide-equipement' || a.data.sport === 'equipement')
   .sort((a, b) => {
     if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
-    const da = new Date(a.data.date).getTime() || 0;
-    const db = new Date(b.data.date).getTime() || 0;
-    return db - da;
+    return parseDate(b.data.date) - parseDate(a.data.date);
   });
 
 const gradients: Record<string, string> = {
