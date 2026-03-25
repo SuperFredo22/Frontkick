@@ -73,6 +73,22 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function withRetry(fn, maxAttempts = 2, delayMs = 6000) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      console.error(`  ⚠️  Tentative ${attempt}/${maxAttempts} échouée: ${err.message}`);
+      if (attempt < maxAttempts) {
+        console.log(`  ⏳ Nouvelle tentative dans ${delayMs/1000}s...`);
+        await sleep(delayMs);
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
 async function withRetry(fn, maxAttempts = 2, delayMs = 5000) {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
@@ -355,12 +371,12 @@ async function main() {
 
   try {
     console.log('1/4 — Recherche Perplexity (actus réelles)...');
-    const realNews = await fetchRealNews(sport, type);
+    const realNews = await withRetry(() => fetchRealNews(sport, type));
 
-    await sleep(1500);
+    await sleep(2000);
 
     console.log('2/4 — Rédaction Gemini...');
-    const articleContent = await generateArticleWithGemini(sport, type, realNews);
+    const articleContent = await withRetry(() => generateArticleWithGemini(sport, type, realNews));
 
     console.log('3/4 — Validation du contenu...');
     const validContent = validateArticle(articleContent, sport, date);
