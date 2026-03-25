@@ -1,6 +1,6 @@
 ---
 title: "K-1 et Glory : le kickboxing de haut niveau, frappes pures debout"
-sport: kickboxing
+sport: k1
 category: guide-debutant
 date: "Mars 2026"
 featured: true
