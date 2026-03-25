@@ -1,6 +1,6 @@
 ---
 title: "Lethwei vs Muay Thaï : les vraies différences entre les deux sports de combat birmans"
-sport: autres
+sport: lethwei
 category: analyse
 date: "Mars 2026"
 excerpt: "Lethwei et Muay Thaï partagent des origines géographiques proches mais sont deux sports radicalement différents. Règles, culture, niveau de danger : comparaison complète."
