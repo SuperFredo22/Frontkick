@@ -279,17 +279,46 @@ const canonicalURL = new URL(currentPath, siteUrl);
 
 <style>
   @media (max-width: 768px) {
-    body { overflow-x: hidden; font-size: 16px; }
-    img { max-width: 100%; height: auto; }
-    button, a.btn, .share-btn { min-height: 44px; min-width: 44px; }
-    .grid, .card-grid {
+    body {
+      overflow-x: hidden;
+    }
+    img.logo, header img {
+      max-width: 160px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    nav, header nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 8px;
+    }
+    nav a {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+    .card-grid, .grid {
       display: flex;
       flex-direction: column;
-      padding: 8px;
+      gap: 16px;
+      padding: 0 12px;
+    }
+    .card {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    button, a.btn, .share-btn {
+      min-height: 44px;
     }
   }
   @media (max-width: 1024px) {
-    .grid, .card-grid {
+    .card-grid, .grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
