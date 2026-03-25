@@ -12,9 +12,47 @@ export async function getStaticPaths() {
 
 const { sport } = Astro.params;
 const all = await getCollection('articles');
+// Cross-listing : un article guide-equipement dont le slug contient
+// le nom du sport apparaît aussi dans la page discipline correspondante
+const sportAliases: Record<string, string[]> = {
+  mma:          ['mma', 'ufc'],
+  boxe:         ['boxe', 'boxing'],
+  kickboxing:   ['kickboxing', 'kick-boxing'],
+  'muay-thai':  ['muay-thai', 'muaythai'],
+  grappling:    ['grappling', 'bjj', 'judo', 'wrestling'],
+  karate:       ['karate', 'kyokushin'],
+  sanda:        ['sanda', 'wushu'],
+  lethwei:      ['lethwei'],
+  savate:       ['savate'],
+  sambo:        ['sambo'],
+  k1:           ['k1', 'glory', 'kickboxing'],
+};
+const aliases = sportAliases[sport] || [sport];
+
+function parseDate(d: string): number {
+  const parsed = new Date(d);
+  if (!isNaN(parsed.getTime())) return parsed.getTime();
+  const y = d?.match(/\d{4}/);
+  return y ? parseInt(y[0]) * 1000000 : 0;
+}
+
 const articles = all
-  .filter(a => a.data.sport === sport)
-  .sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
+  .filter(a => {
+    // Article directement dans ce sport
+    if (a.data.sport === sport) return true;
+    // Article guide-equipement dont le slug contient un alias du sport
+    if (a.data.category === 'guide-equipement' || a.data.category === 'guide-debutant') {
+      return aliases.some(alias => a.slug.includes(alias));
+    }
+    return false;
+  })
+  .sort((a, b) => {
+    if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
+    const aIsActu = a.data.category === 'actualite' ? 1 : 0;
+    const bIsActu = b.data.category === 'actualite' ? 1 : 0;
+    if (bIsActu !== aIsActu) return bIsActu - aIsActu;
+    return parseDate(b.data.date) - parseDate(a.data.date);
+  });
 
 const labels: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe anglaise', kickboxing: 'Kickboxing',
