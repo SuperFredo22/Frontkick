@@ -2,12 +2,10 @@ name: FightFocus — Génération automatique d'articles
 
 on:
   schedule:
-    # 3 articles par jour : 7h, 12h, 18h UTC
     - cron: '0 7 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *'
   workflow_dispatch:
-    # Permet de déclencher manuellement depuis GitHub Actions
 
 permissions:
   contents: write
@@ -16,34 +14,28 @@ jobs:
   generate-article:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-
+          node-version: '20'
       - name: Générer l'article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
         run: node frontkick/scripts/generate-article.mjs
-
-      - name: Commit et push de l'article
+      - name: Commit et push
         run: |
           git config user.name "FightFocus Bot"
           git config user.email "frontkicksport@gmail.com"
           git add frontkick/src/content/articles/
-          # Vérifier s'il y a des changements avant de committer
           if git diff --staged --quiet; then
-            echo "Aucun nouvel article généré."
+            echo "Aucun article généré."
           else
             git commit -m "feat(articles): article automatique $(date +'%Y-%m-%d %H:%M') UTC"
             git push
-            echo "✅ Article publié sur fightfocus.fr"
           fi
