@@ -1,69 +1,49 @@
-name: 🤖 Génération automatique d'articles FightFocus (GRATUIT)
+name: FightFocus — Génération automatique d'articles
 
 on:
   schedule:
+    # 3 articles par jour : 7h, 12h, 18h UTC
     - cron: '0 7 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *'
   workflow_dispatch:
-    inputs:
-      count:
-        description: 'Nombre d articles (1 à 5)'
-        required: false
-        default: '1'
+    # Permet de déclencher manuellement depuis GitHub Actions
 
 permissions:
   contents: write
 
 jobs:
-  generate:
-    name: Générer et publier
+  generate-article:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: 📥 Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ⚙️ Setup Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: ✍️ Générer article(s)
+      - name: Générer l'article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          COUNT=${{ github.event.inputs.count || '1' }}
-          echo "→ Génération de $COUNT article(s) via Gemini (gratuit)"
-          for i in $(seq 1 $COUNT); do
-            echo "━━━ Article $i / $COUNT ━━━"
-            node scripts/generate-article.mjs
-            if [ $i -lt $COUNT ]; then sleep 2; fi
-          done
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+        run: node frontkick/scripts/generate-article.mjs
 
-      - name: 📤 Commit & Push
+      - name: Commit et push de l'article
         run: |
-          git config --global user.name  "FightFocus Bot"
-          git config --global user.email "bot@fightfocus.fr"
+          git config user.name "FightFocus Bot"
+          git config user.email "frontkicksport@gmail.com"
           git add frontkick/src/content/articles/
+          # Vérifier s'il y a des changements avant de committer
           if git diff --staged --quiet; then
-            echo "ℹ️ Aucun changement"
+            echo "Aucun nouvel article généré."
           else
-            COUNT=$(git diff --staged --name-only | wc -l | tr -d ' ')
-            git commit -m "🤖 $COUNT article(s) — $(date +'%d/%m/%Y %H:%M')"
+            git commit -m "feat(articles): article automatique $(date +'%Y-%m-%d %H:%M') UTC"
             git push
-            echo "✅ $COUNT article(s) publié(s) sur fightfocus.fr"
+            echo "✅ Article publié sur fightfocus.fr"
           fi
-
-      - name: 📋 Résumé
-        if: always()
-        run: |
-          echo "## Résultat" >> $GITHUB_STEP_SUMMARY
-          echo "| | |" >> $GITHUB_STEP_SUMMARY
-          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
-          echo "| Date | $(date +'%d/%m/%Y %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
-          echo "| Déclencheur | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Articles | ${{ github.event.inputs.count || '1' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Coût | 0€ (Gemini gratuit) |" >> $GITHUB_STEP_SUMMARY
