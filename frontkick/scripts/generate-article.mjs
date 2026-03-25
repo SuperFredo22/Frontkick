@@ -73,6 +73,22 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function withRetry(fn, maxAttempts = 2, delayMs = 5000) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      console.error(`  ⚠️  Tentative ${attempt}/${maxAttempts} échouée: ${err.message}`);
+      if (attempt < maxAttempts) {
+        console.log(`  ⏳ Nouvelle tentative dans ${delayMs/1000}s...`);
+        await sleep(delayMs);
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
 // ─── Étape 1 : Perplexity — recherche des vraies infos ───────────────────────
 
 async function fetchRealNews(sport, type) {
