@@ -4,21 +4,30 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 
-// Tri principal : actualités d'abord, puis par date décroissante
-const sorted = allArticles.sort((a, b) => {
-  // Featured en tête absolue
+// Parser les dates avec fallback robuste (supporte YYYY-MM-DD et formats variés)
+function parseDate(dateStr: string): number {
+  if (!dateStr) return 0;
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) return d.getTime();
+  // Fallback : extraire l'année si format non standard
+  const yearMatch = dateStr.match(/\d{4}/);
+  return yearMatch ? parseInt(yearMatch[0]) * 1000000 : 0;
+}
+
+// Tri : featured → actualité la plus récente → autres par date
+const sorted = [...allArticles].sort((a, b) => {
   if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
-  // Puis actualites en premier
   const aIsActu = a.data.category === 'actualite' ? 1 : 0;
   const bIsActu = b.data.category === 'actualite' ? 1 : 0;
   if (bIsActu !== aIsActu) return bIsActu - aIsActu;
-  // Puis date décroissante
-  const da = new Date(a.data.date).getTime() || 0;
-  const db = new Date(b.data.date).getTime() || 0;
-  return db - da;
+  return parseDate(b.data.date) - parseDate(a.data.date);
 });
 
-const featured = sorted.find(a => a.data.featured) || sorted.find(a => a.data.category === 'actualite') || sorted[0];
+// À la une : article featured OU dernier article d'actualité par date réelle
+const latestActu = allArticles
+  .filter(a => a.data.category === 'actualite')
+  .sort((a, b) => parseDate(b.data.date) - parseDate(a.data.date))[0];
+const featured = sorted.find(a => a.data.featured) || latestActu || sorted[0];
 const sidebar  = sorted.filter(a => a.slug !== featured.slug).slice(0, 4);
 const recent   = sorted.filter(a => a.slug !== featured.slug).slice(0, 6);
 
