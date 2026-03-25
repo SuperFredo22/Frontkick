@@ -7,7 +7,7 @@ interface Props {
 }
 const {
   title = "FightFocus - MMA, Boxe, Muay Thai : Actu, Guides et Analyses",
-  description = "FightFocus est le média dédié aux sports de combat : MMA, boxe, muay thai, analyses, guides et équipement.",
+  description = "FightFocus, le média des sports de combat : actualités MMA, analyses, guides boxe, muay-thai, kickboxing et arts martiaux.",
   ogImage = "/og-default.png",
   ogType = "website"
 } = Astro.props;
@@ -29,6 +29,8 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <meta name="theme-color" content="#0F172A" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/images/fightfocus-logo.png" />
   <meta property="og:type" content={ogType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -274,5 +276,23 @@ const canonicalURL = new URL(currentPath, siteUrl);
   (window as any).refuseCookies = refuseCookies;
 </script>
 
+
+<style>
+  @media (max-width: 768px) {
+    body { overflow-x: hidden; font-size: 16px; }
+    img { max-width: 100%; height: auto; }
+    button, a.btn, .share-btn { min-height: 44px; min-width: 44px; }
+    .grid, .card-grid {
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .grid, .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
 </body>
 </html>
