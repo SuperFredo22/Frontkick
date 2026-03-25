@@ -73,38 +73,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function withRetry(fn, maxAttempts = 2, delayMs = 6000) {
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await fn();
-    } catch (err) {
-      console.error(`  ⚠️  Tentative ${attempt}/${maxAttempts} échouée: ${err.message}`);
-      if (attempt < maxAttempts) {
-        console.log(`  ⏳ Nouvelle tentative dans ${delayMs/1000}s...`);
-        await sleep(delayMs);
-      } else {
-        throw err;
-      }
-    }
-  }
-}
-
-async function withRetry(fn, maxAttempts = 2, delayMs = 5000) {
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await fn();
-    } catch (err) {
-      console.error(`  ⚠️  Tentative ${attempt}/${maxAttempts} échouée: ${err.message}`);
-      if (attempt < maxAttempts) {
-        console.log(`  ⏳ Nouvelle tentative dans ${delayMs/1000}s...`);
-        await sleep(delayMs);
-      } else {
-        throw err;
-      }
-    }
-  }
-}
-
 // ─── Étape 1 : Perplexity — recherche des vraies infos ───────────────────────
 
 async function fetchRealNews(sport, type) {
@@ -230,7 +198,7 @@ featured: false
 [Corps de l'article ici — uniquement du markdown, pas de balise H1 dans le corps]`;
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -371,12 +339,12 @@ async function main() {
 
   try {
     console.log('1/4 — Recherche Perplexity (actus réelles)...');
-    const realNews = await withRetry(() => fetchRealNews(sport, type));
+    const realNews = await fetchRealNews(sport, type);
 
-    await sleep(2000);
+    await sleep(1500);
 
     console.log('2/4 — Rédaction Gemini...');
-    const articleContent = await withRetry(() => generateArticleWithGemini(sport, type, realNews));
+    const articleContent = await generateArticleWithGemini(sport, type, realNews);
 
     console.log('3/4 — Validation du contenu...');
     const validContent = validateArticle(articleContent, sport, date);
