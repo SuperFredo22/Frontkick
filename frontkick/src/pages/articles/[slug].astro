@@ -104,7 +104,10 @@ const shareTitle = encodeURIComponent(cleanTitle);
 const shareUrl = encodeURIComponent(articleUrl);
 const twitterUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}&via=fightfocus_fr`;
 const whatsappUrl = `https://wa.me/?text=${shareTitle}%20${shareUrl}`;
-const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+const fbUrl      = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+const redditUrl  = `https://www.reddit.com/submit?url=${shareUrl}&title=${shareTitle}`;
+const telegramUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}`;
+const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
 ---
 <Base
   title={`${cleanTitle} — FightFocus`}
@@ -183,6 +186,15 @@ const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
           <button onclick="copyLink()" id="copy-btn" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--border);color:var(--text);border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:opacity .2s;">
             🔗 Copier le lien
           </button>
+          <a href={redditUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#FF4500;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            🟠 Reddit
+          </a>
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#2AABEE;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ✈️ Telegram
+          </a>
+          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#0A66C2;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            💼 LinkedIn
+          </a>
         </div>
       </div>
 
