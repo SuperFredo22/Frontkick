@@ -2,7 +2,7 @@
 title: "Sanda : le sport de combat chinois qui mélange boxe, projections et coups de pied"
 excerpt: "Le Sanda (ou Sanshou) est la discipline de combat du Wushu chinois. Un sport complet qui autorise poings, pieds ET projections, souvent méconnu en Europe."
 date: "2026-03-17"
-sport: autres
+sport: sanda
 category: analyse
 ---
 
