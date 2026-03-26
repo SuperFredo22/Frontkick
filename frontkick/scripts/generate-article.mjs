@@ -18,7 +18,7 @@ const SPORTS = [
   'karate', 'sanda', 'lethwei', 'savate', 'sambo', 'k1'
 ];
 
-const TYPES = ['actualite', 'fond', 'personnalite'];
+const TYPES = ['actualite'];
 
 const SPORT_LABELS = {
   'mma':        'MMA et UFC',
@@ -35,9 +35,9 @@ const SPORT_LABELS = {
 };
 
 const CATEGORY_MAP = {
-  'actualite':    'actualite',
-  'fond':         'analyse',
-  'personnalite': 'analyse'
+  'actualite': 'actualite',
+  'fond':      'actualite',
+  'personnalite': 'actualite'
 };
 
 const FORBIDDEN_PLACEHOLDERS = [
@@ -79,9 +79,7 @@ async function fetchRealNews(sport, type) {
   const sportLabel = SPORT_LABELS[sport] || sport;
 
   const queryMap = {
-    'actualite': `Actualités ${sportLabel} mars 2026 : résultats de combats récents, 
-      annonces officielles, événements à venir. Noms complets des combattants, 
-      dates précises, organisations (UFC, ONE, Bellator, etc.). Faits vérifiés uniquement.`,
+    'actualite': `Actualités ${sportLabel} en ${new Date().toLocaleDateString('fr-FR', {month:'long', year:'numeric'})} : résultats de combats récents, annonces officielles, événements à venir. Noms complets des combattants, dates précises, organisations (UFC, ONE, Bellator, ONE Championship, Glory, etc.). Faits vérifiés uniquement.`,
 
     'fond': `Histoire, techniques et évolution du ${sportLabel} : faits marquants, 
       pionniers, champions légendaires, règles, organisations mondiales. 
@@ -100,7 +98,7 @@ async function fetchRealNews(sport, type) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'sonar',
+      model: 'sonar-pro',
       messages: [
         {
           role: 'system',
