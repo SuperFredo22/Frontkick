@@ -1,6 +1,6 @@
 ---
 title: "Keanu Reeves : Le Samouraï Inattendu des Arts Martiaux en Mars 2026"
-sport: grappling
+sport: karate
 category: analyse
 date: "Mars 2026"
 excerpt: "Bien plus qu'une star hollywoodienne, Keanu Reeves cultive une passion profonde pour les arts martiaux. Découvrez son parcours et ses grades secrets."
