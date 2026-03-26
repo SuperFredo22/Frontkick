@@ -1,6 +1,6 @@
 ---
 title: "Keanu Reeves : L'acteur aux arts martiaux méconnus"
-sport: grappling
+sport: karate
 category: analyse
 date: "Mars 2026"
 excerpt: "Au-delà de ses rôles emblématiques, Keanu Reeves cache une passion profonde et une maîtrise impressionnante des arts martiaux, une discipline qu'il pratique sérieusement depuis des décennies."
