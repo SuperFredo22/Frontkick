@@ -4,95 +4,130 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 
-// Parser les dates avec fallback robuste (supporte YYYY-MM-DD et formats variés)
-function parseDate(dateStr: string): number {
-  if (!dateStr) return 0;
-  const d = new Date(dateStr);
+// ── Tri robuste par date décroissante ──────────────────────────────────────
+function parseDate(s: string): number {
+  if (!s) return 0;
+  const d = new Date(s);
   if (!isNaN(d.getTime())) return d.getTime();
-  // Fallback : extraire l'année si format non standard
-  const yearMatch = dateStr.match(/\d{4}/);
-  return yearMatch ? parseInt(yearMatch[0]) * 1000000 : 0;
+  const y = s.match(/\d{4}/);
+  return y ? parseInt(y[0]) * 1_000_000 : 0;
 }
 
-// Tri : featured → actualité la plus récente → autres par date
-const sorted = [...allArticles].sort((a, b) => {
-  if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
-  const aIsActu = a.data.category === 'actualite' ? 1 : 0;
-  const bIsActu = b.data.category === 'actualite' ? 1 : 0;
-  if (bIsActu !== aIsActu) return bIsActu - aIsActu;
-  return parseDate(b.data.date) - parseDate(a.data.date);
-});
+const sorted = [...allArticles].sort((a, b) =>
+  parseDate(b.data.date) - parseDate(a.data.date)
+);
 
-// À la une : article featured OU dernier article d'actualité par date réelle
-const latestActu = allArticles
-  .filter(a => a.data.category === 'actualite')
-  .sort((a, b) => parseDate(b.data.date) - parseDate(a.data.date))[0];
-const featured = sorted.find(a => a.data.featured) || latestActu || sorted[0];
-const sidebar  = sorted.filter(a => a.slug !== featured.slug).slice(0, 4);
-const recent   = sorted.filter(a => a.slug !== featured.slug).slice(0, 6);
+// ── À la une : dernière actualité, sinon premier article ───────────────────
+const featuredArticle =
+  sorted.find(a => a.data.category === 'actualite') ?? sorted[0];
 
+// ── Actualités récentes (sidebar hero + section) ───────────────────────────
+const latestNews = sorted
+  .filter(a => a.data.category === 'actualite' && a.slug !== featuredArticle?.slug)
+  .slice(0, 5);
+
+// ── Sections par discipline ────────────────────────────────────────────────
+const mmaArticles        = sorted.filter(a => a.data.sport === 'mma').slice(0, 3);
+const boxeArticles       = sorted.filter(a => a.data.sport === 'boxe').slice(0, 3);
+const kickboxingArticles = sorted.filter(a => a.data.sport === 'kickboxing').slice(0, 3);
+const muayThaiArticles   = sorted.filter(a => a.data.sport === 'muay-thai').slice(0, 3);
+const grapplingArticles  = sorted.filter(a => a.data.sport === 'grappling').slice(0, 3);
+
+// ── Guides (non-actualité) ─────────────────────────────────────────────────
+const guides = sorted.filter(a => a.data.category !== 'actualite').slice(0, 4);
+
+// ── Sidebar hero : 4 actus après la une ───────────────────────────────────
+const sidebar = latestNews.slice(0, 4);
+
+// ── Section "Dernières publications" : 6 articles hors une ────────────────
+const recent = sorted.filter(a => a.slug !== featuredArticle?.slug).slice(0, 6);
+
+// ── Données d'affichage ────────────────────────────────────────────────────
 const gradients: Record<string, string> = {
-  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
-  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
-  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
-  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
-  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
-  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
-  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
-  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+  mma:         'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:        'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:  'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai': 'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:   'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:      'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:  'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  autres:      'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+  sanda:       'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei:     'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:      'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:       'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
+  k1:          'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
 };
 const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
   grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
+  sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
 };
 const catLabel: Record<string, string> = {
-  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
-  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+  'guide-debutant':       'Guide Débutant',
+  'conseil-entrainement': 'Conseil',
+  'guide-equipement':     'Équipement',
+  'analyse':              'Analyse',
+  'actualite':            'Actualité',
+};
+const sportLabel: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay-Thaï',
+  grappling: 'Grappling', karate: 'Karaté', sanda: 'Sanda', lethwei: 'Lethwei',
+  savate: 'Savate', sambo: 'Sambo', k1: 'K-1',
 };
 
 const disciplineCards = [
-  { key: 'mma',        name: 'MMA',          emoji: '🥊', origin: 'Mixed Martial Arts · Mondial' },
-  { key: 'boxe',       name: 'Boxe anglaise', emoji: '🥊', origin: 'Boxing · Grande-Bretagne' },
-  { key: 'kickboxing', name: 'Kickboxing',    emoji: '🦵', origin: 'Full contact · USA / Japon' },
-  { key: 'muay-thai',  name: 'Muay-Thaï',     emoji: '🦵', origin: 'Art martial · Thaïlande' },
-  { key: 'grappling',  name: 'Grappling',     emoji: '🤼', origin: 'BJJ · Judo · Wrestling · Sambo' },
-  { key: 'guides',     name: 'Guides',        emoji: '📖', origin: 'Débutant · Intermédiaire · Avancé' },
+  { key: 'mma',        name: 'MMA',           emoji: '🥊', origin: 'Mixed Martial Arts · Mondial' },
+  { key: 'boxe',       name: 'Boxe anglaise',  emoji: '🥊', origin: 'Boxing · Grande-Bretagne' },
+  { key: 'kickboxing', name: 'Kickboxing',     emoji: '🦵', origin: 'Full contact · USA / Japon' },
+  { key: 'muay-thai',  name: 'Muay-Thaï',      emoji: '🦵', origin: 'Art martial · Thaïlande' },
+  { key: 'grappling',  name: 'Grappling',      emoji: '🤼', origin: 'BJJ · Judo · Wrestling · Sambo' },
+  { key: 'guides',     name: 'Guides',         emoji: '📖', origin: 'Débutant · Intermédiaire · Avancé' },
 ];
+
+// ── SEO : description dynamique basée sur la une ──────────────────────────
+const seoDesc = featuredArticle
+  ? `FightFocus — ${featuredArticle.data.excerpt ?? featuredArticle.data.title}`
+  : 'FightFocus — Le média français des sports de combat : MMA, Boxe, Muay Thai, Kickboxing, Grappling.';
 ---
-<Base title="FightFocus - MMA, Boxe, Muay Thai : Actu, Guides et Analyses">
+<Base title="FightFocus - MMA, Boxe, Muay Thai : Actu, Guides et Analyses" description={seoDesc}>
 <div id="app">
 
-  <!-- HERO -->
+  <!-- HERO : À LA UNE + SIDEBAR ACTUS -->
+  {featuredArticle && (
   <div class="hero">
-    <a href={`/articles/${featured.slug}`} class="featured-card">
-      <div class="featured-image" style={`background: ${gradients[featured.data.sport] || gradients.mma};`}>
-        <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));">{emojis[featured.data.sport] || '🥊'}</span>
+    <a href={`/articles/${featuredArticle.slug}`} class="featured-card">
+      <div class="featured-image" style={`background: ${gradients[featuredArticle.data.sport] ?? gradients.mma};`}>
+        <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));">{emojis[featuredArticle.data.sport] ?? '🥊'}</span>
         <span class="fi-badge">🔥 À la une</span>
       </div>
       <div class="featured-body">
         <div class="feat-meta">
-          <span>{catLabel[featured.data.category] || featured.data.category}</span>
-          <span>{featured.data.date}</span>
+          <span>{catLabel[featuredArticle.data.category] ?? featuredArticle.data.category}</span>
+          <span>{featuredArticle.data.date}</span>
         </div>
-        <h2 class="feat-h1" set:html={featured.data.title}></h2>
-        <p class="feat-desc">{featured.data.excerpt}</p>
+        <h1 class="feat-h1" set:html={featuredArticle.data.title}></h1>
+        <p class="feat-desc">{featuredArticle.data.excerpt}</p>
         <div class="feat-footer"><span class="read-more">Lire l'article →</span></div>
       </div>
     </a>
 
+    {sidebar.length > 0 && (
     <div class="hero-sidebar">
       {sidebar.map(a => (
         <a href={`/articles/${a.slug}`} class="mini-card">
-          <div class="mini-icon">{emojis[a.data.sport] || '🥊'}</div>
+          <div class="mini-icon">{emojis[a.data.sport] ?? '🥊'}</div>
           <div>
-            <div class="mini-cat">{a.data.sport} · {catLabel[a.data.category] || a.data.category}</div>
+            <div class="mini-cat">{sportLabel[a.data.sport] ?? a.data.sport} · {catLabel[a.data.category] ?? a.data.category}</div>
             <div class="mini-title" set:html={a.data.title}></div>
             <div class="mini-date">{a.data.date}</div>
           </div>
         </a>
       ))}
     </div>
+    )}
   </div>
+  )}
 
   <!-- DISCIPLINES -->
   <div class="sec-bar">
@@ -117,27 +152,28 @@ const disciplineCards = [
     ))}
   </div>
 
-  <!-- DERNIÈRES PUBLICATIONS -->
+  <!-- DERNIÈRES ACTUALITÉS -->
+  {latestNews.length > 0 && (
   <div class="main-layout">
     <main>
       <div class="sec-bar">
-        <h2>Dernières publications</h2>
+        <h2>Dernières actualités</h2>
         <div class="sec-line"></div>
-        <a href="/guides" class="see-all">Voir tout →</a>
+        <a href="/discipline/mma" class="see-all">Toutes les actus →</a>
       </div>
       <div class="art-grid">
-        {recent.map(a => (
+        {latestNews.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] || '🥊'}</span>
-              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+              <span class="art-cat-tag">Actualité</span>
             </div>
             <div class="art-body">
               <div class="art-title-sm" set:html={a.data.title}></div>
               <div class="art-excerpt">{a.data.excerpt}</div>
               <div class="art-foot">
                 <span>{a.data.date}</span>
-                <span class="atype t-guide">{catLabel[a.data.category] || a.data.category}</span>
+                <span class="atype t-actu">{sportLabel[a.data.sport] ?? a.data.sport}</span>
               </div>
             </div>
           </a>
@@ -163,6 +199,85 @@ const disciplineCards = [
       <div class="ad-slot ad-rect"></div>
     </aside>
   </div>
+  )}
+
+  <!-- GUIDES & ANALYSES -->
+  {guides.length > 0 && (
+  <div class="sec-bar" style="margin-top:2.5rem;">
+    <h2>Guides & Analyses</h2>
+    <div class="sec-line"></div>
+    <a href="/guides" class="see-all">Voir tous les guides →</a>
+  </div>
+  )}
+  {guides.length > 0 && (
+  <div class="art-grid" style="padding:0 1.5rem 2rem;">
+    {guides.map(a => (
+      <a href={`/articles/${a.slug}`} class="art-card">
+        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+          <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+          <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+        </div>
+        <div class="art-body">
+          <div class="art-title-sm" set:html={a.data.title}></div>
+          <div class="art-excerpt">{a.data.excerpt}</div>
+          <div class="art-foot">
+            <span>{a.data.date}</span>
+            <span class="atype t-guide">{sportLabel[a.data.sport] ?? a.data.sport}</span>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+  )}
+
+  <!-- DERNIÈRES PUBLICATIONS (fallback si peu d'articles) -->
+  {latestNews.length === 0 && recent.length > 0 && (
+  <div class="main-layout">
+    <main>
+      <div class="sec-bar">
+        <h2>Dernières publications</h2>
+        <div class="sec-line"></div>
+        <a href="/guides" class="see-all">Voir tout →</a>
+      </div>
+      <div class="art-grid">
+        {recent.map(a => (
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+              <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+            </div>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot">
+                <span>{a.data.date}</span>
+                <span class="atype t-guide">{catLabel[a.data.category] ?? a.data.category}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+
+    <aside class="sidebar-col">
+      <div class="nl-widget">
+        <div class="widget-head">📬 Newsletter hebdo</div>
+        <p>Les meilleurs articles de la semaine. Gratuit.</p>
+        <input class="nl-input" type="email" placeholder="votre@email.com" />
+        <button class="nl-btn">S'abonner</button>
+      </div>
+      <div class="widget">
+        <div class="widget-head">🏆 Prochains événements</div>
+        <div class="widget-body">
+          <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
+          <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
+          <div class="ev-item"><div class="ev-date">06 Sep</div><div>UFC Paris 2026</div></div>
+        </div>
+      </div>
+      <div class="ad-slot ad-rect"></div>
+    </aside>
+  </div>
+  )}
 
 </div>
 </Base>
