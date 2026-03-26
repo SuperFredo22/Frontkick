@@ -1,6 +1,6 @@
 ---
 title: "Keanu Reeves : L'acteur aux arts martiaux cachés"
-sport: mma
+sport: karate
 category: analyse
 date: "Mars 2026"
 excerpt: "Derrière le sourire doux de Neo se cache un pratiquant dévoué de plusieurs arts martiaux. Découvrez son parcours étonnant et ses grades secrets."
