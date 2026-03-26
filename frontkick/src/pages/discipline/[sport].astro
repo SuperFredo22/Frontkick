@@ -16,16 +16,16 @@ const all = await getCollection('articles');
 // le nom du sport apparaît aussi dans la page discipline correspondante
 const sportAliases: Record<string, string[]> = {
   mma:          ['mma', 'ufc'],
-  boxe:         ['boxe', 'boxing'],
-  kickboxing:   ['kickboxing', 'kick-boxing'],
-  'muay-thai':  ['muay-thai', 'muaythai'],
+  boxe:         ['boxe'],
+  kickboxing:   ['kickboxing'],
+  'muay-thai':  ['muay-thai'],
   grappling:    ['grappling', 'bjj', 'judo', 'wrestling'],
   karate:       ['karate', 'kyokushin'],
   sanda:        ['sanda', 'wushu'],
   lethwei:      ['lethwei'],
   savate:       ['savate'],
   sambo:        ['sambo'],
-  k1:           ['k1', 'glory', 'kickboxing'],
+  k1:           ['k1', 'glory'],
 };
 const aliases = sportAliases[sport] || [sport];
 
@@ -42,7 +42,14 @@ const articles = all
     if (a.data.sport === sport) return true;
     // Article guide-equipement dont le slug contient un alias du sport
     if (a.data.category === 'guide-equipement' || a.data.category === 'guide-debutant') {
-      return aliases.some(alias => a.slug.includes(alias));
+      return aliases.some(alias => {
+        const slug = a.slug;
+        const idx = slug.indexOf(alias);
+        if (idx === -1) return false;
+        const before = idx === 0 || slug[idx - 1] === '-';
+        const after = idx + alias.length === slug.length || slug[idx + alias.length] === '-';
+        return before && after;
+      });
     }
     return false;
   })
