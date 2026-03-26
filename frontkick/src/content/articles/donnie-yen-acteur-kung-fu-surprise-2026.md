@@ -1,6 +1,6 @@
 ---
 title: "Donnie Yen : L'Étoile Inattendue du Kung Fu Revient en Force en Mars 2026 !"
-sport: boxe
+sport: karate
 category: analyse
 date: "Mars 2026"
 excerpt: "Au-delà des écrans, l'acteur légendaire Donnie Yen dévoile en Mars 2026 une facette encore plus profonde de son engagement envers le Kung Fu, prouvant que sa passion transcende le cinéma."
