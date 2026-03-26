@@ -74,10 +74,9 @@ const canonicalURL = new URL(currentPath, siteUrl);
   }</script>
 
   <!-- Google Analytics 4 — se charge uniquement après consentement cookies -->
-  <!-- Remplacez G-XXXXXXXXXX par votre vrai ID de mesure GA4 -->
-  <!-- Pour obtenir votre ID : analytics.google.com → Admin → Flux de données → ID de mesure -->
+  <!-- Remplacez G-RPWZQZ03Q2 par votre vrai ID de mesure GA4 -->
   <script is:inline>
-    window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // ← Remplacer ici
+    window.GA_MEASUREMENT_ID = 'G-RPWZQZ03Q2';
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('consent', 'default', {
@@ -249,7 +248,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
     if (banner) banner.style.display = 'none';
   }
   function loadAnalytics() {
-    if (!window.GA_MEASUREMENT_ID || window.GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
+    if (!window.GA_MEASUREMENT_ID || window.GA_MEASUREMENT_ID === 'G-RPWZQZ03Q2') return;
     if (window._gaLoaded) return;
     window._gaLoaded = true;
     // Mettre à jour le consentement GA4
