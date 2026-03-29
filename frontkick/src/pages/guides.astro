@@ -10,7 +10,7 @@ function parseDate(d: string): number {
   return y ? parseInt(y[0]) * 1000000 : 0;
 }
 const guides = all
-  .filter(a => a.data.category === 'guide-debutant' || a.data.category === 'guide-equipement' || a.data.category === 'conseil-entrainement')
+  .filter(a => ['guide-debutant', 'guide-equipement', 'conseil-entrainement', 'guide', 'analyse'].includes(a.data.category))
   .sort((a, b) => {
     if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
     return parseDate(b.data.date) - parseDate(a.data.date);
@@ -25,19 +25,29 @@ const gradients: Record<string, string> = {
   karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
   equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
   autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+  sanda:        'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei:      'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:       'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:        'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
+  k1:           'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
 };
 const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
   grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
+  sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
 };
 const catLabel: Record<string, string> = {
-  'guide-debutant': 'Guide Débutant',
-  'guide-equipement': 'Équipement',
+  'guide-debutant':       'Guide Débutant',
+  'guide-equipement':     'Équipement',
   'conseil-entrainement': 'Conseil',
+  'guide':                'Guide',
+  'analyse':              'Analyse',
+  'actualite':            'Actualité',
 };
 const sportLabel: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
   grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
+  sanda: 'Sanda', lethwei: 'Lethwei', savate: 'Savate', sambo: 'Sambo', k1: 'K-1',
 };
 
 // Sports disponibles parmi les guides
@@ -113,7 +123,6 @@ let currentSport = 'tous';
 
 function filterGuides(sport, btn) {
   currentSport = sport;
-  // Mise à jour boutons
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   render();
@@ -136,7 +145,6 @@ function render() {
   }
 }
 
-// Exposer filterGuides pour onclick inline
 window.filterGuides = filterGuides;
 render();
 </script>
