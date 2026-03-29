@@ -12,8 +12,6 @@ export async function getStaticPaths() {
 
 const { sport } = Astro.params;
 const all = await getCollection('articles');
-// Cross-listing : un article guide-equipement dont le slug contient
-// le nom du sport apparaît aussi dans la page discipline correspondante
 const sportAliases: Record<string, string[]> = {
   mma:          ['mma', 'ufc'],
   boxe:         ['boxe'],
@@ -38,10 +36,8 @@ function parseDate(d: string): number {
 
 const articles = all
   .filter(a => {
-    // Article directement dans ce sport
     if (a.data.sport === sport) return true;
-    // Article guide-equipement dont le slug contient un alias du sport
-    if (a.data.category === 'guide-equipement' || a.data.category === 'guide-debutant') {
+    if (['guide-equipement', 'guide-debutant', 'guide', 'analyse'].includes(a.data.category)) {
       return aliases.some(alias => {
         const slug = a.slug;
         const idx = slug.indexOf(alias);
@@ -65,7 +61,7 @@ const labels: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe anglaise', kickboxing: 'Kickboxing',
   'muay-thai': 'Muay-Thaï', grappling: 'Grappling', karate: 'Karaté',
   sanda: 'Sanda (Wushu)', lethwei: 'Lethwei', savate: 'Savate Boxe Française',
-  sambo: 'Sambo', k1: 'K-1 / Gloire',
+  sambo: 'Sambo', k1: 'K-1 / Glory',
 };
 const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
@@ -98,8 +94,12 @@ const descriptions: Record<string, string> = {
   k1: "Le K-1 et le Glory : le kickboxing de haut niveau, frappe debout pure.",
 };
 const catLabel: Record<string, string> = {
-  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
-  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+  'guide-debutant':       'Guide Débutant',
+  'conseil-entrainement': 'Conseil',
+  'guide-equipement':     'Équipement',
+  'guide':                'Guide',
+  'analyse':              'Analyse',
+  'actualite':            'Actualité',
 };
 const label = labels[sport] || sport;
 const emoji = emojis[sport] || '🥊';
