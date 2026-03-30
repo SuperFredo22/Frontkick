@@ -2,7 +2,7 @@
 title: "Comment préparer son premier combat amateur de boxe anglaise"
 sport: boxe
 category: conseil-entrainement
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Vous avez décidé de participer à votre premier combat amateur. Voici comment structurer votre préparation sur 8 semaines : entraînement, nutrition, mental et gestion du stress pré-combat."
 ---
 
