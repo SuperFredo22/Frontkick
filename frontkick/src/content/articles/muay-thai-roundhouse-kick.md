@@ -2,7 +2,7 @@
 title: "Maîtriser le roundhouse kick en Muay-Thaï : technique et puissance"
 sport: muay-thai
 category: conseil-entrainement
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Le coup de pied circulaire est l'arme signature du Muay-Thaï. Comment générer une puissance maximale, corriger les erreurs techniques et conditionner ses tibias."
 ---
 
