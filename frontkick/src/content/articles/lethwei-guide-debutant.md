@@ -2,7 +2,7 @@
 title: "Lethwei : le sport de combat birman où tout est permis"
 sport: lethwei
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 featured: true
 excerpt: "Coups de tête autorisés, pas de gants, combats sans limite de rounds : le Lethwei birman est le sport de combat debout le plus brutal au monde. Voici tout ce qu'il faut savoir."
 ---
