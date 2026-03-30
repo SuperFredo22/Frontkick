@@ -2,7 +2,7 @@
 title: "Débuter les sports de combat à 30 ans et plus : c'est possible et voici comment"
 sport: mma
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Vous avez 30, 40 ou 50 ans et vous voulez commencer un sport de combat ? Excellente nouvelle : c'est tout à fait possible avec la bonne approche. Guide complet pour démarrer intelligemment."
 ---
 
