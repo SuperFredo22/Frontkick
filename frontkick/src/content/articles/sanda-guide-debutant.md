@@ -2,7 +2,7 @@
 title: "Sanda : le sport de combat chinois qui mêle frappes et projections"
 sport: sanda
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 featured: true
 excerpt: "Coups de poing, coups de pied, sweeps et projections : le Sanda est l'art martial chinois de compétition le plus complet. Guide pour comprendre et débuter."
 ---
