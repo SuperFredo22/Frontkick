@@ -2,7 +2,7 @@
 title: "La garde en boxe anglaise : maîtrisez les fondamentaux"
 sport: boxe
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "La garde est la base de tout en boxe. Position des pieds, des mains, du menton : voici comment construire une garde solide dès vos premières séances."
 ---
 
