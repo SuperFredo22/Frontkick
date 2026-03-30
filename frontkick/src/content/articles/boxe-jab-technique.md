@@ -2,7 +2,7 @@
 title: "Le jab : l'arme numéro un du boxeur"
 sport: boxe
 category: conseil-entrainement
-date: "Février 2026"
+date: "2026-02-28"
 excerpt: "Sous-estimé par les débutants, le jab est le coup le plus important de la boxe. Technique, utilisation tactique et erreurs à éviter : le guide complet."
 ---
 
