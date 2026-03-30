@@ -2,7 +2,7 @@
 title: "Muay Thaï : histoire d'un art martial qui a conquis le monde"
 sport: muay-thai
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Du champ de bataille thaïlandais aux rings internationaux, le Muay Thaï a parcouru 800 ans d'histoire. Origines, évolution et diffusion mondiale d'une discipline devenue incontournable."
 ---
 
