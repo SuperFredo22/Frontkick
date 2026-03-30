@@ -2,7 +2,7 @@
 title: "Le teep en Muay Thaï : le coup de pied frontal qui contrôle tout le combat"
 sport: muay-thai
 category: conseil-entrainement
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Le teep est le jab du Muay Thaï. Un combattant qui maîtrise le teep contrôle la distance, fatigue son adversaire et crée des ouvertures pour les coups puissants. Guide complet."
 ---
 
