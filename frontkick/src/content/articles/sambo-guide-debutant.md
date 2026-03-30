@@ -2,7 +2,7 @@
 title: "Sambo : l'art martial russe redoutable au sol comme debout"
 sport: sambo
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 featured: true
 excerpt: "Créé en URSS dans les années 1920, le Sambo est une discipline hybride entre judo et lutte qui produit certains des meilleurs combattants du monde. Khabib en est l'exemple le plus célèbre."
 ---
