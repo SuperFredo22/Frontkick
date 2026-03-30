@@ -2,7 +2,7 @@
 title: "Boxe anglaise : les 8 coups fondamentaux que tout débutant doit maîtriser"
 sport: boxe
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Jab, direct, crochet, uppercut : la boxe anglaise repose sur 4 coups de base en deux versions (gauche et droite). Voici comment les apprendre correctement et dans quel ordre."
 ---
 
