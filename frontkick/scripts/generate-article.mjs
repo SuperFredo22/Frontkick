@@ -1,13 +1,8 @@
 // generate-article.mjs
-// FightFocus — Perplexity (actus) + Gemini (rédaction FR)
-// v4.0 — 30/03/2026
-//
-// LOGIQUE CENTRALE :
-//   1. Perplexity récupère les infos du jour
-//   2. On évalue la QUALITÉ du contenu (score)
-//   3. Si le contenu est trop pauvre → pivot automatique vers un angle evergreen pertinent
-//   4. Gemini rédige avec les bonnes instructions selon l'angle final
-//   5. Un article de qualité est TOUJOURS publié
+// FightFocus — Perplexity (actus temps réel) + Gemini (rédaction FR)
+// v3.1 — 30/03/2026
+// CORRECTIF : strip Gemini renforcé (cause réelle du crash H2:0)
+// STRATÉGIE : Sports à fort trafic en priorité (MMA, Boxe, Muay Thaï, Kickboxing)
 
 import fs from 'fs';
 import path from 'path';
@@ -17,80 +12,63 @@ const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
 const GEMINI_API_KEY     = process.env.GEMINI_API_KEY;
 const __dirname          = path.dirname(fileURLToPath(import.meta.url));
 
-// ─── Sports autorisés en automatisation ───────────────────────────────────────
-// Niches (sambo, lethwei, sanda, savate, karate) → articles manuels Claude uniquement
+// ─── Sports — Stratégie trafic ────────────────────────────────────────────────
+//
+// ACTUS AUTO (Perplexity fiable + volume recherche élevé) :
+//   → mma, boxe  (priorité maximale, APIs très fiables sur ces sports)
+//
+// CONTENU EVERGREEN AUTO (Gemini seul, volume moyen) :
+//   → muay-thai, kickboxing, grappling  (APIs correctes, trafic réel)
+//
+// ARTICLES MANUELS UNIQUEMENT (hors automatisation) :
+//   → karate, sanda, lethwei, savate, sambo  (trop niche, APIs peu fiables)
 
-const AUTO_SPORTS_PRIMARY   = ['mma', 'boxe'];          // APIs fiables, volume élevé
-const AUTO_SPORTS_SECONDARY = ['muay-thai', 'kickboxing']; // APIs correctes, volume moyen
+// Sports pour les ACTUS (Perplexity) — MMA 3x/5 = 60% car volume 3x supérieur
+const ACTU_SPORTS = ['mma', 'boxe', 'mma', 'mma', 'boxe'];
 
-// Sport de la semaine : 2 semaines MMA, 2 semaines Boxe, 1 Muay Thaï, 1 Kickboxing
-// Cycle de 6 semaines → bonne répétition sans lassitude
-const SPORT_WEEK_CYCLE = [
-  'mma', 'boxe', 'mma', 'boxe', 'muay-thai', 'kickboxing'
-];
-
-function pickSportForWeek(dateStr) {
-  const d       = new Date(dateStr);
-  const jan1    = new Date(d.getUTCFullYear(), 0, 1);
-  const weekNum = Math.floor((d - jan1) / (7 * 86400000));
-  return SPORT_WEEK_CYCLE[weekNum % SPORT_WEEK_CYCLE.length];
-}
+// Sports pour l'EVERGREEN — rotation hebdomadaire sur 5 semaines
+const EVERGREEN_SPORTS = ['mma', 'boxe', 'muay-thai', 'kickboxing', 'grappling'];
 
 const SPORT_LABELS = {
   'mma':        'MMA et UFC',
   'boxe':       'boxe anglaise',
   'muay-thai':  'Muay Thaï',
-  'kickboxing': 'kickboxing et K-1'
+  'kickboxing': 'kickboxing et K-1',
+  'grappling':  'grappling et BJJ'
 };
 
-// ─── Rotation éditoriale par jour ─────────────────────────────────────────────
-//
-// INTENTION PAR JOUR :
-//   Lundi    → Actualité  : recap du weekend (combats récents)
-//   Mardi    → Patrimoine : histoire/culture (evergreen, fiable 100%)
-//   Mercredi → Technique  : guide pratique (très recherché par débutants)
-//   Jeudi    → Actualité  : annonces de mi-semaine (events, signatures)
-//   Vendredi → Événement  : preview du weekend à venir
-//   Samedi   → Légende    : portrait (lecture longue du weekend)
-//   Dimanche → Discipline : découverte (débutants weekend)
-//
+// Sport de la semaine pour l'evergreen (change chaque lundi, cycle 5 semaines)
+function pickEvergreenSportForWeek(dateStr) {
+  const d       = new Date(dateStr);
+  const jan1    = new Date(d.getUTCFullYear(), 0, 1);
+  const weekNum = Math.floor((d - jan1) / (7 * 86400000));
+  return EVERGREEN_SPORTS[weekNum % EVERGREEN_SPORTS.length];
+}
+
+// Sport pour une actu (pseudo-aléatoire basé sur le jour de l'année)
+function pickActuSport(dateStr) {
+  const d      = new Date(dateStr);
+  const jan1   = new Date(d.getUTCFullYear(), 0, 1);
+  const dayNum = Math.floor((d - jan1) / 86400000);
+  return ACTU_SPORTS[dayNum % ACTU_SPORTS.length];
+}
+
+// ─── Rotation par jour ────────────────────────────────────────────────────────
 // 0=Dim 1=Lun 2=Mar 3=Mer 4=Jeu 5=Ven 6=Sam
-
-const DAY_TYPE_MAP = {
-  0: 'discipline',
-  1: 'actualite',
-  2: 'patrimoine',
-  3: 'technique',
-  4: 'actualite',
-  5: 'evenement',
-  6: 'legende'
-};
-
-// Catégorie Astro correcte par type (vérifié avec config.ts)
-const TYPE_CATEGORY = {
-  'actualite':  'actualite',   // → /actualites
-  'evenement':  'actualite',   // → /actualites
-  'technique':  'guide',       // → /guides
-  'patrimoine': 'guide',       // → /guides
-  'legende':    'guide',       // → /guides
-  'discipline': 'guide'        // → /guides
-};
-
-// ─── Cascade de pivot par type ────────────────────────────────────────────────
-// Si le contenu temps réel est trop pauvre, on pivote vers ces alternatives.
-// L'ordre = priorité (premier disponible est utilisé).
-
-const PIVOT_CASCADE = {
-  // Semaine calme en MMA/Boxe → portrait d'un combattant actif bien connu
-  'actualite': ['legende', 'technique', 'patrimoine'],
-  // Pas d'event annoncé ce weekend → portrait ou technique
-  'evenement': ['legende', 'patrimoine']
+const DAY_CONFIG = {
+  0: { type: 'discipline', category: 'guide'    }, // Dim → découvrir la discipline
+  1: { type: 'actualite',  category: 'actualite'}, // Lun → actu (recap weekend)
+  2: { type: 'patrimoine', category: 'guide'    }, // Mar → histoire / culture
+  3: { type: 'technique',  category: 'guide'    }, // Mer → guide technique
+  4: { type: 'actualite',  category: 'actualite'}, // Jeu → actu (annonces semaine)
+  5: { type: 'evenement',  category: 'actualite'}, // Ven → preview événement weekend
+  6: { type: 'legende',    category: 'guide'    }  // Sam → portrait d'une légende
 };
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 
 function getTodayDate() {
-  return new Date().toISOString().split('T')[0];
+  return new Date().toISOString().split('T')[0]; // YYYY-MM-DD UTC
 }
 
 function getDayOfWeek() {
@@ -117,106 +95,42 @@ function slugAlreadyExists(slug, articlesDir) {
   return fs.readdirSync(articlesDir).some(f => f.includes(slug.substring(0, 40)));
 }
 
+// ── CORRECTIF PRINCIPAL ───────────────────────────────────────────────────────
+// Gemini enveloppe parfois sa réponse dans des backticks triple (```markdown).
+// C'est la CAUSE RÉELLE du bug "H2: 0" — la validation cherchait des ## dans
+// du texte encore emballé dans des backticks → 0 trouvé → crash.
+// Cette fonction retire les backticks de façon robuste, en deux passes.
+function stripGeminiCodeFences(text) {
+  let result = text.trim();
+  // Passe 1
+  result = result.replace(/^```(?:markdown|yaml|md|json)?\s*\n?/i, '');
+  result = result.replace(/\n?```\s*$/i, '');
+  // Passe 2 (rare mais vu : double enveloppe)
+  result = result.replace(/^```(?:markdown|yaml|md|json)?\s*\n?/i, '');
+  result = result.replace(/\n?```\s*$/i, '');
+  return result.trim();
+}
+
 const FORBIDDEN_PLACEHOLDERS = [
   '[NOM', '[DATE', '[TITRE', '[Nom', '[nom',
   'VOTRE-', 'À COMPLÉTER', 'à compléter', 'placeholder',
   'Nom du combattant', 'Nom du champion', 'adversaire potentiel',
   '[Poids lourd', '[catégorie', 'Combattant A', 'Combattant B',
-  'insérer', 'INSERT', '???', 'XX', 'YY'
+  'insérer', 'INSERT', '???'
 ];
-
-// ─── Évaluation qualité du contenu Perplexity ─────────────────────────────────
-//
-// Score sur 100. Seuils :
-//   ≥ 15 → RICHE    : assez de faits concrets → article actualité/événement
-//   ≥ 7  → CORRECT  : quelques infos → article acceptable mais simplifié
-//   < 7  → PAUVRE   → pivot obligatoire vers evergreen
-
-function assessContentQuality(content, type) {
-  const text  = content.toLowerCase();
-  let score   = 0;
-  const notes = [];
-
-  // ── Organisations majeures présentes ──────────────────────────────────────
-  const orgs = [
-    'ufc', 'one championship', 'bellator', 'glory', 'k-1', 'pfl',
-    'wbc', 'wba', 'ibf', 'wbo', 'matchroom', 'top rank', 'dazn',
-    'brave cf', 'rizin', 'invicta'
-  ];
-  const orgMatches = orgs.filter(o => text.includes(o));
-  score += orgMatches.length * 3;
-  if (orgMatches.length > 0) notes.push(`orgs: ${orgMatches.join(', ')}`);
-
-  // ── Références temporelles (dates, jours) ─────────────────────────────────
-  const datePattern = /\b(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|\d{1,2}\/\d{1,2}|\d{4}|ce week-end|prochainement|récemment)\b/gi;
-  const dateMatches = content.match(datePattern) || [];
-  score += Math.min(dateMatches.length * 2, 12);
-  if (dateMatches.length > 0) notes.push(`dates: ${dateMatches.length} ref.`);
-
-  // ── Mots-clés pertinents selon le type ────────────────────────────────────
-  const keywordsByType = {
-    'actualite': ['victoire', 'défaite', 'combat', 'ko', 'tko', 'soumission', 'décision',
-                  'annonce', 'signature', 'contrat', 'champion', 'titre', 'ceinture',
-                  'classement', 'pesée', 'conférence', 'carte', 'main event'],
-    'evenement': ['prochain', 'prévu', 'aura lieu', 'programmé', 'annoncé', 'carte',
-                  'fight card', 'main event', 'co-main', 'undercard', 'diffusé',
-                  'retransmis', 'arena', 'salle', 'accueillera']
-  };
-  const keywords = keywordsByType[type] || keywordsByType['actualite'];
-  const kwMatches = keywords.filter(k => text.includes(k));
-  score += kwMatches.length * 2;
-  if (kwMatches.length > 0) notes.push(`kw: ${kwMatches.length} pertinents`);
-
-  // ── Pénalités : signaux de contenu vide ───────────────────────────────────
-  const emptySignals = [
-    'aucun événement', 'aucune information', 'je ne dispose pas',
-    'aucune actualité', 'pas d\'information disponible', 'rien de notable',
-    'impossible de trouver', 'données insuffisantes', 'je n\'ai pas accès'
-  ];
-  const emptyFound = emptySignals.filter(s => text.includes(s));
-  score -= emptyFound.length * 15;
-  if (emptyFound.length > 0) notes.push(`⚠ signaux vides: ${emptyFound.length}`);
-
-  // ── Longueur brute (sécurité) ─────────────────────────────────────────────
-  if (content.length < 300) score -= 10;
-  if (content.length > 600) score += 3;
-
-  const finalScore = Math.max(score, 0);
-  const quality    = finalScore >= 15 ? 'RICHE' : finalScore >= 7 ? 'CORRECT' : 'PAUVRE';
-
-  console.log(`  📊 Qualité contenu : ${quality} (score ${finalScore}) — ${notes.join(' · ') || 'aucun signal fort'}`);
-
-  return {
-    score:      finalScore,
-    isRich:     finalScore >= 15,
-    isCorrect:  finalScore >= 7,
-    isEmpty:    finalScore < 7,
-    quality
-  };
-}
 
 // ─── Étape 1 : Perplexity ─────────────────────────────────────────────────────
 
 async function fetchRealNews(sport, type) {
   const sportLabel = SPORT_LABELS[sport] || sport;
   const monthYear  = new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-  const today      = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const queryMap = {
-    'actualite':
-      `Actualités ${sportLabel} du mois de ${monthYear} : 
-      résultats de combats récents, annonces officielles, événements confirmés, signatures de combattants.
-      Noms complets réels, dates précises, organisations (UFC, ONE, Bellator, Glory, K-1, WBC, WBA...).
-      Si aucun événement majeur n'a eu lieu récemment en ${sportLabel}, dis-le explicitement
-      et cite la dernière actualité connue même si elle date de quelques semaines.`,
-
-    'evenement':
-      `Prochains événements majeurs de MMA (UFC, ONE, Bellator, PFL) et boxe anglaise 
-      dans les 21 prochains jours à partir du ${today} : 
-      cartes de combat confirmées, combats principaux, lieux, dates exactes, titres en jeu.
-      Si aucun grand événement n'est prévu dans ce délai, indique-le clairement 
-      et cite le prochain événement connu même s'il est dans 4-6 semaines.`
+    'actualite': `Actualités ${sportLabel} en ${monthYear} : résultats de combats récents, annonces officielles confirmées. Noms complets réels, dates précises, organisations (UFC, ONE, Bellator, Glory, WBC, WBA). Uniquement des faits vérifiés avec sources.`,
+    'evenement': `Prochains grands événements de MMA et boxe dans les 14 prochains jours : cartes de combat officielles, combats principaux, lieux, dates exactes, titres en jeu. Sources officielles uniquement (UFC.com, ESPN, DAZN).`
   };
+
+  const recencyMap = { 'actualite': 'week', 'evenement': 'month' };
 
   const response = await fetch('https://api.perplexity.ai/chat/completions', {
     method: 'POST',
@@ -231,17 +145,16 @@ async function fetchRealNews(sport, type) {
           role: 'system',
           content: `Tu es un assistant factuel spécialisé en sports de combat.
 Réponds en français. Fournis uniquement des informations vérifiées :
-noms complets réels, dates précises, faits concrets issus de sources officielles.
+noms complets réels, dates précises, faits concrets.
 N'invente jamais de noms, résultats, statistiques ou citations.
-Si l'actualité est calme ou si tu manques d'informations récentes, dis-le clairement
-plutôt que d'inventer ou de généraliser. C'est une information utile.
-Cite ta source pour chaque information (nom du site ou organisation).`
+Si une information est incertaine, indique-le avec "selon certaines sources".
+Cite systématiquement ta source (nom du site ou organisation officielle).`
         },
         { role: 'user', content: queryMap[type] }
       ],
       max_tokens: 1200,
       return_citations: true,
-      search_recency_filter: type === 'evenement' ? 'month' : 'week'
+      search_recency_filter: recencyMap[type] || 'week'
     })
   });
 
@@ -253,93 +166,15 @@ Cite ta source pour chaque information (nom du site ou organisation).`
   const data    = await response.json();
   const content = data.choices?.[0]?.message?.content;
 
-  if (!content || content.length < 100) {
-    throw new Error(`Perplexity : réponse vide (${content?.length ?? 0} car.)`);
+  if (!content || content.length < 250) {
+    throw new Error(`Perplexity réponse insuffisante (${content?.length ?? 0} chars)`);
   }
 
-  console.log(`  ✓ Perplexity — ${content.length} caractères récupérés`);
+  console.log(`  ✓ Perplexity — ${content.length} caractères · sport: ${sport}`);
   return content;
 }
 
-// ─── Résolution intelligente type + contexte ──────────────────────────────────
-//
-// C'est le cœur de la v4 :
-//   · Pour les types temps réel (actualite, evenement) :
-//       1. On interroge Perplexity
-//       2. On évalue la qualité du résultat
-//       3. Si RICHE → on garde le type original
-//          Si CORRECT → on adapte les instructions Gemini (angle moins affirmatif)
-//          Si PAUVRE → pivot cascade vers evergreen
-//   · Pour les types evergreen : aucun appel Perplexity, toujours fiable
-
-async function resolveArticleStrategy(sport, intendedType) {
-  const needsRealtime = ['actualite', 'evenement'].includes(intendedType);
-
-  // Types evergreen : aucune incertitude possible
-  if (!needsRealtime) {
-    return {
-      finalType:    intendedType,
-      context:      '',
-      quality:      'EVERGREEN',
-      pivotApplied: false
-    };
-  }
-
-  // Types temps réel : on tente Perplexity
-  let rawContent = null;
-
-  try {
-    rawContent = await fetchRealNews(sport, intendedType);
-  } catch (err) {
-    console.warn(`  ⚠ Perplexity en erreur (${err.message}) → pivot evergreen`);
-    return {
-      finalType:    PIVOT_CASCADE[intendedType][0],
-      context:      '',
-      quality:      'ERREUR_API',
-      pivotApplied: true,
-      pivotReason:  'Perplexity indisponible'
-    };
-  }
-
-  // On évalue la qualité du contenu récupéré
-  const quality = assessContentQuality(rawContent, intendedType);
-
-  if (quality.isRich) {
-    // Contenu riche → article actualité/événement complet
-    return {
-      finalType:    intendedType,
-      context:      rawContent,
-      quality:      'RICHE',
-      pivotApplied: false
-    };
-  }
-
-  if (quality.isCorrect) {
-    // Contenu acceptable → on garde le type MAIS on ajuste le ton
-    // (Gemini sera informé que le contenu est partiel → ton plus prudent)
-    console.log(`  🟡 Contenu partiel → article ${intendedType} avec ton prudent`);
-    return {
-      finalType:    intendedType,
-      context:      rawContent,
-      quality:      'CORRECT',
-      pivotApplied: false,
-      toneAdjust:   true  // signal pour le prompt Gemini
-    };
-  }
-
-  // Contenu trop pauvre → pivot vers evergreen
-  const pivotType = PIVOT_CASCADE[intendedType][0];
-  console.log(`  🔴 Contenu insuffisant (score ${quality.score}) → pivot vers "${pivotType}"`);
-  return {
-    finalType:    pivotType,
-    context:      '',
-    quality:      'PAUVRE',
-    pivotApplied: true,
-    pivotReason:  `Semaine calme en ${SPORT_LABELS[sport]} · pas assez de faits vérifiés`
-  };
-}
-
-// ─── Étape 2 : Gemini — rédaction ─────────────────────────────────────────────
+// ─── Étape 2 : Gemini ─────────────────────────────────────────────────────────
 
 async function callGeminiWithRetry(prompt, attempts = 2) {
   for (let i = 1; i <= attempts; i++) {
@@ -351,118 +186,85 @@ async function callGeminiWithRetry(prompt, attempts = 2) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              maxOutputTokens: 2800,
-              temperature: 0.6,
-              topP: 0.9
-            }
+            generationConfig: { maxOutputTokens: 2800, temperature: 0.6, topP: 0.9 }
           })
         }
       );
+
       if (!response.ok) {
         const err = await response.text();
         throw new Error(`Gemini ${response.status}: ${err}`);
       }
-      const data    = await response.json();
-      const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!content) throw new Error('Gemini : réponse vide');
-      return content
-        .replace(/^```(?:markdown|yaml|md)?\n?/i, '')
-        .replace(/\n?```$/i, '')
-        .trim();
+
+      const data = await response.json();
+      const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!raw)  throw new Error('Gemini : réponse vide');
+
+      // ✅ Strip appliqué ici, avant tout retour
+      return stripGeminiCodeFences(raw);
+
     } catch (err) {
       if (i === attempts) throw err;
-      console.warn(`  ⚠ Gemini tentative ${i} échouée : ${err.message} — retry dans 4s...`);
-      await sleep(4000);
+      console.warn(`  ⚠ Gemini tentative ${i} : ${err.message} — retry dans 3s...`);
+      await sleep(3000);
     }
   }
 }
 
-async function generateArticleWithGemini(sport, type, context, strategy) {
+async function generateArticleWithGemini(sport, type, category, contextData) {
   const date       = getTodayDate();
   const sportLabel = SPORT_LABELS[sport] || sport;
-  const category   = TYPE_CATEGORY[type];
-  const toneAdjust = strategy?.toneAdjust || false;
 
-  // ── Blocs de contexte ──────────────────────────────────────────────────────
+  const typeInstructions = {
 
-  const contextBlock = context
+    'actualite': `Rédige un article d'actualité journalistique dynamique.
+Développe chaque fait avec contexte et analyse. Explique l'importance pour la discipline et ses fans.
+Termine par les perspectives à venir.
+RÈGLE ABSOLUE : utilise UNIQUEMENT les noms, faits et dates présents dans le contexte Perplexity.
+N'ajoute AUCUNE information extérieure même si tu la connais.`,
+
+    'evenement': `Rédige un article de preview d'événement enthousiaste et informatif.
+Présente la carte de combat, les enjeux, les favoris, l'historique des rivalités si disponible.
+Donne au lecteur envie de suivre l'événement.
+RÈGLE ABSOLUE : utilise UNIQUEMENT les informations du contexte Perplexity.
+N'invente AUCUN combat, AUCUN résultat, AUCUN lieu non mentionné.`,
+
+    'technique': `Rédige un guide technique complet et pédagogique sur UNE technique clé du ${sportLabel}.
+Choisis une technique que tu connais avec CERTITUDE (position, coup fondamental, défense clé...).
+Structure : présentation → exécution → utilisation en combat → erreurs classiques → entraînement.
+Contenu 100% intemporel (evergreen). N'invente AUCUNE statistique ni nom incertain.`,
+
+    'patrimoine': `Rédige un article culture et histoire sur le ${sportLabel}.
+Choisis UN thème historique ou culturel que tu connais avec CERTITUDE.
+N'utilise JAMAIS une date précise si tu n'en es pas certain à 100%.
+Préfère "dans les années 1970" à "en 1973". Ton narratif et passionné. Contenu intemporel.`,
+
+    'legende': `Rédige le portrait d'UN seul champion légendaire du ${sportLabel} dont la carrière est terminée
+et bien documentée. Choisis uniquement une figure universellement reconnue.
+N'invente AUCUNE statistique sans en être certain. Écris "l'un des plus décorés" plutôt qu'un chiffre douteux.
+N'invente AUCUNE citation. Ton narratif et inspirant.`,
+
+    'discipline': `Rédige un article "Tout comprendre sur le ${sportLabel}" pour quelqu'un qui découvre ce sport.
+Couvre : origines · règles essentielles · ce qui rend ce sport unique · équipement · organisations · champions emblématiques.
+Ton clair, engageant, accessible. Contenu 100% intemporel.`
+  };
+
+  const needsContext = ['actualite', 'evenement'].includes(type);
+
+  const contextBlock = needsContext
     ? `═══════════════════════════════════════
-FAITS VÉRIFIÉS — SOURCE PERPLEXITY (internet temps réel)
-${toneAdjust ? '⚠ Note : le contexte est partiel. Développe uniquement les éléments présents.\nPour les zones vagues, utilise un angle analytique plutôt que factuel.' : 'Base TON article UNIQUEMENT sur ces données. N\'ajoute rien d\'extérieur.'}
+INFORMATIONS FACTUELLES — SOURCE PERPLEXITY (internet, temps réel)
+Base ton article UNIQUEMENT sur ce contexte. N'ajoute rien d'extérieur.
 ═══════════════════════════════════════
-${context}
+${contextData}
 ═══════════════════════════════════════`
     : `═══════════════════════════════════════
-TYPE : contenu evergreen (intemporel)
-Utilise uniquement des faits dont tu es certain à 100%.
+CONTENU EVERGREEN — utilise uniquement des faits dont tu es certain à 100%.
 En cas de doute sur une date ou un chiffre → reformule sans la donnée incertaine.
 ═══════════════════════════════════════`;
 
-  // ── Instructions rédactionnelles par type ──────────────────────────────────
+  const prompt = `Tu es rédacteur expert en sports de combat pour FightFocus.fr.
 
-  const instructions = {
-
-    'actualite': toneAdjust
-      ? `Rédige un article d'actualité avec un angle ANALYTIQUE et CONTEXTUEL.
-Le contexte disponible est partiel : ne l'invente pas, développe-le.
-Structure suggérée : rappel du contexte récent → analyse de la situation actuelle
-→ ce que les fans peuvent attendre prochainement.
-Ton expert et modéré. Pas de formulations péremptoires sur des faits non confirmés.`
-      : `Rédige un article d'actualité journalistique dynamique.
-Développe chaque fait avec contexte et analyse. Explique l'importance pour les fans.
-Termine par les perspectives concrètes à venir.
-RÈGLE ABSOLUE : uniquement les noms, faits et dates présents dans le contexte Perplexity.`,
-
-    'evenement': toneAdjust
-      ? `Rédige un article de preview avec les informations disponibles.
-Si l'événement est dans plusieurs semaines, centre l'article sur les enjeux et l'attente
-plutôt que sur des détails logistiques incertains.
-Angle : pourquoi ce combat / cet événement mérite l'attention des fans.`
-      : `Rédige un article de preview d'événement enthousiaste et informatif.
-Carte de combat, enjeux, favoris, rivalités. Donne envie de suivre l'événement.
-RÈGLE ABSOLUE : uniquement les informations du contexte Perplexity.`,
-
-    'technique':
-      `Rédige un guide technique complet sur UNE technique fondamentale du ${sportLabel}.
-Choisis une technique que tu maîtrises avec certitude absolue.
-Structure : présentation → exécution → utilisation en combat → erreurs classiques → entraînement.
-Contenu 100% intemporel. Aucun chiffre ou nom incertain.
-Si tu illustres avec un combattant, utilise uniquement des légendes universellement connues.`,
-
-    'patrimoine':
-      `Rédige un article culture & histoire sur LE ${sportLabel}.
-Choisis UN thème : origines, moment fondateur, évolution des règles, influence culturelle,
-ou rivalité historique emblématique que tu connais avec certitude.
-RÈGLE ABSOLUE : n'utilise JAMAIS une date précise si tu n'en es pas sûr à 100%.
-Préfère "dans les années 1980" à "en 1983". Préfère "l'un des pionniers" à un nom incertain.
-Ton narratif et passionné. Contenu intemporel.`,
-
-    'legende':
-      `Rédige le portrait d'UN champion légendaire du ${sportLabel} dont la carrière est terminée
-ou bien documentée (aucun combattant actif).
-Choisis uniquement une figure universellement reconnue dans la discipline.
-Palmarès, style de combat, héritage, impact sur le sport.
-RÈGLE ABSOLUE : aucune statistique invente. Si tu doutes d'un chiffre → "parmi les plus grands".
-Aucune citation inventée. Ton narratif et inspirant.`,
-
-    'discipline':
-      `Rédige un article "Tout comprendre sur le ${sportLabel}" pour un découvreur total.
-Origines · règles essentielles · ce qui rend ce sport unique · équipement de base ·
-organisations majeures · 2-3 champions emblématiques bien documentés.
-Ton clair, engageant, accessible. Contenu 100% intemporel.
-Aucune date ou statistique dont tu n'es pas certain.`
-  };
-
-  // ── Prompt final ───────────────────────────────────────────────────────────
-
-  const pivotNote = strategy?.pivotApplied
-    ? `\nNOTE ÉDITORIALE : l'angle initial "${intendedType}" a été remplacé par "${type}" car l'actualité était trop creuse cette semaine. Cet article remplace avantageusement un article d'actu vide de sens.\n`
-    : '';
-
-  const prompt = `Tu es rédacteur expert en sports de combat pour FightFocus.fr,
-le média français de référence sur les sports de combat.
-${pivotNote}
 ${contextBlock}
 
 SPORT     : ${sportLabel}
@@ -470,34 +272,34 @@ TYPE      : ${type}
 DATE      : ${date}
 CATÉGORIE : ${category}
 
-CONSIGNE RÉDACTIONNELLE :
-${instructions[type]}
+CONSIGNE :
+${typeInstructions[type]}
 
-RÈGLES COMMUNES ABSOLUES :
+RÈGLES ABSOLUES :
 ✅ Français · ton journalistique expert et dynamique
 ✅ Entre 900 et 1100 mots
-✅ Au minimum 3 sections H2 bien développées (2 paragraphes minimum chacune)
-✅ Introduction accrocheuse (2-3 phrases qui donnent envie de lire)
+✅ Au minimum 3 sections ## (H2) bien développées — OBLIGATOIRE
+✅ Introduction accrocheuse (2-3 phrases)
 ✅ Conclusion qui invite à revenir sur FightFocus.fr
-❌ AUCUN placeholder : [NOM], [DATE], [champion], [adversaire]...
+❌ AUCUN placeholder : [NOM], [DATE], [champion], etc.
 ❌ AUCUNE liste à puces dans le corps — uniquement des paragraphes
-❌ AUCUN titre H1 dans le corps de l'article
-❌ Pas de formulations vagues : "un combattant", "certains disent", "il paraît"
+❌ AUCUN titre H1 dans le corps
+❌ Ne mets PAS de backticks (\`\`\`) autour de ta réponse — réponds directement en markdown brut
 
-GÉNÈRE LE FICHIER MARKDOWN COMPLET avec ce frontmatter EXACT :
+GÉNÈRE LE FICHIER MARKDOWN COMPLET en commençant DIRECTEMENT par --- sans rien avant :
 
 ---
 title: "Titre accrocheur (50-70 caractères, mot-clé sport inclus)"
 sport: ${sport}
 category: ${category}
 date: "${date}"
-excerpt: "Phrase(s) engageante(s) donnant envie de lire (120-160 caractères)"
+excerpt: "Une ou deux phrases engageantes (120-160 caractères)"
 featured: false
 ---
 
-[Corps de l'article — markdown pur, pas de balise H1]`;
+[Corps de l'article — sections ## obligatoires, paragraphes, pas de listes]`;
 
-  console.log(`  → Gemini : type=${type} · category=${category} · tone=${toneAdjust ? 'prudent' : 'affirmatif'}`);
+  console.log(`  → Gemini · type: ${type} · sport: ${sport} · category: ${category}`);
   const result = await callGeminiWithRetry(prompt, 2);
   console.log(`  ✓ Gemini — ${result.length} caractères générés`);
   return result;
@@ -505,57 +307,55 @@ featured: false
 
 // ─── Étape 3 : Validation ─────────────────────────────────────────────────────
 
-function validateArticle(content, sport, date, type) {
-  if (!content.startsWith('---')) throw new Error('Frontmatter manquant');
+function validateArticle(content, sport, date, type, expectedCategory) {
 
-  const fmEnd = content.indexOf('---', 3);
+  // ✅ Strip appliqué une 2e fois ici — défense en profondeur
+  const cleaned = stripGeminiCodeFences(content);
+
+  if (!cleaned.startsWith('---')) {
+    throw new Error('Frontmatter manquant (ne commence pas par ---)');
+  }
+  const fmEnd = cleaned.indexOf('---', 3);
   if (fmEnd === -1) throw new Error('Frontmatter non fermé');
 
-  const frontmatter = content.substring(0, fmEnd + 3);
+  const frontmatter = cleaned.substring(0, fmEnd + 3);
 
   for (const field of ['title:', 'sport:', 'category:', 'date:', 'excerpt:']) {
-    if (!frontmatter.includes(field))
+    if (!frontmatter.includes(field)) {
       throw new Error(`Champ manquant : ${field}`);
+    }
   }
 
-  const validSports = [
-    'mma', 'boxe', 'kickboxing', 'muay-thai', 'grappling',
-    'karate', 'equipement', 'sanda', 'lethwei', 'savate', 'sambo', 'k1'
-  ];
-  const validCategories = [
-    'actualite', 'guide', 'guide-debutant', 'conseil-entrainement',
-    'analyse', 'guide-equipement'
-  ];
+  const validSports     = ['mma','boxe','kickboxing','muay-thai','grappling','karate','equipement','sanda','lethwei','savate','sambo','k1'];
+  const validCategories = ['actualite','guide','guide-debutant','conseil-entrainement','analyse','guide-equipement'];
 
   const sportVal = (frontmatter.match(/^sport:\s*(.+)$/m)    || [])[1]?.trim();
   const catVal   = (frontmatter.match(/^category:\s*(.+)$/m) || [])[1]?.trim();
   const dateVal  = (frontmatter.match(/^date:\s*"(.+?)"$/m)  || [])[1]?.trim();
 
   if (sportVal && !validSports.includes(sportVal))
-    throw new Error(`sport invalide : "${sportVal}"`);
+    throw new Error(`Valeur sport invalide : "${sportVal}"`);
   if (catVal && !validCategories.includes(catVal))
-    throw new Error(`category invalide : "${catVal}"`);
+    throw new Error(`Valeur category invalide : "${catVal}"`);
   if (dateVal && dateVal !== date)
-    throw new Error(`date incorrecte : "${dateVal}" (attendu "${date}")`);
-
-  const expectedCat = TYPE_CATEGORY[type];
-  if (catVal && catVal !== expectedCat)
-    throw new Error(`category "${catVal}" ≠ attendu "${expectedCat}" pour type "${type}"`);
+    throw new Error(`Date incorrecte : "${dateVal}" (attendu : "${date}")`);
+  if (catVal && catVal !== expectedCategory)
+    throw new Error(`Category "${catVal}" ≠ attendu "${expectedCategory}" pour type "${type}"`);
 
   for (const p of FORBIDDEN_PLACEHOLDERS) {
-    if (content.includes(p))
-      throw new Error(`Placeholder interdit : "${p}"`);
+    if (cleaned.includes(p)) throw new Error(`Placeholder interdit : "${p}"`);
   }
 
-  const body      = content.substring(fmEnd + 3).trim();
+  const body      = cleaned.substring(fmEnd + 3).trim();
   const wordCount = body.split(/\s+/).filter(Boolean).length;
   if (wordCount < 400) throw new Error(`Trop court : ${wordCount} mots (min 400)`);
 
-  const h2Count = (body.match(/^##\s+.+/gm) || []).length;
+  // ✅ Regex robuste sur le contenu NETTOYÉ (c'était la faille du bug)
+  const h2Count = (body.match(/^##\s+\S/gm) || []).length;
   if (h2Count < 2) throw new Error(`Pas assez de sections H2 : ${h2Count} (min 2)`);
 
-  console.log(`  ✓ Validation OK — ${wordCount} mots · ${h2Count} H2 · ${catVal}`);
-  return content;
+  console.log(`  ✓ Validation OK — ${wordCount} mots · ${h2Count} H2 · category: ${catVal}`);
+  return cleaned;
 }
 
 // ─── Étape 4 : Sauvegarde ─────────────────────────────────────────────────────
@@ -569,82 +369,86 @@ function saveArticle(content, sport, date) {
 
   if (!fs.existsSync(articlesDir)) fs.mkdirSync(articlesDir, { recursive: true });
 
-  if (slugAlreadyExists(slug, articlesDir))
-    throw new Error(`Slug existant : "${slug}" — doublon évité`);
+  if (slugAlreadyExists(slug, articlesDir)) {
+    throw new Error(`Slug déjà existant : "${slug}" — anti-doublon activé`);
+  }
 
   fs.writeFileSync(path.join(articlesDir, filename), content, 'utf8');
-  console.log(`  ✓ Sauvegardé : ${filename}`);
+  console.log(`  ✓ Fichier sauvegardé : ${filename}`);
   return filename;
+}
+
+// ─── Résolution type + sport + contexte ───────────────────────────────────────
+
+async function resolveAll(date, dayNum) {
+  const { type, category } = DAY_CONFIG[dayNum];
+  const needsPerplexity    = ['actualite', 'evenement'].includes(type);
+
+  if (!needsPerplexity) {
+    return { type, category, sport: pickEvergreenSportForWeek(date), context: '' };
+  }
+
+  const sport = pickActuSport(date);
+
+  try {
+    const context = await fetchRealNews(sport, type);
+    return { type, category, sport, context };
+  } catch (err) {
+    console.warn(`  ⚠ Perplexity : ${err.message}`);
+    console.warn('  → Fallback : type "technique" · category "guide" (evergreen fiable)');
+    return {
+      type:     'technique',
+      category: 'guide',
+      sport:    pickEvergreenSportForWeek(date),
+      context:  ''
+    };
+  }
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log('\n═════════════════════════════════════════════');
-  console.log('  FightFocus — Génération automatique  v4   ');
-  console.log('═════════════════════════════════════════════\n');
+  console.log('\n═══════════════════════════════════════════');
+  console.log('  FightFocus — Génération automatique v3.1');
+  console.log('═══════════════════════════════════════════\n');
 
-  if (!PERPLEXITY_API_KEY) {
-    console.error('❌ PERPLEXITY_API_KEY manquante');
-    process.exit(1);
-  }
-  if (!GEMINI_API_KEY) {
-    console.error('❌ GEMINI_API_KEY manquante');
-    process.exit(1);
-  }
+  if (!PERPLEXITY_API_KEY) { console.error('❌ PERPLEXITY_API_KEY manquante'); process.exit(1); }
+  if (!GEMINI_API_KEY)     { console.error('❌ GEMINI_API_KEY manquante');     process.exit(1); }
 
-  const date        = getTodayDate();
-  const dayNum      = getDayOfWeek();
-  const sport       = pickSportForWeek(date);
-  const intendedType = DAY_TYPE_MAP[dayNum];
+  const date   = getTodayDate();
+  const dayNum = getDayOfWeek();
 
   const typeLabels = {
     'actualite':  '📰 Actualité',
     'evenement':  '🥊 Preview événement',
     'technique':  '🥋 Guide technique',
-    'patrimoine': '📜 Histoire & patrimoine',
-    'legende':    '🏆 Portrait d\'une légende',
+    'patrimoine': '📜 Histoire et patrimoine',
+    'legende':    '🏆 Portrait légende',
     'discipline': '📖 Découvrir la discipline'
   };
 
-  console.log(`Sport visé : ${SPORT_LABELS[sport]}`);
-  console.log(`Type prévu : ${typeLabels[intendedType] || intendedType} (jour UTC ${dayNum})`);
-  console.log(`Date       : ${date}\n`);
-
   try {
-    // ── 1. Stratégie ──────────────────────────────────────────────────────────
-    console.log('1/4 — Analyse de l\'actualité et stratégie éditoriale...');
-    const strategy = await resolveArticleStrategy(sport, intendedType);
+    console.log('1/4 — Résolution type, sport et contexte...');
+    const { type, category, sport, context } = await resolveAll(date, dayNum);
 
-    const { finalType, context } = strategy;
-
-    if (strategy.pivotApplied) {
-      console.log(`  ↩ Pivot : "${intendedType}" → "${finalType}" (${strategy.pivotReason || strategy.quality})`);
-    } else {
-      console.log(`  ✓ Type confirmé : "${finalType}" · qualité : ${strategy.quality}`);
-    }
+    console.log(`  Sport    : ${SPORT_LABELS[sport]}`);
+    console.log(`  Type     : ${typeLabels[type] || type} (jour UTC ${dayNum})`);
+    console.log(`  Catégorie: ${category}`);
+    console.log(`  Date     : ${date}`);
 
     await sleep(800);
 
-    // ── 2. Rédaction ──────────────────────────────────────────────────────────
     console.log('2/4 — Rédaction Gemini...');
-    const articleContent = await generateArticleWithGemini(sport, finalType, context, strategy);
+    const rawContent = await generateArticleWithGemini(sport, type, category, context);
 
-    // ── 3. Validation ─────────────────────────────────────────────────────────
     console.log('3/4 — Validation stricte...');
-    const validContent = validateArticle(articleContent, sport, date, finalType);
+    const validContent = validateArticle(rawContent, sport, date, type, category);
 
-    // ── 4. Sauvegarde ─────────────────────────────────────────────────────────
     console.log('4/4 — Sauvegarde...');
     const filename = saveArticle(validContent, sport, date);
 
-    // ── Résumé ────────────────────────────────────────────────────────────────
-    console.log('\n✅ SUCCÈS');
-    console.log(`   Fichier   : ${filename}`);
-    console.log(`   Sport     : ${SPORT_LABELS[sport]}`);
-    console.log(`   Type final: ${finalType}${strategy.pivotApplied ? ' (pivot)' : ''}`);
-    console.log(`   Catégorie : ${TYPE_CATEGORY[finalType]}`);
-    console.log(`   Qualité   : ${strategy.quality}\n`);
+    console.log(`\n✅ SUCCÈS — ${filename}`);
+    console.log(`   Sport : ${SPORT_LABELS[sport]} · Type : ${type} · Catégorie : ${category}\n`);
 
   } catch (error) {
     console.error(`\n❌ ÉCHEC — ${error.message}`);
