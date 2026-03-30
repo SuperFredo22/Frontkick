@@ -2,7 +2,7 @@
 title: "Le wrestling en MMA : pourquoi c'est la base discipline de l'UFC moderne"
 sport: mma
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 excerpt: "Dans l'UFC d'aujourd'hui, les meilleurs combattants sont presque tous d'excellents wrestlers. Comprendre le wrestling, c'est comprendre comment fonctionne le MMA au plus haut niveau."
 ---
 
