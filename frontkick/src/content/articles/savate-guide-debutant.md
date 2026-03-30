@@ -2,7 +2,7 @@
 title: "Savate : la boxe française, art de pied et de poing made in France"
 sport: savate
 category: guide-debutant
-date: "Mars 2026"
+date: "2026-03-29"
 featured: true
 excerpt: "Seul sport de combat où les coups de pied se portent avec la semelle, la Savate est un art martial 100% français avec une tradition de plus de 200 ans. Guide complet pour débuter."
 ---
