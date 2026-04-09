@@ -4,9 +4,10 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 
-// Articles des disciplines "autres" (sport:autres + karate + sports non-listés)
+// Articles des 6 disciplines "autres" (toutes sauf les 5 principales)
+const autresSports = ['sanda', 'lethwei', 'savate', 'sambo', 'k1', 'karate'];
 const autresArticles = allArticles
-  .filter(a => ['autres', 'karate'].includes(a.data.sport))
+  .filter(a => autresSports.includes(a.data.sport))
   .sort((a, b) => {
     const da = new Date(a.data.date).getTime() || 0;
     const db = new Date(b.data.date).getTime() || 0;
@@ -35,8 +36,12 @@ const sportImages: Record<string, string> = {
   k1: '/images/sports/k1.svg',
 };
 const gradients: Record<string, string> = {
-  karate: 'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
-  autres: 'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+  karate:  'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
+  sanda:   'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei: 'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:  'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:   'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
+  k1:      'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
 };
 const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',

@@ -223,15 +223,47 @@ function pickSport(dateStr) {
 
 function pickTopic(sport, articlesDir) {
   const bank = TOPIC_BANK[sport] || TOPIC_BANK['mma'];
-  // Exclure les sujets déjà couverts (slug matching approximatif)
-  const existingSlugs = fs.existsSync(articlesDir)
-    ? fs.readdirSync(articlesDir).map(f => f.replace(/\.md$/, '').toLowerCase())
+
+  // Charge les titres et slugs des articles existants pour ce sport
+  const existing = fs.existsSync(articlesDir)
+    ? fs.readdirSync(articlesDir)
+        .filter(f => f.endsWith('.md') && f.includes(sport.replace('muay-thai','muay')))
+        .map(f => {
+          try {
+            const content = fs.readFileSync(path.join(articlesDir, f), 'utf8');
+            const titleMatch = content.match(/^title:\s*"(.+?)"/m);
+            return {
+              slug: f.replace(/\.md$/, '').toLowerCase(),
+              title: (titleMatch?.[1] || '').toLowerCase(),
+            };
+          } catch { return null; }
+        })
+        .filter(Boolean)
     : [];
+
+  // Mots-clés génériques à ne jamais réutiliser si déjà couverts
+  const GENERIC_KEYWORDS = ['débutant', 'debutant', 'guide complet', 'bases', 'fondamentaux'];
+
   const unused = bank.filter(topic => {
-    const topicSlug = slugify(topic).substring(0, 30);
-    return !existingSlugs.some(s => s.includes(topicSlug.substring(0, 20)));
+    const topicLower = topic.toLowerCase();
+    const topicSlug  = slugify(topic).substring(0, 35);
+
+    return !existing.some(e => {
+      // Correspondance directe sur le slug
+      if (e.slug.includes(topicSlug.substring(0, 20))) return true;
+      // Si le sujet de la banque ET l'article existant sont tous les deux "débutant/bases"
+      const topicIsGeneric = GENERIC_KEYWORDS.some(kw => topicLower.includes(kw));
+      const existingIsGeneric = GENERIC_KEYWORDS.some(kw => e.title.includes(kw));
+      if (topicIsGeneric && existingIsGeneric) return true;
+      // Partage de 2+ mots-clés significatifs (>4 chars) entre sujet et titre existant
+      const topicWords = topicLower.split(/\s+/).filter(w => w.length > 4);
+      const sharedWords = topicWords.filter(w => e.title.includes(w) || e.slug.includes(w));
+      return sharedWords.length >= 2;
+    });
   });
+
   const pool = unused.length > 0 ? unused : bank;
+  console.log(`  → Sujets disponibles : ${unused.length}/${bank.length} (${pool === bank ? 'banque entière' : 'non utilisés'})`);
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
@@ -288,11 +320,11 @@ async function refineTopic(baseTopic, sport) {
         messages: [
           {
             role: 'system',
-            content: `Expert SEO sports de combat. Réponds en UN titre optimisé, jamais de faits, jamais de combattants, jamais de résultats. Français uniquement.`
+            content: `Expert SEO sports de combat. Réponds en UN titre optimisé. RÈGLE ABSOLUE : le titre doit porter sur LE MÊME sujet technique que le sujet fourni — ne jamais généraliser en "guide complet pour débutants" si le sujet est une technique précise. Jamais de faits, jamais de combattants, jamais de résultats. Français uniquement.`
           },
           {
             role: 'user',
-            content: `Reformule ce sujet en titre d'article SEO accrocheur pour ${label} : "${baseTopic}"\nRéponds uniquement avec le titre, rien d'autre.`
+            content: `Reformule ce sujet TECHNIQUE en titre SEO pour ${label} en gardant strictement le même angle technique : "${baseTopic}"\nRéponds uniquement avec le titre (50-70 caractères), rien d'autre.`
           }
         ],
         max_tokens: 100
