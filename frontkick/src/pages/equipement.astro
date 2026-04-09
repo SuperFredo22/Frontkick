@@ -26,10 +26,6 @@ const gradients: Record<string, string> = {
   equipement: 'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
   autres: 'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
 };
-const emojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
-};
 const sportImages: Record<string, string> = {
   mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
   kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
@@ -84,9 +80,14 @@ const affiliateLinks = [
   <div class="list-page">
 
     <!-- Hero -->
-    <div class="list-hero">
-      <h1>Équipement</h1>
-      <p>Choisissez le bon équipement pour votre discipline — sélection vérifiée et liens affiliés Amazon.*</p>
+    <div class="discipline-hero" style="background:linear-gradient(135deg,#0F172A 0%,#0369a1 100%);margin-bottom:32px;">
+      <img src="/images/sports/boxe.svg" class="discipline-hero__bg" loading="eager" alt=""/>
+      <div class="discipline-hero__overlay"></div>
+      <div class="discipline-hero__content">
+        <div class="discipline-hero__label">FightFocus</div>
+        <h1 class="discipline-hero__title">Équipement</h1>
+        <p class="discipline-hero__desc">Le bon matériel pour chaque discipline — sélection vérifiée, liens affiliés Amazon.</p>
+      </div>
     </div>
 
     <!-- Grille affiliés Amazon -->

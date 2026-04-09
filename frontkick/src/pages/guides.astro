@@ -31,11 +31,6 @@ const gradients: Record<string, string> = {
   sambo:        'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
   k1:           'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
 };
-const emojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
-  sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
-};
 const catLabel: Record<string, string> = {
   'guide-debutant':       'Guide Débutant',
   'guide-equipement':     'Équipement',
@@ -43,7 +38,6 @@ const catLabel: Record<string, string> = {
   'guide':                'Guide',
   'analyse':              'Analyse',
   'actualite':            'Actualité',
-  'guide':               'Guide',
 };
 const sportLabel: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
@@ -69,18 +63,22 @@ const sportImages: Record<string, string> = {
   sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
   k1: '/images/sports/k1.svg',
 };
-const gradientsJSON = JSON.stringify(gradients);
-const emojisJSON = JSON.stringify(emojis);
-const sportImagesJSON = JSON.stringify(sportImages);
-const catLabelJSON = JSON.stringify(catLabel);
-const sportLabelJSON = JSON.stringify(sportLabel);
+const gradientsJSON    = JSON.stringify(gradients);
+const sportImagesJSON  = JSON.stringify(sportImages);
+const catLabelJSON     = JSON.stringify(catLabel);
+const sportLabelJSON   = JSON.stringify(sportLabel);
 ---
 <Base title="Guides — FightFocus" description="Tous les guides pour débutants et pratiquants en sports de combat — débutant, équipement, entraînement.">
 <div id="app">
   <div class="list-page">
-    <div class="list-hero">
-      <h1>Guides</h1>
-      <p>Tout ce qu'il faut savoir pour débuter et progresser — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
+    <div class="discipline-hero" style="background:linear-gradient(135deg,#0F172A 0%,#1e3a8a 100%);margin-bottom:32px;">
+      <img src="/images/sports/grappling.svg" class="discipline-hero__bg" loading="eager" alt=""/>
+      <div class="discipline-hero__overlay"></div>
+      <div class="discipline-hero__content">
+        <div class="discipline-hero__label">FightFocus</div>
+        <h1 class="discipline-hero__title">Guides</h1>
+        <p class="discipline-hero__desc">Débuter, progresser, s'équiper — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
+      </div>
     </div>
 
     <!-- Filtres par sport -->
@@ -99,10 +97,9 @@ const sportLabelJSON = JSON.stringify(sportLabel);
 </div>
 </Base>
 
-<script define:vars={{ guidesJSON, gradientsJSON, emojisJSON, sportImagesJSON, catLabelJSON, sportLabelJSON }}>
+<script define:vars={{ guidesJSON, gradientsJSON, sportImagesJSON, catLabelJSON, sportLabelJSON }}>
 const guides = JSON.parse(guidesJSON);
 const gradients = JSON.parse(gradientsJSON);
-const emojis = JSON.parse(emojisJSON);
 const sportImages = JSON.parse(sportImagesJSON);
 const catLabel = JSON.parse(catLabelJSON);
 const sportLabel = JSON.parse(sportLabelJSON);
