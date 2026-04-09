@@ -532,7 +532,76 @@ function saveArticle(content, date) {
 
   fs.writeFileSync(path.join(articlesDir, filename), content, 'utf8');
   console.log(`  ✓ Sauvegardé : ${filename}`);
-  return filename;
+  return { filename, slug, articlesDir };
+}
+
+// ─── Liens internes automatiques ─────────────────────────────────────────────
+function parseFrontmatterForLinks(content) {
+  const m = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) return null;
+  const meta = {};
+  m[1].split(/\r?\n/).forEach(line => {
+    const [k, ...v] = line.split(':');
+    if (k && v.length) meta[k.trim()] = v.join(':').trim().replace(/^"|"$/g, '');
+  });
+  return { meta, body: m[2] };
+}
+
+function relevanceScore(a, b) {
+  if (a.slug === b.slug) return -1;
+  let score = 0;
+  if (a.sport === b.sport)       score += 10;
+  if (a.category === b.category) score += 4;
+  const wordsA = a.slug.replace(/\d{4}-\d{2}-\d{2}-/, '').split('-').filter(w => w.length > 3);
+  const wordsB = b.slug.replace(/\d{4}-\d{2}-\d{2}-/, '').split('-').filter(w => w.length > 3);
+  const shared = wordsA.filter(w => wordsB.includes(w)).length;
+  score += shared * 2;
+  return score;
+}
+
+function addInternalLinks(newFilename, articlesDir) {
+  // Charge tous les articles
+  const all = fs.readdirSync(articlesDir)
+    .filter(f => f.endsWith('.md'))
+    .map(f => {
+      const content = fs.readFileSync(path.join(articlesDir, f), 'utf8');
+      const parsed  = parseFrontmatterForLinks(content);
+      if (!parsed) return null;
+      return {
+        slug:     f.replace(/\.md$/, ''),
+        file:     f,
+        title:    parsed.meta.title || f,
+        sport:    parsed.meta.sport || '',
+        category: parsed.meta.category || '',
+        body:     parsed.body,
+        raw:      content,
+      };
+    })
+    .filter(Boolean);
+
+  const article = all.find(a => a.file === newFilename);
+  if (!article) { console.log('  ⚠ Article introuvable pour les liens internes'); return; }
+  if (article.body.includes('Pour aller plus loin')) { console.log('  ℹ Liens internes déjà présents'); return; }
+
+  // Sélectionne les 3 meilleurs articles liés
+  const related = all
+    .filter(a => a.slug !== article.slug)
+    .map(a => ({ article: a, score: relevanceScore(article, a) }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(x => x.article);
+
+  if (related.length < 2) { console.log('  ℹ Pas assez d\'articles liés (< 2)'); return; }
+
+  const lines   = related.map(a => `- [${a.title}](/articles/${a.slug})`);
+  const section = `\n\n## Pour aller plus loin\n\n${lines.join('\n')}\n`;
+  const newBody  = article.body.trimEnd() + section;
+  const newContent = article.raw.replace(article.body, newBody);
+
+  fs.writeFileSync(path.join(articlesDir, newFilename), newContent, 'utf8');
+  console.log(`  ✓ Liens internes ajoutés :`);
+  related.forEach(r => console.log(`     → ${r.title}`));
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -566,12 +635,12 @@ async function main() {
 
   try {
     // 1. Affinage sujet (Perplexity optionnel)
-    console.log('1/4 — Sélection du sujet...');
+    console.log('1/5 — Sélection du sujet...');
     const topic = await refineTopic(baseTopic, sport);
     await sleep(500);
 
     // 2. Rédaction Gemini
-    console.log('2/4 — Rédaction...');
+    console.log('2/5 — Rédaction...');
     let content;
     try {
       content = await writeArticle(topic, sport, date);
@@ -581,12 +650,12 @@ async function main() {
     }
 
     // 3. Self-review anti-hallucination
-    console.log('3/4 — Relecture critique...');
+    console.log('3/5 — Relecture critique...');
     const reviewed = await selfReview(content, sport);
     await sleep(500);
 
     // 4. Validation + sauvegarde
-    console.log('4/4 — Validation et sauvegarde...');
+    console.log('4/5 — Validation et sauvegarde...');
     let validated;
     try {
       validated = validateArticle(reviewed);
@@ -595,7 +664,12 @@ async function main() {
       validated = validateArticle(fallbackArticle(sport, date, topic));
     }
 
-    const filename = saveArticle(validated, date);
+    const { filename, articlesDir: aDir } = saveArticle(validated, date);
+
+    // 5. Liens internes automatiques
+    console.log('5/5 — Liens internes...');
+    addInternalLinks(filename, aDir);
+
     console.log(`\n✅ SUCCÈS — ${filename}\n`);
 
   } catch (err) {
