@@ -1944,6 +1944,9 @@ footer {
   flex: 0 0 44%;
   border-radius: 0 !important;
   min-height: 220px;
+  max-height: 320px;
+  background-size: cover !important;
+  background-position: center !important;
 }
 .art-body--featured {
   flex: 1;
