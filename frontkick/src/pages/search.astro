@@ -34,8 +34,17 @@ const catLabel: Record<string, string> = {
   'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
 };
 
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
+};
 const gradientsJSON = JSON.stringify(gradients);
 const emojisJSON = JSON.stringify(emojis);
+const sportImagesJSON = JSON.stringify(sportImages);
 const catLabelJSON = JSON.stringify(catLabel);
 const articlesJSON = JSON.stringify(articlesData);
 ---
@@ -43,7 +52,7 @@ const articlesJSON = JSON.stringify(articlesData);
   <div id="search-page" style="max-width:1200px;margin:0 auto;padding:2rem 1rem;">
 
     <div class="sec-bar" style="margin-bottom:1.5rem;">
-      <h1 style="font-size:1.6rem;margin:0;">🔍 Recherche</h1>
+      <h1 style="font-size:1.6rem;margin:0;">Recherche</h1>
       <div class="sec-line"></div>
     </div>
 
@@ -69,7 +78,7 @@ const articlesJSON = JSON.stringify(articlesData);
   </div>
 </Base>
 
-<script define:vars={{ articlesData: articlesJSON, gradientsJSON, emojisJSON, catLabelJSON }}>
+<script define:vars={{ articlesData: articlesJSON, gradientsJSON, emojisJSON, sportImagesJSON, catLabelJSON }}>
 /* ══════════════════════════════════════════════
    MOTEUR DE RECHERCHE FIGHTFOCUS
    - Normalisation unicode (accents, casse)
@@ -81,10 +90,10 @@ const articlesJSON = JSON.stringify(articlesData);
 const articles = JSON.parse(articlesData);
 const gradients = JSON.parse(gradientsJSON);
 const emojis = JSON.parse(emojisJSON);
+const sportImages = JSON.parse(sportImagesJSON);
 const catLabel = JSON.parse(catLabelJSON);
 
 const DEFAULT_GRADIENT = 'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)';
-const DEFAULT_EMOJI = '🥊';
 
 // ── Normalisation ─────────────────────────────
 function norm(str) {
@@ -182,12 +191,12 @@ function search(rawQuery) {
 // ── Rendu d'une carte article ──────────────────
 function renderCard(a) {
   const grad = gradients[a.sport] || DEFAULT_GRADIENT;
-  const emoji = emojis[a.sport] || DEFAULT_EMOJI;
+  const img = sportImages[a.sport] || '/images/sports/default.svg';
   const label = catLabel[a.category] || a.category;
   return `
     <a href="/articles/${a.slug}" class="art-card">
-      <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.8rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">${emoji}</span>
+      <div class="art-image" style="background:${grad};position:relative;overflow:hidden;">
+        <img src="${img}" alt="${a.sport}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
         <span class="art-cat-tag">${label}</span>
       </div>
       <div class="art-body">
@@ -224,7 +233,6 @@ function render() {
     grid.innerHTML = '';
     noResults.style.display = 'block';
     noResults.innerHTML = `
-      <div style="font-size:2rem;margin-bottom:.8rem;">🔍</div>
       <strong>Aucun résultat pour « ${q} »</strong><br>
       <span style="font-size:.9rem;margin-top:.5rem;display:block;">
         Essayez un autre terme, vérifiez l'orthographe, ou parcourez les disciplines depuis <a href="/" style="color:#1E88E5;">l'accueil</a>.

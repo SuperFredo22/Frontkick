@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Techniques, règles, formats, culture : boxe anglaise et kickboxing partagent les poings mais divergent sur tout le reste. Ce comparatif complet t'aide à comprendre chaque discipline et à faire le bon choix."
 featured: false
 ---
-
-# Boxe vs Kickboxing : quelles différences ? Le comparatif complet
-
 Boxe anglaise et kickboxing ont un point commun évident : les deux disciplines utilisent les poings et se pratiquent debout. Mais dès qu'on regarde de plus près les règles, les techniques, la culture et la façon de s'entraîner, les différences sont profondes. Voici un comparatif complet pour bien comprendre chacune de ces deux disciplines.
 
 ## La différence fondamentale

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Tu veux commencer le Muay Thaï mais tu ne sais pas par où débuter ? Club, technique, rythme d'entraînement, culture : ce guide complet te donne toutes les clés pour démarrer sur de bonnes bases."
 featured: false
 ---
-
-# Comment débuter le Muay Thaï : le guide complet pour les débutants
-
 Le Muay Thaï est l'un des sports de combat debout les plus complets qui existent. Contrairement à la boxe anglaise qui n'utilise que les poings, ou au kickboxing qui ajoute les pieds, le Muay Thaï mobilise huit armes : les poings, les pieds, les genoux et les coudes. C'est pour cette raison qu'on l'appelle souvent "l'art des huit membres". Ce guide te donne tout ce qu'il faut savoir pour commencer.
 
 ## Qu'est-ce que le Muay Thaï ?

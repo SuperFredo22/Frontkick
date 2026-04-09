@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Gants, protège-tibias, chaussures ou pieds nus : l'équipement du kickboxing varie selon le format pratiqué. Ce guide te dit exactement ce dont tu as besoin pour débuter sans dépenser inutilement."
 featured: false
 ---
-
-# Quel équipement pour débuter le kickboxing ? Le guide d'achat 2026
-
 L'équipement du kickboxing est proche de celui de la boxe et du Muay Thaï, avec quelques spécificités importantes selon le format pratiqué. Voici ce qu'il te faut réellement, dans l'ordre de priorité.
 
 ## Une particularité importante : full contact vs K-1

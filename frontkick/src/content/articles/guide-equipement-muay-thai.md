@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Gants, protège-tibias, short Muay Thaï, coquille : voici exactement ce dont tu as besoin pour commencer le Muay Thaï, dans quel ordre l'acheter et comment bien choisir chaque équipement."
 featured: false
 ---
-
-# Quel équipement pour débuter le Muay Thaï ? Le guide d'achat 2026
-
 L'équipement du Muay Thaï ressemble à celui de la boxe sur certains points, mais présente des spécificités importantes liées à l'utilisation des pieds, des genoux et des coudes. Voici ce qu'il te faut réellement, dans l'ordre de priorité, sans dépenser inutilement.
 
 ## Ce qui est indispensable dès le premier cours

@@ -60,8 +60,17 @@ const guidesJSON = JSON.stringify(guides.map(a => ({
   category: a.data.category,
   date: a.data.date,
 })));
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
+};
 const gradientsJSON = JSON.stringify(gradients);
 const emojisJSON = JSON.stringify(emojis);
+const sportImagesJSON = JSON.stringify(sportImages);
 const catLabelJSON = JSON.stringify(catLabel);
 const sportLabelJSON = JSON.stringify(sportLabel);
 ---
@@ -69,7 +78,7 @@ const sportLabelJSON = JSON.stringify(sportLabel);
 <div id="app">
   <div class="list-page">
     <div class="list-hero">
-      <h1>📖 Guides</h1>
+      <h1>Guides</h1>
       <p>Tout ce qu'il faut savoir pour débuter et progresser — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
     </div>
 
@@ -78,7 +87,7 @@ const sportLabelJSON = JSON.stringify(sportLabel);
       <button class="filter-btn active" data-sport="tous" onclick="filterGuides('tous',this)">Tous</button>
       {sportsInGuides.map(sport => (
         <button class="filter-btn" data-sport={sport} onclick={`filterGuides('${sport}',this)`}>
-          {emojis[sport] || '🥋'} {sportLabel[sport] || sport}
+          {sportLabel[sport] || sport}
         </button>
       ))}
     </div>
@@ -89,23 +98,24 @@ const sportLabelJSON = JSON.stringify(sportLabel);
 </div>
 </Base>
 
-<script define:vars={{ guidesJSON, gradientsJSON, emojisJSON, catLabelJSON, sportLabelJSON }}>
+<script define:vars={{ guidesJSON, gradientsJSON, emojisJSON, sportImagesJSON, catLabelJSON, sportLabelJSON }}>
 const guides = JSON.parse(guidesJSON);
 const gradients = JSON.parse(gradientsJSON);
 const emojis = JSON.parse(emojisJSON);
+const sportImages = JSON.parse(sportImagesJSON);
 const catLabel = JSON.parse(catLabelJSON);
 const sportLabel = JSON.parse(sportLabelJSON);
 const DEFAULT_GRAD = 'linear-gradient(135deg,#0F172A,#1E88E5)';
 
 function renderCard(a) {
   const grad = gradients[a.sport] || DEFAULT_GRAD;
-  const emoji = emojis[a.sport] || '🥊';
+  const img = sportImages[a.sport] || '/images/sports/default.svg';
   const label = catLabel[a.category] || a.category;
   const sport = sportLabel[a.sport] || a.sport;
   return `
     <a href="/articles/${a.slug}" class="art-card">
-      <div class="art-image" style="background:${grad};display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.8rem;">${emoji}</span>
+      <div class="art-image" style="background:${grad};position:relative;overflow:hidden;">
+        <img src="${img}" alt="${a.sport}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
         <span class="art-cat-tag">${label}</span>
       </div>
       <div class="art-body">

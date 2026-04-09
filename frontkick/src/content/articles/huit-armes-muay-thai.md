@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Poings, pieds, genoux, coudes, clinch : le Muay Thaï mobilise huit armes distinctes, chacune avec ses techniques, ses distances et ses usages tactiques. Ce guide technique les détaille toutes."
 featured: false
 ---
-
-# Les 8 armes du Muay Thaï : guide technique complet
-
 On appelle le Muay Thaï "l'art des huit membres" car il mobilise huit armes naturelles : les deux poings, les deux pieds, les deux genoux et les deux coudes. Chacune de ces armes a ses propres techniques, ses distances d'utilisation et ses logiques tactiques. Ce guide technique les détaille toutes.
 
 ## Pourquoi "huit membres" ?

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Du full contact américain des années 1970 au K-1 japonais en passant par Glory Kickboxing : comment le kickboxing mondial s'est développé, quels styles existent et ce qui les distingue."
 featured: false
 ---
-
-# Les styles du kickboxing mondial : full contact, K-1, Glory et au-delà
-
 Le kickboxing est l'un des sports de combat les plus pratiqués au monde, mais il n'a pas de visage unique. Selon le pays, l'organisation ou la tradition sportive locale, le kickboxing peut désigner des sports aux règles et aux cultures assez différentes. Ce guide fait le tour des grands formats et de leur histoire.
 
 ## Les origines : deux naissances indépendantes

@@ -28,6 +28,14 @@ const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
   grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
 };
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
+};
 const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
   'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
@@ -37,15 +45,15 @@ const catLabel: Record<string, string> = {
 <div id="app">
   <div class="list-page">
     <div class="list-hero">
-      <h1>📰 Actualités</h1>
+      <h1>Actualités</h1>
       <p>Les dernières news des sports de combat.</p>
     </div>
     {articles.length > 0 ? (
       <div class="art-grid">
         {articles.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] || '🥊'}</span>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; position:relative; overflow:hidden;`}>
+              <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
               <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
             </div>
             <div class="art-body">
@@ -61,10 +69,9 @@ const catLabel: Record<string, string> = {
       </div>
     ) : (
       <div class="empty-state">
-        <span class="emoji">🔜</span>
         <h3>Actualités bientôt disponibles</h3>
         <p>Les news des sports de combat arrivent prochainement.</p>
-        <a href="/guides" class="btn">📖 Voir les guides →</a>
+        <a href="/guides" class="btn">Voir les guides →</a>
       </div>
     )}
   </div>

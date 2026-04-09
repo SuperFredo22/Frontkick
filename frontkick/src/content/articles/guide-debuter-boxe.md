@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Tu veux commencer la boxe mais tu ne sais pas par où débuter ? Club, technique, rythme d'entraînement, sparring : ce guide complet te donne toutes les clés pour démarrer correctement."
 featured: false
 ---
-
-# Comment débuter la boxe anglaise : le guide complet pour les débutants
-
 La boxe est l'un des sports de combat les plus accessibles pour commencer. Elle ne demande pas de prérequis athlétiques particuliers, elle s'apprend à tout âge, et ses bénéfices vont bien au-delà du combat : condition physique, coordination, confiance en soi, gestion du stress. Voici comment démarrer sur de bonnes bases.
 
 ## Pourquoi commencer la boxe ?

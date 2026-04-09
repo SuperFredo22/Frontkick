@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Système de points, avantages, soumissions autorisées selon les grades, différence IBJJF et EBI : les règles du BJJ de compétition expliquées clairement pour comprendre ce qu'on regarde."
 featured: false
 ---
-
-# Les règles du BJJ de compétition expliquées : points, soumissions et formats
-
 La compétition en BJJ est plus complexe à lire que la boxe ou le MMA pour un spectateur non initié. Pas de frappes, pas de KO — le combat se joue sur des positions, des points et des soumissions. Comprendre les règles change radicalement la façon de regarder un match. Ce guide explique les principaux formats compétitifs.
 
 ---

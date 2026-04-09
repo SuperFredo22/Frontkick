@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Le kickboxing n'est pas un sport unique : full contact, K-1, Glory ont des règles différentes. Ce guide les explique toutes clairement pour que tu saches exactement ce que tu regardes ou pratiques."
 featured: false
 ---
-
-# Les règles du kickboxing expliquées : full contact, K-1 et Glory
-
 Le kickboxing est souvent présenté comme un sport unique, mais c'est en réalité une famille de disciplines avec des formats aux règles différentes. Comprendre ces distinctions est essentiel pour regarder un combat ou choisir un club. Voici tout ce qu'il faut savoir.
 
 ## Pourquoi le kickboxing a plusieurs formats de règles

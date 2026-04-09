@@ -272,20 +272,29 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
 <div id="app">
   <div style="max-width:1200px; margin:0 auto; padding:0 16px;">
 
-    <div class="list-hero">
-      <h1>🏆 Classements UFC</h1>
-      <p>Source officielle : <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:var(--blue);">ufc.com/rankings</a> — Mise à jour : <strong>24 mars 2026</strong></p>
+    <!-- Hero classements -->
+    <div style="position:relative;height:200px;border-radius:16px;overflow:hidden;margin-bottom:36px;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1E88E5 100%);">
+      <div style="position:absolute;inset:0;background:url('/images/sports/mma.svg') center/cover;opacity:0.18;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 32px;">
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,0.5);margin-bottom:6px;">UFC · Mise à jour 24 mars 2026</div>
+        <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:white;letter-spacing:.04em;line-height:1;margin:0 0 6px;">Classements UFC</h1>
+        <p style="font-size:0.85rem;color:rgba(255,255,255,0.65);margin:0;">Source officielle : <a href="https://www.ufc.com/rankings" target="_blank" rel="noopener" style="color:#38BDF8;text-decoration:underline;">ufc.com/rankings</a></p>
+      </div>
     </div>
 
     <!-- POUND FOR POUND -->
     <div style="margin-bottom:40px;">
-      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#F59E0B; margin-bottom:20px;">⭐ Livre pour Livre</h2>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <div style="width:4px;height:28px;background:#F59E0B;border-radius:2px;"></div>
+        <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#F59E0B; margin:0;">Livre pour Livre</h2>
+      </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;">
 
         <!-- P4P Hommes -->
         <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
           <div style="background:linear-gradient(135deg,#1a1a2e,#F59E0B); padding:14px 20px;">
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">♂️ Hommes — P4P</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">Hommes — P4P</div>
             <div style="font-size:0.78rem; color:rgba(255,255,255,.6); text-transform:uppercase;">Champion : <strong style="color:rgba(255,255,255,.9);">Islam Makhachev</strong></div>
           </div>
           {p4pMen.map((name, i) => (
@@ -299,7 +308,7 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
         <!-- P4P Femmes -->
         <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
           <div style="background:linear-gradient(135deg,#701a75,#F59E0B); padding:14px 20px;">
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">♀️ Femmes — P4P</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">Femmes — P4P</div>
             <div style="font-size:0.78rem; color:rgba(255,255,255,.6); text-transform:uppercase;">Champion : <strong style="color:rgba(255,255,255,.9);">Valentina Shevchenko</strong></div>
           </div>
           {p4pWomen.map((name, i) => (
@@ -315,13 +324,15 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
 
     <!-- HOMMES -->
     <div style="margin-bottom:40px;">
-      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:var(--blue-light); margin-bottom:20px;">♂️ Divisions masculines</h2>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <div style="width:4px;height:28px;background:var(--blue);border-radius:2px;"></div>
+        <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:var(--blue-light); margin:0;">Divisions masculines</h2>
+      </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;">
         {menDivisions.map(([category, data]) => (
           <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
             <div style={`background:${data.gradient}; padding:14px 20px;`}>
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span style="font-size:1.2rem;">{data.emoji}</span>
                 <span style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">{category}</span>
               </div>
               <div style="font-size:0.78rem; color:rgba(255,255,255,.6); letter-spacing:.04em; text-transform:uppercase;">
@@ -329,16 +340,17 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
               </div>
             </div>
             {data.fighters.map((f, i) => (
-              <div style={`display:flex; align-items:center; gap:12px; padding:10px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
-                <div style="min-width:32px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text-light);">
+              <div style={`display:flex; align-items:center; gap:12px; padding:9px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''} ${f.rank === 1 ? 'background:rgba(245,158,11,0.06);' : ''}`}>
+                <div style={`min-width:28px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; font-weight:800; ${f.rank === 1 ? 'color:#F59E0B;' : 'color:var(--text-muted);'}`}>
                   #{f.rank}
                 </div>
-                <div style="flex:1;">
-                  <div style="font-weight:700; font-size:0.88rem;">
-                    {f.country} {f.name}
-                    {f.note && <span style="font-size:0.62rem; background:#F59E0B; color:#000; border-radius:4px; padding:1px 5px; margin-left:5px; font-weight:800;">{f.note}</span>}
+                <div style="flex:1; min-width:0;">
+                  <div style={`font-weight:700; font-size:0.87rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap; ${f.rank === 1 ? 'color:var(--text);' : ''}`}>
+                    <span style="font-size:0.95rem;">{f.country}</span>
+                    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{f.name}</span>
+                    {f.note && <span style="font-size:0.6rem; background:#F59E0B; color:#000; border-radius:3px; padding:1px 5px; font-weight:800; white-space:nowrap;">{f.note}</span>}
                   </div>
-                  {f.record && <div style="font-size:0.73rem; color:var(--text-light);">{f.record}</div>}
+                  {f.record && <div style="font-size:0.72rem; color:var(--text-muted); margin-top:1px;">{f.record}</div>}
                 </div>
               </div>
             ))}
@@ -349,13 +361,15 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
 
     <!-- FEMMES -->
     <div style="margin-bottom:48px;">
-      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#e879f9; margin-bottom:20px;">♀️ Divisions féminines</h2>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <div style="width:4px;height:28px;background:#e879f9;border-radius:2px;"></div>
+        <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.06em; color:#e879f9; margin:0;">Divisions féminines</h2>
+      </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px;">
         {womenDivisions.map(([category, data]) => (
           <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
             <div style={`background:${data.gradient}; padding:14px 20px;`}>
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span style="font-size:1.2rem;">{data.emoji}</span>
                 <span style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:white; letter-spacing:.05em;">{category}</span>
               </div>
               <div style="font-size:0.78rem; color:rgba(255,255,255,.6); letter-spacing:.04em; text-transform:uppercase;">
@@ -363,16 +377,17 @@ const womenDivisions = Object.entries(rankings).filter(([,v]) => v.gender === "w
               </div>
             </div>
             {data.fighters.map((f, i) => (
-              <div style={`display:flex; align-items:center; gap:12px; padding:10px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
-                <div style="min-width:32px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; font-weight:700; color:var(--text-light);">
+              <div style={`display:flex; align-items:center; gap:12px; padding:9px 18px; ${i < data.fighters.length-1 ? 'border-bottom:1px solid var(--border);' : ''} ${f.rank === 1 ? 'background:rgba(245,158,11,0.06);' : ''}`}>
+                <div style={`min-width:28px; text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; font-weight:800; ${f.rank === 1 ? 'color:#F59E0B;' : 'color:var(--text-muted);'}`}>
                   #{f.rank}
                 </div>
-                <div style="flex:1;">
-                  <div style="font-weight:700; font-size:0.88rem;">
-                    {f.country} {f.name}
-                    {f.note && <span style="font-size:0.62rem; background:#F59E0B; color:#000; border-radius:4px; padding:1px 5px; margin-left:5px; font-weight:800;">{f.note}</span>}
+                <div style="flex:1; min-width:0;">
+                  <div style={`font-weight:700; font-size:0.87rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap; ${f.rank === 1 ? 'color:var(--text);' : ''}`}>
+                    <span style="font-size:0.95rem;">{f.country}</span>
+                    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{f.name}</span>
+                    {f.note && <span style="font-size:0.6rem; background:#F59E0B; color:#000; border-radius:3px; padding:1px 5px; font-weight:800; white-space:nowrap;">{f.note}</span>}
                   </div>
-                  {f.record && <div style="font-size:0.73rem; color:var(--text-light);">{f.record}</div>}
+                  {f.record && <div style="font-size:0.72rem; color:var(--text-muted); margin-top:1px;">{f.record}</div>}
                 </div>
               </div>
             ))}

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Tu veux commencer le BJJ ou le grappling mais tu ne sais pas par où débuter ? Club, technique, Gi ou No-Gi, rythme d'entraînement : ce guide complet te donne toutes les clés pour démarrer correctement."
 featured: false
 ---
-
-# Comment débuter le BJJ et le grappling : le guide complet pour les débutants
-
 Le BJJ (Jiu-Jitsu Brésilien) et le grappling sont des sports de combat au sol qui n'impliquent pas de frappes. L'objectif est de contrôler l'adversaire et de le forcer à abandonner via une soumission — étranglement ou clé articulaire. C'est un sport très accessible physiquement au départ, extrêmement riche techniquement sur le long terme, et souvent décrit par ceux qui le pratiquent comme l'un des plus addictifs qui existent.
 
 ## Pourquoi commencer le BJJ ou le grappling ?

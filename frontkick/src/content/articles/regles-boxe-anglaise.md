@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Catégories de poids, techniques autorisées, façons de gagner, rôle des juges : les règles complètes de la boxe anglaise expliquées clairement, que tu sois pratiquant ou spectateur."
 featured: false
 ---
-
-# Les règles de la boxe anglaise expliquées : tout comprendre en 5 minutes
-
 La boxe anglaise est souvent perçue comme un sport simple — deux hommes ou deux femmes qui se frappent. En réalité, c'est un sport très réglementé, avec des règles précises qui définissent les techniques autorisées, la façon de gagner et le rôle de chaque officiel. Les connaître change radicalement la façon de regarder un combat.
 
 ## Un peu de contexte historique

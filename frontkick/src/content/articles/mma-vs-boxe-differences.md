@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Règles, techniques, physique requis, culture : MMA et boxe sont deux sports très différents malgré quelques points communs. Ce comparatif complet t'aide à comprendre leurs spécificités et à choisir si tu veux te lancer."
 featured: false
 ---
-
-# MMA vs Boxe : quelles différences ? Le comparatif complet
-
 MMA et boxe sont les deux disciplines de combat les plus regardées au monde. Pourtant, elles n'ont pas grand-chose en commun au-delà des gants et de la notion de combat. Si tu veux te lancer dans un sport de combat, ou simplement mieux comprendre chacun de ces univers, ce comparatif te donne toutes les clés.
 
 ## Qu'est-ce qui les distingue fondamentalement ?

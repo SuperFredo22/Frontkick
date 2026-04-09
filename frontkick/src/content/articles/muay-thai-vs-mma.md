@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Le Muay Thaï est l'une des bases les plus utilisées en MMA. Pourtant, les deux sports sont très différents. Ce comparatif explique leurs spécificités, ce qu'ils partagent et comment choisir."
 featured: false
 ---
-
-# Muay Thaï vs MMA : quelles différences ? Le comparatif complet
-
 Le Muay Thaï et le MMA entretiennent une relation particulière : le Muay Thaï est l'une des disciplines de striking les plus représentées dans le MMA de haut niveau. Pourtant, ce sont deux sports fondamentalement différents dans leur logique, leurs règles et leur façon de s'entraîner. Voici un comparatif complet.
 
 ## La différence fondamentale

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Gants, bandes, protège-dents, chaussures : voici exactement ce dont tu as besoin pour commencer la boxe, dans quel ordre acheter et comment bien choisir chaque équipement sans dépenser inutilement."
 featured: false
 ---
-
-# Quel équipement pour débuter la boxe ? Le guide d'achat 2026
-
 La boxe a l'avantage d'être un sport peu coûteux à équiper. Contrairement à d'autres disciplines, tu n'as pas besoin d'un arsenal complet dès le premier cours. Voici ce qu'il te faut réellement, dans l'ordre de priorité, avec les critères pour ne pas te tromper.
 
 ## L'équipement indispensable dès le premier cours

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Catégories de poids, coups autorisés, façons de gagner, rôle des juges : voici les règles complètes du MMA expliquées clairement, que tu sois débutant ou spectateur curieux."
 featured: false
 ---
-
-# Les règles du MMA expliquées : tout comprendre en 5 minutes
-
 Le MMA peut sembler chaotique au premier regard. En réalité, c'est l'un des sports de combat les plus réglementés qui existent. Comprendre les règles change radicalement la façon de regarder un combat — on passe du spectacle brut à la lecture tactique. Voici tout ce qu'il faut savoir.
 
 ## Le cadre réglementaire : les Unified Rules of MMA

@@ -17,7 +17,7 @@ const VALID_SPORTS = [
   'karate','equipement','sanda','lethwei','savate','sambo','k1'
 ];
 const VALID_CATEGORIES = [
-  'actualite','guide-debutant','conseil-entrainement','analyse','guide-equipement'
+  'actualite','guide-debutant','conseil-entrainement','analyse','guide-equipement','guide'
 ];
 const FORBIDDEN_PLACEHOLDERS = [
   '[NOM', '[DATE', '[TITRE', '[Nom', '[nom',
@@ -25,7 +25,7 @@ const FORBIDDEN_PLACEHOLDERS = [
   'Nom du combattant', 'Nom du champion',
   'adversaire potentiel', '[Poids lourd',
   '[catégorie', 'Combattant A', 'Combattant B',
-  '[Nom du', 'à imaginer'
+  '[Nom du', '[à imaginer]', '[imaginer]'
 ];
 
 // ─── Analyse d'un article ─────────────────────────────────────────────────────

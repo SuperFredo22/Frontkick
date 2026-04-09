@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Gants, short, protège-dents, coquille : voici exactement ce dont tu as besoin pour commencer le MMA sans dépenser inutilement, avec les critères pour bien choisir chaque équipement."
 featured: false
 ---
-
-# Quel équipement pour débuter le MMA ? Le guide d'achat 2026
-
 Avant ton premier cours, une question revient toujours : qu'est-ce qu'il me faut vraiment ? Entre les gants de MMA, les gants de boxe, les protège-tibias et le reste, il est facile de se retrouver perdu — ou de dépenser inutilement. Voici un guide clair et honnête, par ordre de priorité.
 
 ## Ce qui est indispensable dès le premier cours

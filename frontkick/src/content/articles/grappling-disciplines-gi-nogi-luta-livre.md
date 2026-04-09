@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Lutte, judo, BJJ, sambo, Luta Livre : le grappling est une famille de disciplines aux visages multiples. Ce guide pose les bases, explique la distinction Gi/No-Gi et présente la Luta Livre et son histoire unique."
 featured: false
 ---
-
-# Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués
-
 Le mot "grappling" désigne l'ensemble des sports de combat dont l'objectif principal est de contrôler, projeter ou soumettre l'adversaire — sans frapper. C'est l'autre grand pilier des arts martiaux, aux côtés du striking. Ce guide présente les grandes familles du grappling, explique la distinction fondamentale entre Gi et No-Gi, et s'arrête sur la Luta Livre, discipline souvent méconnue en dehors du Brésil mais profondément intéressante techniquement et culturellement.
 
 ---

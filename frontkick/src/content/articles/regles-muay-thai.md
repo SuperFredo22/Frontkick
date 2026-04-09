@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Techniques autorisées, façons de gagner, rôle des juges, format des combats : les règles complètes du Muay Thaï expliquées clairement pour les pratiquants comme pour les spectateurs."
 featured: false
 ---
-
-# Les règles du Muay Thaï expliquées : tout comprendre en 5 minutes
-
 Le Muay Thaï est souvent présenté comme "le sport des huit membres". Ce slogan résume bien la richesse de sa palette technique, mais il ne dit pas tout sur les règles qui encadrent les combats. Voici ce qu'il faut savoir pour comprendre ce qu'on regarde.
 
 ## Le contexte : plusieurs formats de règles

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Un bon grappeur devient-il automatiquement un bon combattant MMA ? Pas tout à fait. Voici ce qui change concrètement quand les frappes s'ajoutent au grappling — et pourquoi c'est une discipline à part entière."
 featured: false
 ---
-
-# Grappling vs MMA : ce qui change quand les frappes entrent dans l'équation
-
 Le MMA intègre le grappling comme l'une de ses composantes essentielles — mais le grappling en MMA n'est pas identique au grappling en compétition pure. Quand les frappes entrent dans l'équation, les positions changent de valeur, les priorités s'inversent et certaines techniques deviennent trop risquées à tenter. Ce guide explique concrètement ce qui change.
 
 ---

@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Tu veux commencer le kickboxing mais tu ne sais pas par où débuter ? Club, technique, rythme d'entraînement : ce guide complet te donne toutes les clés pour démarrer sur de bonnes bases."
 featured: false
 ---
-
-# Comment débuter le kickboxing : le guide complet pour les débutants
-
 Le kickboxing est l'un des sports de combat les plus pratiqués en Europe. Il combine les techniques de la boxe anglaise avec les coups de pied, offrant un panel technique plus large que la boxe tout en restant accessible aux débutants. C'est aussi l'une des meilleures bases pour qui envisage à terme le MMA ou le Muay Thaï. Voici tout ce qu'il faut savoir pour bien commencer.
 
 ## Qu'est-ce que le kickboxing exactement ?

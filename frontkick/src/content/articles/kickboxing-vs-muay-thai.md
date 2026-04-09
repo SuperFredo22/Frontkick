@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Kickboxing et Muay Thaï se ressemblent mais sont deux sports bien distincts. Coudes, clinch, low kicks, culture : ce comparatif complet t'aide à comprendre chaque discipline et à faire le bon choix."
 featured: false
 ---
-
-# Kickboxing vs Muay Thaï : quelles différences ? Le comparatif complet
-
 Kickboxing et Muay Thaï sont souvent confondus par les non-initiés — les deux utilisent les poings et les pieds, se pratiquent debout, et partagent un équipement similaire. Mais dès qu'on regarde les règles et la tactique de plus près, ce sont deux sports bien distincts avec des logiques différentes. Ce comparatif te donne toutes les clés.
 
 ## Ce qu'ils ont en commun

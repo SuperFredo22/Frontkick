@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "La distance, la garde, le jab, les rounds de gestion : voici les clés tactiques pour ne plus regarder la boxe comme un échange de coups, mais comme un jeu d'échecs en temps réel."
 featured: false
 ---
-
-# Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde
-
 Regarder un combat de boxe sans en connaître les codes, c'est voir deux personnes qui se frappent. Avec les bons repères, c'est observer un dialogue tactique où chaque coup, chaque esquive et chaque déplacement est une réponse à la question posée par l'adversaire. Ce guide te donne les clés pour passer d'un spectateur passif à un observateur actif.
 
 ## La distance : le premier élément à observer

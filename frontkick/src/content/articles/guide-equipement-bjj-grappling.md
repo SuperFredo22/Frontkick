@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Kimono, rash guard, short No-Gi : l'équipement du BJJ et du grappling est simple mais spécifique. Ce guide te dit exactement ce dont tu as besoin selon que tu pratiques avec ou sans kimono."
 featured: false
 ---
-
-# Quel équipement pour débuter le BJJ et le grappling ? Le guide d'achat 2026
-
 L'équipement du BJJ et du grappling est l'un des plus simples parmi les sports de combat. Pas de gants, pas de protège-tibias, pas de chaussures — juste les bons vêtements et quelques accessoires de base. Ce guide te dit exactement ce dont tu as besoin selon que tu pratiques avec le Gi (kimono) ou en No-Gi.
 
 ---

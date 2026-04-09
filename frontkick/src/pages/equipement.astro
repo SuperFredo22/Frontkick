@@ -30,41 +30,49 @@ const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
   grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
 };
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
+};
 
 // Liens affiliés Amazon par catégorie (à remplacer par vos vrais liens affiliés)
 const affiliateLinks = [
   {
-    label: "🥊 Gants de boxe",
+    label: "Gants de boxe",
     desc: "Gants d'entraînement et de compétition — toutes marques",
     url: "https://www.amazon.fr/s?k=gants+de+boxe&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
   },
   {
-    label: "🥋 Protège-tibias",
+    label: "Protège-tibias",
     desc: "Indispensable pour le muay thaï et le kickboxing",
     url: "https://www.amazon.fr/s?k=protege+tibias+muay+thai&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
   },
   {
-    label: "🏋️ Sac de frappe",
+    label: "Sac de frappe",
     desc: "Sacs suspendus, sur pied et d'angle — pour la maison et la salle",
     url: "https://www.amazon.fr/s?k=sac+de+frappe&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
   },
   {
-    label: "🩱 Shorts MMA / Muay Thaï",
+    label: "Shorts MMA / Muay Thaï",
     desc: "Shorts de combat pour l'entraînement et la compétition",
     url: "https://www.amazon.fr/s?k=short+mma+muay+thai&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
   },
   {
-    label: "🦺 Protège-dents",
+    label: "Protège-dents",
     desc: "Protection buccale pour tous les sports de contact",
     url: "https://www.amazon.fr/s?k=protege+dents+boxe&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
   },
   {
-    label: "🎯 Corde à sauter",
+    label: "Corde à sauter",
     desc: "Cardio, coordination et endurance — outil de base du boxeur",
     url: "https://www.amazon.fr/s?k=corde+a+sauter+boxe&tag=VOTRE-TAG-20",
     cta: "Voir sur Amazon →",
@@ -77,14 +85,14 @@ const affiliateLinks = [
 
     <!-- Hero -->
     <div class="list-hero">
-      <h1>🛒 Équipement</h1>
+      <h1>Équipement</h1>
       <p>Choisissez le bon équipement pour votre discipline — sélection vérifiée et liens affiliés Amazon.*</p>
     </div>
 
     <!-- Grille affiliés Amazon -->
     <div style="margin-bottom:48px;">
       <div class="sec-bar" style="margin-bottom:20px;">
-        <h2 style="font-size:1.15rem;margin:0;font-weight:700;">🔗 Acheter sur Amazon</h2>
+        <h2 style="font-size:1.15rem;margin:0;font-weight:700;">Acheter sur Amazon</h2>
         <div class="sec-line"></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
@@ -103,14 +111,14 @@ const affiliateLinks = [
     {articles.length > 0 && (
       <div>
         <div class="sec-bar" style="margin-bottom:20px;">
-          <h2 style="font-size:1.15rem;margin:0;font-weight:700;">📖 Guides d'équipement</h2>
+          <h2 style="font-size:1.15rem;margin:0;font-weight:700;">Guides d'équipement</h2>
           <div class="sec-line"></div>
         </div>
         <div class="art-grid">
           {articles.map(a => (
             <a href={`/articles/${a.slug}`} class="art-card">
-              <div class="art-image" style={`background:${gradients[a.data.sport] || gradients.equipement};display:flex;align-items:center;justify-content:center;`}>
-                <span style="font-size:2.8rem;">{emojis[a.data.sport] || '🛒'}</span>
+              <div class="art-image" style={`background:${gradients[a.data.sport] || gradients.equipement};position:relative;overflow:hidden;`}>
+                <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
                 <span class="art-cat-tag">Équipement</span>
               </div>
               <div class="art-body">

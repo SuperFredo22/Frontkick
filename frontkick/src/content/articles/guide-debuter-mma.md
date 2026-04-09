@@ -6,9 +6,6 @@ date: "2026-03-28"
 excerpt: "Tu veux te lancer dans le MMA mais tu ne sais pas par où commencer ? Ce guide complet te donne toutes les clés : où s'inscrire, quoi apprendre en premier, et comment progresser rapidement."
 featured: true
 ---
-
-# Comment débuter le MMA : le guide complet pour les débutants
-
 Le MMA (Mixed Martial Arts) est souvent perçu comme un sport brutal réservé aux athlètes confirmés. C'est une idée reçue. Chaque champion de l'UFC a un jour enfilé sa première paire de gants sans savoir frapper. Ce guide s'adresse à tous ceux qui veulent se lancer, quel que soit leur niveau de départ.
 
 ## Qu'est-ce que le MMA exactement ?
