@@ -43,3 +43,9 @@ Quelle que soit votre raison d'y venir — forme physique, compétition, ou simp
 ---
 
 Retrouvez notre guide complet pour débuter le Muay Thaï et tous nos articles techniques sur FightFocus.
+
+## Pour aller plus loin
+
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)

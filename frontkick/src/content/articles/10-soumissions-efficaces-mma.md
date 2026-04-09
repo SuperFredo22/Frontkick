@@ -41,3 +41,9 @@ Maîtriser ces techniques demande des années de travail sérieux avec des parte
 ---
 
 Retrouvez nos guides complets sur le grappling, le BJJ et les techniques MMA sur FightFocus.
+
+## Pour aller plus loin
+
+- [Nutrition optimale pour les arts martiaux : quoi manger et quand](/articles/alimentation-sportif-arts-martiaux)
+- [Débuter les sports de combat à 30 ans et plus : c'est possible et voici comment](/articles/debuter-sports-de-combat-apres-30-ans)
+- [Comment débuter le MMA : le guide complet pour les débutants](/articles/guide-debuter-mma)

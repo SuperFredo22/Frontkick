@@ -51,3 +51,9 @@ En shadow boxing, intégrez le teep avec la même fréquence naturelle qu'un jab
 ---
 
 Retrouvez tous nos guides techniques Muay Thaï et nos analyses de combat sur FightFocus.
+
+## Pour aller plus loin
+
+- [Le low kick en Muay Thaï et Kickboxing : technique, puissance et application](/articles/low-kick-muay-thai-technique-puissance)
+- [Maîtriser le roundhouse kick en Muay-Thaï : technique et puissance](/articles/muay-thai-roundhouse-kick)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)

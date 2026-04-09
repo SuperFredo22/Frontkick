@@ -99,3 +99,9 @@ Pour un pratiquant de BJJ ou de lutte qui veut passer au MMA, les adaptations pr
 ## Conclusion
 
 Le grappling est une base indispensable pour tout combattant MMA sérieux — mais c'est une base, pas un système complet. Quand les frappes entrent dans l'équation, les positions changent de valeur, les priorités s'inversent et certains réflexes doivent être réécrits. Ce processus d'adaptation est l'un des aspects les plus fascinants du MMA : c'est un sport qui ne peut pas se réduire à aucune de ses disciplines sources, mais qui crée quelque chose de nouveau à l'intersection de toutes.
+
+## Pour aller plus loin
+
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués](/articles/grappling-disciplines-gi-nogi-luta-livre)
+- [Comment débuter le BJJ et le grappling : le guide complet pour les débutants](/articles/guide-debuter-bjj-grappling)

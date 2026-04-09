@@ -47,3 +47,9 @@ Pour une première approche des sports de combat d'Asie du Sud-Est, le Muay Tha�
 ---
 
 Retrouvez nos analyses complètes sur le Lethwei, le Muay Thaï et tous les sports de combat d'Asie sur FightFocus.
+
+## Pour aller plus loin
+
+- [Lethwei : la boxe birmane, l'art martial le plus brutal au monde](/articles/lethwei-boxe-birmane-art-martial-oublie)
+- [Lethwei : le sport de combat birman où tout est permis](/articles/lethwei-guide-debutant)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

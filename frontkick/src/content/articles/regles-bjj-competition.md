@@ -114,3 +114,9 @@ Les grades en BJJ, du plus bas au plus élevé : blanc, bleu, violet, marron, no
 ## Conclusion
 
 La compétition en BJJ est riche et variée dans ses formats. L'IBJJF offre un cadre structuré et accessible pour les compétitions amateurs. L'ADCC et les formats submission-only représentent le haut niveau du grappling mondial. Connaître ces formats permet de comprendre les choix tactiques des compétiteurs — pourquoi tel pratiquant gère une position plutôt que d'attaquer, pourquoi tel autre prend des risques dans les dernières secondes. Comme en boxe, les règles révèlent la stratégie.
+
+## Pour aller plus loin
+
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués](/articles/grappling-disciplines-gi-nogi-luta-livre)
+- [Grappling vs MMA : ce qui change quand les frappes entrent dans l'équation](/articles/grappling-vs-mma-frappes)

@@ -53,3 +53,9 @@ Aux mitaines avec un partenaire, demandez-lui de présenter la cible à des haut
 ---
 
 Travaillez votre jab tous les jours. C'est le coup le plus simple en apparence, et le plus difficile à parfaitement maîtriser. Retrouvez nos guides techniques boxe et nos analyses sur FightFocus.
+
+## Pour aller plus loin
+
+- [Comment préparer son premier combat amateur de boxe anglaise](/articles/preparation-premier-combat-boxe-amateur)
+- [Boxe anglaise : les 8 coups fondamentaux que tout débutant doit maîtriser](/articles/boxe-8-coups-fondamentaux)
+- [La garde en boxe anglaise : maîtrisez les fondamentaux](/articles/boxe-garde-fondamentale)

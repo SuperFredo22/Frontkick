@@ -86,3 +86,9 @@ Voici un aide à la décision honnête :
 MMA et boxe sont deux grands sports de combat, deux cultures différentes, deux façons d'appréhender le combat. Dire que l'un est "mieux" que l'autre n'a pas de sens. Ce qui compte, c'est ce que tu cherches : spécialisation ou polyvalence, tradition ou modernité, striking pur ou combat complet.
 
 Les deux valent la peine d'être explorés — et les deux transformeront ta façon de voir un combat, quel qu'il soit.
+
+## Pour aller plus loin
+
+- [Comment débuter le MMA : le guide complet pour les débutants](/articles/guide-debuter-mma)
+- [Quel équipement pour débuter le MMA ? Le guide d'achat 2026](/articles/guide-equipement-mma)
+- [Les règles du MMA expliquées : tout comprendre en 5 minutes](/articles/regles-mma-expliquees)

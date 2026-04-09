@@ -95,3 +95,9 @@ Les grands boxeurs regardent des heures de combat — des leurs et de ceux des a
 ## Conclusion
 
 La boxe est un sport d'une richesse tactique extraordinaire une fois qu'on a les bons repères. Distance, jab, garde, esquives, gestion des rounds : ces cinq clés suffisent pour commencer à lire un combat de façon active. Le reste vient avec le temps — et chaque combat regardé avec ces outils en tête révèle quelque chose de nouveau.
+
+## Pour aller plus loin
+
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)
+- [Comment débuter la boxe anglaise : le guide complet pour les débutants](/articles/guide-debuter-boxe)
+- [Quel équipement pour débuter la boxe ? Le guide d'achat 2026](/articles/guide-equipement-boxe)

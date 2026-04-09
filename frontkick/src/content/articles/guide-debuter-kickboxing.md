@@ -100,3 +100,9 @@ Les critères sont les mêmes que pour tout sport de combat : qualifications des
 ## Conclusion
 
 Le kickboxing est un sport complet, physiquement exigeant et très gratifiant à pratiquer. Sa richesse technique — la combinaison poings + pieds — crée des possibilités tactiques que la boxe seule n't offre pas, tout en restant plus accessible pour commencer que le Muay Thaï ou le MMA. C'est un excellent choix, que l'objectif soit la compétition, la forme physique ou simplement le plaisir de pratiquer un sport de combat.
+
+## Pour aller plus loin
+
+- [Kickboxing : Le Guide Complet pour Débuter en Toute Sécurité](/articles/2026-04-07-kickboxing-le-guide-complet-pour-debuter-en-toute-securite)
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Guide Complet des Techniques de Base pour Débutants](/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants)

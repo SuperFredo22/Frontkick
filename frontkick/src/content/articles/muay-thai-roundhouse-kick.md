@@ -51,3 +51,9 @@ En travail à vide, des séries de roundhouse kicks rapides sans cible, en resta
 ---
 
 Un roundhouse kick maîtrisé est l'une des armes les plus dévastatrices des sports de combat. Investissez du temps dans la technique avant de chercher la puissance — retrouvez tous nos guides Muay-Thaï sur FightFocus.
+
+## Pour aller plus loin
+
+- [Le low kick en Muay Thaï et Kickboxing : technique, puissance et application](/articles/low-kick-muay-thai-technique-puissance)
+- [Le teep en Muay Thaï : le coup de pied frontal qui contrôle tout le combat](/articles/teep-muay-thai-guide-technique)
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)

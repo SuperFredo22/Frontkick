@@ -43,3 +43,9 @@ Que vous soyez pratiquant ou simple spectateur, le Lethwei vaut la découverte. 
 ---
 
 Retrouvez tous nos articles sur le Lethwei et les sports de combat d'Asie du Sud-Est sur FightFocus.
+
+## Pour aller plus loin
+
+- [Lethwei vs Muay Thaï : les vraies différences entre les deux sports de combat birmans](/articles/lethwei-vs-muay-thai-differences)
+- [Lethwei : le sport de combat birman où tout est permis](/articles/lethwei-guide-debutant)
+- [La Savate : histoire et techniques de la boxe française](/articles/savate-boxe-francaise-histoire)

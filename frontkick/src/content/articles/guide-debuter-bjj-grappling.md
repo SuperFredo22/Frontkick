@@ -97,3 +97,9 @@ Les critères habituels s'appliquent (entraîneurs qualifiés, ambiance respectu
 ## Conclusion
 
 Le BJJ et le grappling sont des sports qui récompensent la patience et la régularité plus que la force brute. Les premières semaines sont déroutantes — c'est universel. Mais c'est précisément cette courbe d'apprentissage qui rend la progression si gratifiante. Une fois que le sol commence à avoir un sens, il est très difficile d'arrêter.
+
+## Pour aller plus loin
+
+- [Quel équipement pour débuter le BJJ et le grappling ? Le guide d'achat 2026](/articles/guide-equipement-bjj-grappling)
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués](/articles/grappling-disciplines-gi-nogi-luta-livre)

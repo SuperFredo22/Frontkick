@@ -113,3 +113,9 @@ Un budget de départ de **75 à 150 €** couvre l'essentiel pour les premières
 ## Conclusion
 
 L'équipement du kickboxing est accessible et partagé en grande partie avec la boxe et le Muay Thaï. L'investissement principal spécifique est le protège-tibias. Commence par l'essentiel — bandes, gants, protège-dents, coquille — et complète au fur et à mesure que la pratique s'installe.
+
+## Pour aller plus loin
+
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Guide Complet des Techniques de Base pour Débutants](/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants)
+- [Kickboxing : Le Guide Complet pour Débutants](/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants)

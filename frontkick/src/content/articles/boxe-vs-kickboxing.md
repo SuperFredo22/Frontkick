@@ -98,3 +98,9 @@ Un boxeur qui passe au kickboxing doit travailler sa souplesse de hanche et appr
 ## Conclusion
 
 Boxe et kickboxing sont deux disciplines complémentaires plus que concurrentes. La boxe offre une profondeur technique aux poings inégalée ; le kickboxing offre une palette technique plus large et une lecture tactique différente de l'espace. Les deux méritent d'être explorés, et les deux te rendront meilleur dans l'autre.
+
+## Pour aller plus loin
+
+- [Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde](/articles/comment-lire-combat-boxe)
+- [Comment débuter la boxe anglaise : le guide complet pour les débutants](/articles/guide-debuter-boxe)
+- [Quel équipement pour débuter la boxe ? Le guide d'achat 2026](/articles/guide-equipement-boxe)

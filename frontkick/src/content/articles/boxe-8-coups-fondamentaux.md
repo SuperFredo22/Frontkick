@@ -47,3 +47,9 @@ La règle centrale reste la même pour tous les coups : la mécanique doit être
 ---
 
 Retrouvez tous nos guides techniques boxe et nos conseils d'entraînement sur FightFocus.
+
+## Pour aller plus loin
+
+- [La garde en boxe anglaise : maîtrisez les fondamentaux](/articles/boxe-garde-fondamentale)
+- [Le jab : l'arme numéro un du boxeur](/articles/boxe-jab-technique)
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)

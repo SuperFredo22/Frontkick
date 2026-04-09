@@ -45,3 +45,9 @@ Le Sambo reste moins répandu en France que le judo ou le BJJ, mais des clubs ex
 ---
 
 Retrouvez tous nos guides sur le grappling, le Sambo et les arts martiaux russes sur FightFocus.
+
+## Pour aller plus loin
+
+- [Sambo : l'art martial russe redoutable au sol comme debout](/articles/sambo-guide-debutant)
+- [Kyokushin : le karaté full contact qui a révolutionné les sports de combat](/articles/karate-kyokushin-sport-contact-complet)
+- [Sanda : le sport de combat chinois qui mélange boxe, projections et coups de pied](/articles/sanda-wushu-combat-sport-chinois)

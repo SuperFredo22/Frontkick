@@ -44,3 +44,9 @@ Le Sambo est idéal si vous pratiquez déjà le judo ou la lutte et voulez élar
 ---
 
 Si vous cherchez à comprendre pourquoi les combattants issus de l'ex-URSS dominent le grappling mondial, la réponse est dans le Sambo. Retrouvez tous nos guides disciplines sur FightFocus.
+
+## Pour aller plus loin
+
+- [Sambo : l'art martial russe qui a conquis le MMA mondial](/articles/sambo-sport-combat-russe-complet)
+- [Lethwei : le sport de combat birman où tout est permis](/articles/lethwei-guide-debutant)
+- [Sanda : le sport de combat chinois qui mêle frappes et projections](/articles/sanda-guide-debutant)

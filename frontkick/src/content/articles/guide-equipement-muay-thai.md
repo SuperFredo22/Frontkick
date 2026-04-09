@@ -112,3 +112,9 @@ Pour débuter, Venum ou une marque thaïlandaise d'entrée de gamme (Fairtex ou 
 ## Conclusion
 
 L'équipement du Muay Thaï est accessible et pas plus coûteux qu'en boxe. La principale différence à retenir : les protège-tibias sont indispensables rapidement, et on pratique pieds nus. Le reste — gants, bandes, protège-dents — est commun à la plupart des sports de frappe. Investis dans ce qui protège en priorité, le reste vient avec la pratique.
+
+## Pour aller plus loin
+
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)

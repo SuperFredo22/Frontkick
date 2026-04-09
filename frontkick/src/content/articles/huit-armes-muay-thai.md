@@ -130,3 +130,9 @@ Cette logique de combinaison est ce qui rend le Muay Thaï si riche à pratiquer
 ## Conclusion
 
 Maîtriser les huit armes du Muay Thaï est le travail d'une vie. Les débutants apprennent d'abord les bases de chaque arme séparément, puis progressivement les combinent. Ce processus — long, technique, progressif — est précisément ce qui rend la discipline aussi gratifiante sur le long terme. Chaque nouvelle connexion entre deux armes ouvre une nouvelle dimension du combat.
+
+## Pour aller plus loin
+
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)

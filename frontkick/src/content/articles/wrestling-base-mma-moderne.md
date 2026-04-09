@@ -43,3 +43,9 @@ Si vous pratiquez le MMA ou souhaitez débuter, investir du temps dans le wrestl
 ---
 
 Retrouvez tous nos guides MMA et grappling sur FightFocus.
+
+## Pour aller plus loin
+
+- [Débuter les sports de combat à 30 ans et plus : c'est possible et voici comment](/articles/debuter-sports-de-combat-apres-30-ans)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)
+- [Nutrition optimale pour les arts martiaux : quoi manger et quand](/articles/alimentation-sportif-arts-martiaux)

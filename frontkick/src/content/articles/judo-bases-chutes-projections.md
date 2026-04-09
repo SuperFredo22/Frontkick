@@ -47,3 +47,9 @@ Le judo apporte au MMA des takedowns efficaces depuis debout et une culture du c
 ---
 
 Retrouvez nos guides complets sur le judo, le grappling et le BJJ sur FightFocus.
+
+## Pour aller plus loin
+
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués](/articles/grappling-disciplines-gi-nogi-luta-livre)
+- [Grappling vs MMA : ce qui change quand les frappes entrent dans l'équation](/articles/grappling-vs-mma-frappes)

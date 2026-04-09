@@ -81,3 +81,9 @@ Le kickboxing est souvent utilisé comme tremplin vers d'autres sports de combat
 ## Conclusion
 
 Le kickboxing mondial est riche, varié et en évolution constante. Du full contact américain des origines aux grandes organisations comme Glory ou ONE Championship, le sport a trouvé des identités multiples selon les cultures et les traditions locales. Cette diversité est une force : il n'y a pas qu'une seule façon de pratiquer le kickboxing, et chaque format a ses propres défis techniques et tactiques.
+
+## Pour aller plus loin
+
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Guide Complet des Techniques de Base pour Débutants](/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants)
+- [Kickboxing : Le Guide Complet pour Débutants](/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants)

@@ -43,3 +43,9 @@ La faiblesse principale de la Savate pour le MMA est l'absence de travail en cli
 ---
 
 La Savate mérite d'être redécouverte par tous les amateurs de sports de combat. C'est un patrimoine technique français d'une richesse rare. Retrouvez tous nos articles sur la discipline et ses techniques sur FightFocus.
+
+## Pour aller plus loin
+
+- [Savate : la boxe française, art de pied et de poing made in France](/articles/savate-guide-debutant)
+- [Lethwei : la boxe birmane, l'art martial le plus brutal au monde](/articles/lethwei-boxe-birmane-art-martial-oublie)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

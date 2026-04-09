@@ -103,3 +103,9 @@ Les bons combattants MMA issus du Muay Thaï ont développé une garde hybride q
 ## Conclusion
 
 Muay Thaï et MMA ne s'opposent pas — ils se complètent. Le Muay Thaï est l'une des meilleures bases qu'un combattant MMA puisse avoir, et le MMA est souvent la prochaine étape naturelle pour un pratiquant de Muay Thaï qui veut explorer un sport de combat sans limitation. Les deux méritent d'être pratiqués.
+
+## Pour aller plus loin
+
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)

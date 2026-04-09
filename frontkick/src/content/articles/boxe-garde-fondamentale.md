@@ -55,3 +55,9 @@ Une bonne garde ne se construit pas en une séance. C'est un travail de semaines
 ---
 
 Retrouvez tous nos guides techniques boxe et nos conseils pour débutants sur FightFocus.
+
+## Pour aller plus loin
+
+- [Boxe anglaise : les 8 coups fondamentaux que tout débutant doit maîtriser](/articles/boxe-8-coups-fondamentaux)
+- [Le jab : l'arme numéro un du boxeur](/articles/boxe-jab-technique)
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)

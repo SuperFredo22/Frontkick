@@ -43,3 +43,9 @@ N'oubliez pas de prévoir dans votre budget la chaîne de suspension, les mousqu
 ---
 
 Retrouvez tous nos guides équipement et nos conseils d'entraînement par discipline sur FightFocus.
+
+## Pour aller plus loin
+
+- [Comment débuter la boxe anglaise : le guide complet pour les débutants](/articles/guide-debuter-boxe)
+- [Quel équipement pour débuter la boxe ? Le guide d'achat 2026](/articles/guide-equipement-boxe)
+- [Boxe anglaise : les 8 coups fondamentaux que tout débutant doit maîtriser](/articles/boxe-8-coups-fondamentaux)

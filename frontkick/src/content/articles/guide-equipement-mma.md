@@ -98,3 +98,9 @@ Pour les sous-gants et le protège-dents, les marques de grande distribution spo
 L'équipement ne fait pas le combattant — mais un mauvais équipement peut provoquer des blessures inutiles ou gêner ta progression. Investis en priorité dans ce qui protège (coquille, protège-dents, sous-gants, gants) et complète le reste au fur et à mesure.
 
 Ton club peut aussi avoir des équipements à prêter pour les premières séances — n'hésite pas à demander avant d'acheter.
+
+## Pour aller plus loin
+
+- [Comment débuter le MMA : le guide complet pour les débutants](/articles/guide-debuter-mma)
+- [MMA vs Boxe : quelles différences ? Le comparatif complet](/articles/mma-vs-boxe-differences)
+- [Les règles du MMA expliquées : tout comprendre en 5 minutes](/articles/regles-mma-expliquees)

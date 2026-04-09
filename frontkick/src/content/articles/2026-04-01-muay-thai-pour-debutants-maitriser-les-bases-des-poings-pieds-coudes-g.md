@@ -32,3 +32,9 @@ La stratégie la plus importante pour un débutant est l'apprentissage de la com
 
 ---
 Que vous ayez découvert les bases des poings, des pieds, des coudes ou des genoux, l'aventure du Muay Thaï ne fait que commencer. Continuez à explorer, à vous entraîner avec assiduité, et n'hésitez pas à revenir sur FightFocus.fr pour approfondir vos connaissances et découvrir d'autres aspects fascinants des sports de combat.
+
+## Pour aller plus loin
+
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)
+- [Quel équipement pour débuter le Muay Thaï ? Le guide d'achat 2026](/articles/guide-equipement-muay-thai)

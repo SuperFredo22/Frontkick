@@ -90,3 +90,9 @@ En entraînement, la sécurité passe avant tout. Quelques règles fondamentales
 Le MMA est un sport accessible, complet et profondément gratifiant. La progression visible au fil des semaines — en technique, en condition physique, en confiance — est l'une des raisons pour lesquelles tant de pratiquants ne l'abandonnent plus une fois commencé.
 
 Le plus difficile, c'est de franchir la porte du club la première fois. Après ça, le reste suit naturellement.
+
+## Pour aller plus loin
+
+- [Quel équipement pour débuter le MMA ? Le guide d'achat 2026](/articles/guide-equipement-mma)
+- [MMA vs Boxe : quelles différences ? Le comparatif complet](/articles/mma-vs-boxe-differences)
+- [Les règles du MMA expliquées : tout comprendre en 5 minutes](/articles/regles-mma-expliquees)

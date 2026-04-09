@@ -100,3 +100,9 @@ Les critères sont similaires à ceux d'un club de boxe : qualifications des ent
 ## Conclusion
 
 Le Muay Thaï est une discipline complète, physiquement exigeante et techniquement riche. Sa courbe d'apprentissage est un peu plus longue que la boxe du fait du nombre d'armes à maîtriser, mais chaque nouvel outil appris ouvre de nouvelles dimensions dans le combat. C'est un sport qui se pratique toute une vie — et qui transforme durablement ceux qui s'y consacrent.
+
+## Pour aller plus loin
+
+- [Quel équipement pour débuter le Muay Thaï ? Le guide d'achat 2026](/articles/guide-equipement-muay-thai)
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)

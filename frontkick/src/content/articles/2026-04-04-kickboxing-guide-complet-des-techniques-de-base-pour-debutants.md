@@ -35,3 +35,9 @@ Le coup de pied de côté est une autre technique fondamentale. Il est lancé en
 La pratique des coups de pied demande une bonne souplesse et un excellent équilibre. Il est essentiel de travailler ces aspects en parallèle des techniques elles-mêmes. Les exercices d'assouplissement et de renforcement musculaire des jambes sont donc indispensables. De plus, comme pour les coups de poing, le travail au sac de frappe et avec un partenaire est crucial pour développer la puissance, la précision et l'apprentissage des distances appropriées pour chaque coup.
 
 Pour progresser en kickboxing, la patience et la persévérance sont vos meilleurs alliés. N'hésitez pas à revenir sur ces bases fondamentales régulièrement. Pour découvrir d'autres techniques, des conseils d'entraînement et rester informé des actualités du monde des sports de combat, continuez de consulter FightFocus.fr.
+
+## Pour aller plus loin
+
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Le Guide Complet pour Débutants](/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants)
+- [Kickboxing : Le Guide Complet pour Débuter en Toute Sécurité](/articles/2026-04-07-kickboxing-le-guide-complet-pour-debuter-en-toute-securite)

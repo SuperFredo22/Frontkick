@@ -60,3 +60,9 @@ Enfin, le **conditionnement physique (Physical Conditioning)** est le socle sur 
 En maîtrisant ces huit techniques fondamentales et en intégrant les principes de défense, de contre-attaque et d'application tactique, tout débutant en Muay Thaï posera les jalons d'une pratique solide et épanouissante.
 
 Pour continuer à explorer les subtilités du Muay Thaï et découvrir d'autres guides exclusifs, restez connecté sur FightFocus.fr !
+
+## Pour aller plus loin
+
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)
+- [Quel équipement pour débuter le Muay Thaï ? Le guide d'achat 2026](/articles/guide-equipement-muay-thai)

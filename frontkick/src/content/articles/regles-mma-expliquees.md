@@ -109,3 +109,9 @@ Les règles pour le MMA amateur sont souvent plus restrictives pour des raisons 
 ## Conclusion
 
 Le MMA est un sport régi par des règles précises, fruit de décennies d'évolution pour concilier spectacle et sécurité des athlètes. Connaître ces règles est indispensable pour apprécier pleinement la technicité des combats — et comprendre pourquoi certains combattants font des choix tactiques qui peuvent sembler étranges au premier abord.
+
+## Pour aller plus loin
+
+- [Comment débuter le MMA : le guide complet pour les débutants](/articles/guide-debuter-mma)
+- [Quel équipement pour débuter le MMA ? Le guide d'achat 2026](/articles/guide-equipement-mma)
+- [MMA vs Boxe : quelles différences ? Le comparatif complet](/articles/mma-vs-boxe-differences)

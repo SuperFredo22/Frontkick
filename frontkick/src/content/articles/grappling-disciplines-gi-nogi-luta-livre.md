@@ -138,3 +138,9 @@ En MMA, le grappling no-gi est la norme — le combat en cage se fait sans kimon
 Le grappling est un univers riche et varié, avec des cultures, des histoires et des philosophies techniques différentes selon les disciplines. La distinction Gi / No-Gi n'est pas qu'une question de tenue — c'est une différence de logique technique et tactique. La Luta Livre est un exemple frappant de la façon dont un sport de combat peut porter en lui une identité sociale et culturelle forte, au-delà de ses seules techniques.
 
 Pour un débutant qui veut s'initier au grappling, toutes ces disciplines partagent une base commune : apprendre à contrôler son corps et celui de l'adversaire, comprendre les positions et développer une lecture tactique du combat au sol. Le reste vient avec la pratique.
+
+## Pour aller plus loin
+
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Grappling vs MMA : ce qui change quand les frappes entrent dans l'équation](/articles/grappling-vs-mma-frappes)
+- [Comment débuter le BJJ et le grappling : le guide complet pour les débutants](/articles/guide-debuter-bjj-grappling)

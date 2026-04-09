@@ -49,3 +49,9 @@ Les compléments à éviter ou à traiter avec prudence sont nombreux. Les "fat 
 ---
 
 Retrouvez tous nos guides nutrition et nos conseils d'entraînement pour les sports de combat sur FightFocus.
+
+## Pour aller plus loin
+
+- [Gérer le stress de la compétition en arts martiaux : techniques mentales éprouvées](/articles/mental-competition-gerer-stress)
+- [Programme de préparation physique pour le MMA : 8 semaines pour être prêt](/articles/mma-preparation-physique-programme)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

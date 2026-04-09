@@ -133,3 +133,9 @@ Un Gi non entretenu devient rapidement une source de problèmes hygiéniques —
 ## Conclusion
 
 L'équipement du BJJ et du grappling est simple et peu coûteux comparé à d'autres sports de combat. Un bon Gi pour la pratique avec kimono, un rash guard et un short pour le No-Gi — c'est tout ce dont tu as besoin pour commencer. Investis dans un Gi de qualité correcte dès le départ : c'est la pièce que tu utiliseras à chaque séance pendant des années.
+
+## Pour aller plus loin
+
+- [Comment débuter le BJJ et le grappling : le guide complet pour les débutants](/articles/guide-debuter-bjj-grappling)
+- [Grappling & BJJ : 8 Bases Essentielles pour Débutants](/articles/2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants)
+- [Le grappling : disciplines, Gi vs No-Gi et Luta Livre expliqués](/articles/grappling-disciplines-gi-nogi-luta-livre)

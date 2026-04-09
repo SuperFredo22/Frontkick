@@ -130,3 +130,9 @@ Si tu vises la compétition, renseigne-toi sur le format le plus pratiqué dans 
 ## Conclusion
 
 Le kickboxing n'est pas un sport unique mais une famille de disciplines. Le full contact est le plus accessible et le plus proche de la boxe. Le K-1 et Glory sont plus complets tactiquement avec les low kicks et les genoux. Dans tous les cas, les fondamentaux techniques se travaillent de la même façon — c'est le contexte compétitif qui détermine quelles armes préparer en priorité.
+
+## Pour aller plus loin
+
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Guide Complet des Techniques de Base pour Débutants](/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants)
+- [Kickboxing : Le Guide Complet pour Débutants](/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants)

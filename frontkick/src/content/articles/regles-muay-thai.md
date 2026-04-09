@@ -96,3 +96,9 @@ En France, la pratique compétitive du Muay Thaï est réglementée par la Féd�
 ## Conclusion
 
 Le Muay Thaï est un sport à la fois simple dans sa logique — frapper avec le maximum d'armes disponibles — et complexe dans son exécution. Comprendre les règles, notamment la place centrale du clinch et la richesse des techniques autorisées, change complètement la façon de regarder un combat. Chaque échange n'est pas seulement une question de poings ou de pieds, mais d'une combinaison permanente des huit armes dans une logique tactique fluide.
+
+## Pour aller plus loin
+
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)
+- [Muay Thaï pour Débutants : Maîtriser les Bases des Poings, Pieds, Coudes & Genoux](/articles/2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g)
+- [Comment débuter le Muay Thaï : le guide complet pour les débutants](/articles/guide-debuter-muay-thai)

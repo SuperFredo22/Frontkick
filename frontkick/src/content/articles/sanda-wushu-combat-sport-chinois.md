@@ -45,3 +45,9 @@ Le Sanda reste relativement confidentiel en France comparé à la boxe ou au MMA
 ---
 
 Retrouvez tous nos guides sur les arts martiaux asiatiques et le Sanda sur FightFocus.
+
+## Pour aller plus loin
+
+- [Sanda : le sport de combat chinois qui mêle frappes et projections](/articles/sanda-guide-debutant)
+- [Sambo : l'art martial russe qui a conquis le MMA mondial](/articles/sambo-sport-combat-russe-complet)
+- [Kyokushin : le karaté full contact qui a révolutionné les sports de combat](/articles/karate-kyokushin-sport-contact-complet)

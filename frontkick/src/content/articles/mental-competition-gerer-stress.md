@@ -51,3 +51,9 @@ Multiplier les expériences compétitives, même modestes — inter-clubs, stage
 ---
 
 Retrouvez tous nos guides de préparation mentale et technique sur FightFocus.
+
+## Pour aller plus loin
+
+- [Nutrition optimale pour les arts martiaux : quoi manger et quand](/articles/alimentation-sportif-arts-martiaux)
+- [Programme de préparation physique pour le MMA : 8 semaines pour être prêt](/articles/mma-preparation-physique-programme)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

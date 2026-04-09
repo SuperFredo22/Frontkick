@@ -47,3 +47,9 @@ Quoi qu'il arrive au résultat final, ce premier combat est une expérience qui 
 ---
 
 Retrouvez tous nos guides de préparation et de technique boxe sur FightFocus.
+
+## Pour aller plus loin
+
+- [Le jab : l'arme numéro un du boxeur](/articles/boxe-jab-technique)
+- [Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde](/articles/comment-lire-combat-boxe)
+- [Boxe anglaise : les 8 coups fondamentaux que tout débutant doit maîtriser](/articles/boxe-8-coups-fondamentaux)

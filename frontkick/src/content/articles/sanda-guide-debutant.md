@@ -46,3 +46,9 @@ Le leitai ajoute une dimension mentale particulière. Savoir que vous pouvez per
 ---
 
 Retrouvez tous nos guides sur les arts martiaux asiatiques et les disciplines de combat sur FightFocus.
+
+## Pour aller plus loin
+
+- [Sanda : le sport de combat chinois qui mélange boxe, projections et coups de pied](/articles/sanda-wushu-combat-sport-chinois)
+- [Lethwei : le sport de combat birman où tout est permis](/articles/lethwei-guide-debutant)
+- [Sambo : l'art martial russe redoutable au sol comme debout](/articles/sambo-guide-debutant)

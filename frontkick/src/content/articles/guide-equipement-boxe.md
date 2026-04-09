@@ -106,3 +106,9 @@ Pour débuter, Everlast et Venum offrent un excellent rapport qualité/prix. Cle
 La boxe ne nécessite pas un investissement matériel important pour commencer. Les quatre pièces essentielles — bandes, protège-dents, gants, coquille — peuvent être réunies pour moins de 100 €. Le reste vient progressivement, au rythme de ta pratique.
 
 Ce qui compte d'abord, c'est de mettre les pieds dans un bon club.
+
+## Pour aller plus loin
+
+- [Comment débuter la boxe anglaise : le guide complet pour les débutants](/articles/guide-debuter-boxe)
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)
+- [Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde](/articles/comment-lire-combat-boxe)

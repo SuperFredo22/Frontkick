@@ -57,3 +57,9 @@ La condition physique est un avantage compétitif en MMA, particulièrement dans
 ---
 
 Retrouvez tous nos guides d'entraînement MMA et nos conseils de conditioning sur FightFocus.
+
+## Pour aller plus loin
+
+- [Nutrition optimale pour les arts martiaux : quoi manger et quand](/articles/alimentation-sportif-arts-martiaux)
+- [Gérer le stress de la compétition en arts martiaux : techniques mentales éprouvées](/articles/mental-competition-gerer-stress)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

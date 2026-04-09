@@ -42,3 +42,9 @@ Il ne faut pas le confondre avec une violence gratuite. Les combattants de Lethw
 ---
 
 Attention : ne tentez jamais d'utiliser des coups de tête en sparring sans encadrement et équipement spécifique. Retrouvez tous nos articles sur les disciplines extrêmes et le Muay-Thaï sur FightFocus.
+
+## Pour aller plus loin
+
+- [Lethwei : la boxe birmane, l'art martial le plus brutal au monde](/articles/lethwei-boxe-birmane-art-martial-oublie)
+- [Lethwei vs Muay Thaï : les vraies différences entre les deux sports de combat birmans](/articles/lethwei-vs-muay-thai-differences)
+- [Sambo : l'art martial russe redoutable au sol comme debout](/articles/sambo-guide-debutant)

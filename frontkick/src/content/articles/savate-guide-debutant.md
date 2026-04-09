@@ -40,3 +40,9 @@ Les enfants aussi peuvent débuter tôt — certains clubs accueillent les jeune
 ---
 
 La Savate est un excellent point d'entrée dans les sports de combat pour les débutants : très technique, encadrée, et avec un vrai système de progression. Retrouvez tous nos guides sur les disciplines françaises et le kickboxing sur FightFocus.
+
+## Pour aller plus loin
+
+- [La Savate : histoire et techniques de la boxe française](/articles/savate-boxe-francaise-histoire)
+- [Lethwei : le sport de combat birman où tout est permis](/articles/lethwei-guide-debutant)
+- [Sambo : l'art martial russe redoutable au sol comme debout](/articles/sambo-guide-debutant)

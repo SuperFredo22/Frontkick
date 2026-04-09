@@ -109,3 +109,9 @@ Pour autant, le kickboxing de haut niveau (notamment le style néerlandais) exig
 ## Conclusion
 
 Kickboxing et Muay Thaï partagent une base commune solide, mais le Muay Thaï est un sport plus complet avec ses coudes et son clinch actif. Le kickboxing, notamment en format K-1/Glory, est tactiquement très riche avec ses low kicks et sa boxe travaillée. Les deux se respectent et se complètent — et un bon pratiquant de l'un sera rapidement à l'aise dans l'autre, avec un peu d'adaptation.
+
+## Pour aller plus loin
+
+- [Kickboxing pour débutants : Le guide complet des bases](/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases)
+- [Kickboxing : Guide Complet des Techniques de Base pour Débutants](/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants)
+- [Kickboxing : Le Guide Complet pour Débutants](/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants)

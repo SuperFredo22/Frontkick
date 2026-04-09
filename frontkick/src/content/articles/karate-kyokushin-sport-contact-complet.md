@@ -45,3 +45,9 @@ Le Kyokushin est présent en France avec des clubs affiliés à différentes org
 ---
 
 Le Kyokushin représente l'une des traditions les plus rigoureuses des arts martiaux. Retrouvez tous nos guides karaté et sports de combat debout sur FightFocus.
+
+## Pour aller plus loin
+
+- [Sambo : l'art martial russe qui a conquis le MMA mondial](/articles/sambo-sport-combat-russe-complet)
+- [Sanda : le sport de combat chinois qui mélange boxe, projections et coups de pied](/articles/sanda-wushu-combat-sport-chinois)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

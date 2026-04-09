@@ -51,3 +51,9 @@ Le tibia se conditionne progressivement à travers les frappes régulières sur 
 ---
 
 Retrouvez tous nos guides techniques sur le Muay-Thaï et le kickboxing sur FightFocus.
+
+## Pour aller plus loin
+
+- [Maîtriser le roundhouse kick en Muay-Thaï : technique et puissance](/articles/muay-thai-roundhouse-kick)
+- [Le teep en Muay Thaï : le coup de pied frontal qui contrôle tout le combat](/articles/teep-muay-thai-guide-technique)
+- [Muay Thaï : 8 Techniques Essentielles pour Débutants](/articles/2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants)

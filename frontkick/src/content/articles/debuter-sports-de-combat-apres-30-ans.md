@@ -49,3 +49,9 @@ Il n'est jamais trop tard pour commencer. La seule condition, c'est de commencer
 ---
 
 Retrouvez tous nos guides pour débuter et nos conseils d'entraînement par discipline sur FightFocus.
+
+## Pour aller plus loin
+
+- [Le wrestling en MMA : pourquoi c'est la base de l'UFC moderne](/articles/wrestling-base-mma-moderne)
+- [Comment débuter le MMA : le guide complet pour les débutants](/articles/guide-debuter-mma)
+- [Les 10 soumissions les plus efficaces en MMA : technique et application](/articles/10-soumissions-efficaces-mma)

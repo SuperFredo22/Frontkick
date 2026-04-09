@@ -109,3 +109,9 @@ Tu n'as pas besoin de choisir dès le premier jour — la plupart des pratiquant
 La boxe est un sport qui récompense la régularité et la patience. Les progrès ne sont pas toujours visibles de l'extérieur au début — mais la première fois qu'une combinaison s'enchaîne naturellement, sans avoir à réfléchir, tu comprendras pourquoi tant de pratiquants ne l'abandonnent jamais.
 
 La porte du club est la seule vraie barrière.
+
+## Pour aller plus loin
+
+- [Quel équipement pour débuter la boxe ? Le guide d'achat 2026](/articles/guide-equipement-boxe)
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)
+- [Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde](/articles/comment-lire-combat-boxe)

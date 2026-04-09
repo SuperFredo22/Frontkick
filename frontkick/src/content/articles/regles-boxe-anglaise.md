@@ -128,3 +128,9 @@ La boxe amateur est le chemin classique vers la boxe professionnelle en France, 
 ## Conclusion
 
 Connaître les règles de la boxe permet de voir un combat avec un regard totalement différent. Ce qui ressemble à un échange de coups désorganisé révèle, une fois les règles intégrées, une série de décisions tactiques, de prises de risques calculées et d'ajustements permanents. C'est ce qui fait de la boxe l'un des sports de combat les plus riches à observer.
+
+## Pour aller plus loin
+
+- [Boxe vs Kickboxing : quelles différences ? Le comparatif complet](/articles/boxe-vs-kickboxing)
+- [Comment lire un combat de boxe : les clés pour comprendre ce qu'on regarde](/articles/comment-lire-combat-boxe)
+- [Comment débuter la boxe anglaise : le guide complet pour les débutants](/articles/guide-debuter-boxe)
