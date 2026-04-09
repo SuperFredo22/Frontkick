@@ -138,15 +138,6 @@ const canonicalURL = new URL(currentPath, siteUrl);
   </div>
   <nav class="nav-bar" role="navigation" aria-label="Navigation principale">
     <div class="nav-inner">
-      <!-- Barre de recherche mobile (visible uniquement dans le menu hamburger) -->
-      <div class="nav-mobile-search">
-        <form action="/search" method="get">
-          <input type="text" name="q" placeholder="Rechercher un article…" autocomplete="off" aria-label="Rechercher" />
-          <button type="submit" aria-label="Rechercher">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </button>
-        </form>
-      </div>
       <a href="/" class={`nav-link ${currentPath === '/' ? 'active' : ''}`}>Accueil</a>
 
       <!-- Disciplines principales -->
