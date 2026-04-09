@@ -2201,3 +2201,27 @@ footer {
   .art-image--featured { flex: 0 0 180px !important; min-height: 180px !important; }
   .art-body--featured { padding: 18px 16px !important; }
 }
+
+/* ═══════════════════════════════════════
+   DISCIPLINE HERO — couleurs forcées
+   (override light mode et tout héritage)
+═══════════════════════════════════════ */
+.discipline-hero,
+.discipline-hero * { box-sizing: border-box; }
+.discipline-hero .discipline-hero__label {
+  color: rgba(255,255,255,0.6) !important;
+}
+.discipline-hero .discipline-hero__title {
+  color: #ffffff !important;
+}
+.discipline-hero .discipline-hero__desc {
+  color: rgba(255,255,255,0.82) !important;
+}
+.discipline-hero .discipline-hero__bg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0.75 !important;
+}
