@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A1540"/>
+      <stop offset="55%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <radialGradient id="vign" cx="28%" cy="50%" r="90%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.72)"/>
+    </radialGradient>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" seed="7" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+      <feBlend in="SourceGraphic" in2="g" mode="multiply" result="b"/>
+      <feComposite in="b" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="rgba(160,160,160,0.14)" filter="url(#grain)"/>
+
+  <!-- Mat grid pattern (right half) -->
+  <line x1="448" y1="0" x2="448" y2="450" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="528" y1="0" x2="528" y2="450" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="608" y1="0" x2="608" y2="450" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="688" y1="0" x2="688" y2="450" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="768" y1="0" x2="768" y2="450" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="448" y1="90"  x2="800" y2="90"  stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="448" y1="180" x2="800" y2="180" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="448" y1="270" x2="800" y2="270" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+  <line x1="448" y1="360" x2="800" y2="360" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+
+  <!-- Guard triangle -->
+  <polygon points="635,148 712,288 558,288" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="2.5"/>
+  <!-- Submission lock circles -->
+  <circle cx="635" cy="225" r="108" fill="none" stroke="rgba(59,130,246,0.28)" stroke-width="4"/>
+  <circle cx="635" cy="225" r="72" fill="none" stroke="rgba(59,130,246,0.18)" stroke-width="3"/>
+  <circle cx="635" cy="225" r="38" fill="rgba(37,99,235,0.10)"/>
+  <!-- Arm bar / lock path -->
+  <path d="M592,182 Q635,150 678,182 Q714,218 678,258 Q635,290 592,258 Q556,222 592,182" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="5" stroke-linecap="round"/>
+
+  <line x1="0" y1="380" x2="360" y2="0" stroke="rgba(59,130,246,0.16)" stroke-width="1.5"/>
+  <line x1="0" y1="280" x2="260" y2="0" stroke="rgba(59,130,246,0.09)" stroke-width="1"/>
+
+  <rect x="62" y="148" width="50" height="2" fill="rgba(96,165,250,0.55)"/>
+
+  <!-- Text shadow -->
+  <text x="66" y="224" font-family="'Arial Black',Impact,sans-serif" font-size="92" font-weight="900" fill="rgba(0,0,0,0.45)">GRAP</text>
+  <text x="66" y="316" font-family="'Arial Black',Impact,sans-serif" font-size="92" font-weight="900" fill="rgba(0,0,0,0.45)">PLING</text>
+  <!-- Main text -->
+  <text x="62" y="220" font-family="'Arial Black',Impact,sans-serif" font-size="92" font-weight="900" fill="white" opacity="0.97">GRAP</text>
+  <text x="62" y="312" font-family="'Arial Black',Impact,sans-serif" font-size="92" font-weight="900" fill="white" opacity="0.97">PLING</text>
+
+  <text x="66" y="344" font-family="Arial,sans-serif" font-size="15" fill="rgba(255,255,255,0.48)" letter-spacing="8">BJJ · JUDO · WRESTLING</text>
+  <rect x="66" y="360" width="55" height="3" rx="1.5" fill="#3B82F6"/>
+  <rect x="127" y="360" width="120" height="3" rx="1.5" fill="rgba(255,255,255,0.12)"/>
+  <text x="66" y="396" font-family="Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.35)" letter-spacing="4">SOUMISSION · PROJECTION</text>
+  <text x="66" y="422" font-family="Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.18)" letter-spacing="6">FIGHTFOCUS.FR</text>
+
+  <rect width="800" height="450" fill="url(#vign)"/>
+</svg>

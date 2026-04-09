@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070F1E"/>
+      <stop offset="55%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <radialGradient id="vign" cx="28%" cy="50%" r="90%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.72)"/>
+    </radialGradient>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" seed="6" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+      <feBlend in="SourceGraphic" in2="g" mode="multiply" result="b"/>
+      <feComposite in="b" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="rgba(160,160,160,0.13)" filter="url(#grain)"/>
+
+  <!-- Tricolore bands (right edge) -->
+  <rect x="700" y="0" width="34" height="450" fill="rgba(0,50,160,0.22)"/>
+  <rect x="734" y="0" width="33" height="450" fill="rgba(255,255,255,0.09)"/>
+  <rect x="767" y="0" width="33" height="450" fill="rgba(220,38,38,0.22)"/>
+
+  <!-- Fleur-de-lis abstract (stylized) -->
+  <ellipse cx="620" cy="175" rx="18" ry="45" fill="rgba(255,255,255,0.10)"/>
+  <ellipse cx="595" cy="200" rx="28" ry="18" fill="rgba(255,255,255,0.08)" transform="rotate(-30,595,200)"/>
+  <ellipse cx="645" cy="200" rx="28" ry="18" fill="rgba(255,255,255,0.08)" transform="rotate(30,645,200)"/>
+  <rect x="614" y="215" width="12" height="55" rx="6" fill="rgba(255,255,255,0.10)"/>
+  <!-- Circular accent -->
+  <circle cx="620" cy="215" r="85" fill="none" stroke="rgba(37,99,235,0.28)" stroke-width="3"/>
+  <circle cx="620" cy="215" r="55" fill="none" stroke="rgba(37,99,235,0.16)" stroke-width="2"/>
+
+  <!-- Diagonal lines -->
+  <line x1="0" y1="360" x2="340" y2="0" stroke="rgba(59,130,246,0.14)" stroke-width="1.5"/>
+  <line x1="0" y1="270" x2="250" y2="0" stroke="rgba(59,130,246,0.08)" stroke-width="1"/>
+
+  <rect x="62" y="148" width="50" height="2" fill="rgba(96,165,250,0.55)"/>
+
+  <!-- Text shadow -->
+  <text x="66" y="228" font-family="'Arial Black',Impact,sans-serif" font-size="102" font-weight="900" fill="rgba(0,0,0,0.48)" letter-spacing="-1">SAVATE</text>
+  <!-- Main text -->
+  <text x="62" y="224" font-family="'Arial Black',Impact,sans-serif" font-size="102" font-weight="900" fill="white" opacity="0.97" letter-spacing="-1">SAVATE</text>
+
+  <text x="66" y="268" font-family="Arial,sans-serif" font-size="17" fill="rgba(255,255,255,0.50)" letter-spacing="9">BOXE FRANÇAISE</text>
+  <rect x="66" y="286" width="55" height="3" rx="1.5" fill="#2563EB"/>
+  <rect x="127" y="286" width="100" height="3" rx="1.5" fill="rgba(255,255,255,0.12)"/>
+  <text x="66" y="325" font-family="Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.34)" letter-spacing="4">CHAUSSON · TIREURS · FRANCE</text>
+  <text x="66" y="422" font-family="Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.18)" letter-spacing="6">FIGHTFOCUS.FR</text>
+
+  <rect width="800" height="450" fill="url(#vign)"/>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0000"/>
+      <stop offset="55%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+    <radialGradient id="vign" cx="28%" cy="50%" r="90%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.74)"/>
+    </radialGradient>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" seed="11" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+      <feBlend in="SourceGraphic" in2="g" mode="multiply" result="b"/>
+      <feComposite in="b" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="rgba(160,160,160,0.13)" filter="url(#grain)"/>
+
+  <!-- Russian flag horizontal echoes -->
+  <rect x="450" y="0"   width="350" height="150" fill="rgba(255,255,255,0.025)"/>
+  <rect x="450" y="150" width="350" height="150" fill="rgba(0,60,150,0.05)"/>
+  <rect x="450" y="300" width="350" height="150" fill="rgba(220,38,38,0.06)"/>
+
+  <!-- 5-point star - large centered right -->
+  <polygon points="660,102 675,145 720,145 685,170 698,214 660,189 622,214 635,170 600,145 645,145" fill="none" stroke="rgba(220,38,38,0.38)" stroke-width="3"/>
+  <polygon points="660,118 671,150 705,150 679,167 689,200 660,182 631,200 641,167 615,150 649,150" fill="rgba(220,38,38,0.14)"/>
+  <!-- Second star smaller -->
+  <polygon points="700,295 710,322 738,322 716,337 724,364 700,349 676,364 684,337 662,322 690,322" fill="none" stroke="rgba(220,38,38,0.22)" stroke-width="2"/>
+  <!-- Third star tiny -->
+  <polygon points="625,338 631,356 650,356 636,366 641,384 625,374 609,384 614,366 600,356 619,356" fill="none" stroke="rgba(220,38,38,0.15)" stroke-width="1.5"/>
+
+  <!-- Diagonal lines -->
+  <line x1="0" y1="360" x2="340" y2="0" stroke="rgba(220,38,38,0.14)" stroke-width="1.5"/>
+  <line x1="0" y1="280" x2="260" y2="0" stroke="rgba(220,38,38,0.08)" stroke-width="1"/>
+
+  <rect x="62" y="148" width="50" height="2" fill="rgba(220,38,38,0.65)"/>
+
+  <!-- Text shadow -->
+  <text x="66" y="232" font-family="'Arial Black',Impact,sans-serif" font-size="124" font-weight="900" fill="rgba(0,0,0,0.50)" letter-spacing="-3">SAMBO</text>
+  <!-- Main text -->
+  <text x="62" y="228" font-family="'Arial Black',Impact,sans-serif" font-size="124" font-weight="900" fill="white" opacity="0.97" letter-spacing="-3">SAMBO</text>
+
+  <text x="66" y="272" font-family="Arial,sans-serif" font-size="17" fill="rgba(255,255,255,0.50)" letter-spacing="8">САМБО · RUSSIE</text>
+  <rect x="66" y="290" width="52" height="3" rx="1.5" fill="#dc2626"/>
+  <rect x="124" y="290" width="90" height="3" rx="1.5" fill="rgba(255,255,255,0.12)"/>
+  <text x="66" y="328" font-family="Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.34)" letter-spacing="4">LUTTE · SOUMISSION · COMBAT</text>
+  <text x="66" y="422" font-family="Arial,sans-serif" font-size="11" fill="rgba(255,255,255,0.18)" letter-spacing="6">FIGHTFOCUS.FR</text>
+
+  <rect width="800" height="450" fill="url(#vign)"/>
+</svg>
