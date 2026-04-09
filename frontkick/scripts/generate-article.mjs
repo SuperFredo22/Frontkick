@@ -1,35 +1,195 @@
 // generate-article.mjs
-// FightFocus — V7-SAFE
-// Perplexity = idée SEO uniquement (jamais de faits)
-// Gemini = rédaction evergreen 100% fiable
-// Correctifs V3.2 intégrés : strip backticks, normalize tirets, repair frontmatter,
-//                            anti-doublon, exit code, rotation sports
+// FightFocus — V8-EXPERT
+// Pipeline : Banque interne → Gemini rédaction → Gemini self-review → validation → save
+// Perplexity reste optionnel pour affiner le sujet, mais n'est plus un prérequis.
+// Anti-hallucination : double-pass Gemini (rédaction + relecture critique)
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const GEMINI_API_KEY     = process.env.GEMINI_API_KEY;
-const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
+const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY; // optionnel
 const __dirname          = path.dirname(fileURLToPath(import.meta.url));
 
-// ─── Rotation sports ──────────────────────────────────────────────────────────
-const SPORTS = ['mma', 'boxe', 'muay-thai', 'kickboxing', 'grappling'];
+// ─── Rotation sports étendue (11 sports, cycle 11 semaines) ──────────────────
+const SPORTS = [
+  'mma', 'boxe', 'muay-thai', 'kickboxing', 'grappling',
+  'karate', 'savate', 'sambo', 'sanda', 'lethwei', 'k1'
+];
 const SPORT_LABELS = {
-  'mma':        'MMA',
+  'mma':        'MMA (Mixed Martial Arts)',
   'boxe':       'boxe anglaise',
   'muay-thai':  'Muay Thaï',
   'kickboxing': 'kickboxing',
-  'grappling':  'grappling et BJJ'
+  'grappling':  'grappling et BJJ',
+  'karate':     'karaté',
+  'savate':     'savate boxe française',
+  'sambo':      'sambo',
+  'sanda':      'sanda (wushu de combat)',
+  'lethwei':    'lethwei',
+  'k1':         'K-1 et kickboxing debout',
 };
 
-// Sport du jour basé sur la semaine ISO (cycle 5 semaines)
-function pickSport(dateStr) {
-  const d       = new Date(dateStr);
-  const jan1    = new Date(d.getUTCFullYear(), 0, 1);
-  const weekNum = Math.floor((d - jan1) / (7 * 86400000));
-  return SPORTS[weekNum % SPORTS.length];
-}
+// ─── Banque de sujets evergreen par sport ───────────────────────────────────
+// Organisée par thème : technique, entraînement, histoire, équipement, mental
+// Sujets volontairement larges → Gemini les interprète librement
+const TOPIC_BANK = {
+  mma: [
+    "Les positions de combat au sol incontournables en MMA",
+    "Clinch et dirty boxing en MMA : techniques et usages",
+    "Transition debout-sol en MMA : décryptage de la lutte debout",
+    "Comment développer son cardio spécifique MMA",
+    "La garde en MMA : choisir son style défensif",
+    "Les 5 submissions les plus efficaces en compétition MMA",
+    "Préparation physique 12 semaines avant un combat MMA amateur",
+    "Nutrition et récupération pour le pratiquant de MMA",
+    "Comprendre les règles du MMA professionnel",
+    "MMA et flexibilité : pourquoi le yoga transforme les combattants",
+    "Les bases du judo appliquées au MMA moderne",
+    "Psychologie du combattant : gérer la pression avant un combat",
+  ],
+  boxe: [
+    "Maîtriser le jeu de jambes en boxe anglaise",
+    "Le contre en boxe : timing et placement",
+    "L'uppercut : biomécanique et entraînement",
+    "Boxe et vision périphérique : entraîner son regard",
+    "Comment travailler seul : le shadow boxing efficace",
+    "La corde à sauter en boxe : méthodes et progression",
+    "Préparer son premier sparring en boxe anglaise",
+    "Les protections indispensables pour s'entraîner en boxe",
+    "Histoire de la boxe anglaise : des origines à l'ère moderne",
+    "Le travail au sac : erreurs communes et bonne technique",
+    "Boxe et perte de poids : réalités et méthodes sérieuses",
+    "Les systèmes de défense en boxe anglaise expliqués",
+  ],
+  'muay-thai': [
+    "Le teep : pied frontal offensif et défensif en Muay Thaï",
+    "Les coudes en Muay Thaï : 6 variantes expliquées",
+    "Le clinch en Muay Thaï : maîtriser le corps à corps",
+    "Travailler les genoux en Muay Thaï : exercices de base",
+    "La culture et les rituels du Muay Thaï traditionnel",
+    "Muay Thaï pour débutants : le premier mois d'entraînement",
+    "Choisir son sac de frappe pour le Muay Thaï",
+    "Le roundhouse kick en Muay Thaï : puissance et précision",
+    "Comprendre les catégories de poids dans le Muay Thaï",
+    "Conditionnement des tibias : méthodes et précautions",
+    "Le Muay Thaï comme outil de remise en forme",
+    "Préparer un combat Muay Thaï amateur : les 8 semaines décisives",
+  ],
+  kickboxing: [
+    "Les différences entre K-1, full contact et low kick kickboxing",
+    "Maîtriser le back kick en kickboxing",
+    "L'entraînement en intervalles adapté au kickboxing",
+    "Kickboxing et coordination : exercices pour améliorer ses réflexes",
+    "Choisir ses gants pour le kickboxing",
+    "Les combinaisons de base en kickboxing full contact",
+    "Histoire du kickboxing : du Japon à l'Europe",
+    "Kickboxing féminin : particularités et progression",
+    "Les erreurs de débutants en kickboxing et comment les corriger",
+    "Kickboxing et MMA : complémentarités et différences",
+    "Préparer sa première compétition de kickboxing amateur",
+    "Les catégories du kickboxing mondial : WAKO, Glory, ONE",
+  ],
+  grappling: [
+    "La garde fermée en grappling : contrôle et attaques",
+    "Le kimura : setup et finition en grappling",
+    "Passer la garde : les 4 techniques fondamentales",
+    "Le takedown double-leg : mécanique et défense",
+    "Grappling no-gi vs gi : différences et complémentarités",
+    "Les soumissions depuis le dos : rear naked choke et étranglements",
+    "Développer sa force de préhension pour le grappling",
+    "La position de contrôle latérale : maintien et transitions",
+    "Le triangle : comprendre et appliquer la soumission",
+    "Grappling et mobilité articulaire : prévenir les blessures",
+    "Structurer son entraînement en grappling sur 4 jours",
+    "Les ceintures en BJJ : signification et progression réaliste",
+  ],
+  karate: [
+    "Les katas fondamentaux du karaté shotokan expliqués",
+    "Le kumite en karaté : règles olympiques et stratégies",
+    "Kizami-zuki et gyaku-zuki : les deux coups de poing de base",
+    "La philosophie du Budo : discipline et respect en karaté",
+    "Karaté kyokushin vs shotokan : deux visions du combat",
+    "Entraîner sa vitesse d'exécution en karaté",
+    "Les pieds de base en karaté : mawashi-geri et yoko-geri",
+    "Histoire du karaté : des îles Ryukyu au monde entier",
+    "Préparer son premier passage de grade en karaté",
+    "Le makiwara : l'outil de frappe traditionnel du karaté",
+    "Karaté et concentration mentale : l'apport de la méditation",
+    "Les principales fédérations mondiales de karaté",
+  ],
+  savate: [
+    "La savate boxe française : principes fondamentaux",
+    "Les coups de pied spécifiques à la savate : fouetté, chassé, revers",
+    "La distance en savate : gestion et exploitation",
+    "Histoire de la savate : des rues de Paris aux rings mondiaux",
+    "Les assauts de savate : règles et compétition",
+    "Chaussage et équipements de la savate",
+    "Savate et préparation physique : les exercices indispensables",
+    "Les grades de la savate : du gant jaune au gant d'or",
+    "Savate vs boxe anglaise : similitudes et divergences techniques",
+    "Le chausson à la savate : l'art du pied nu traditionnel",
+    "Préparer son premier assaut de savate",
+    "La savate comme base pour le kickboxing européen",
+  ],
+  sambo: [
+    "Les projections de base du sambo combat",
+    "Sambo sportif vs sambo combat : différences et applications",
+    "L'histoire du sambo : origines soviétiques et expansion mondiale",
+    "Les clés de bras spécifiques au sambo",
+    "Le sambo freestyle : règles et spécificités",
+    "Étranglements en sambo : légalité et techniques",
+    "La veste de sambo (kurtka) : usage et prises spécifiques",
+    "Sambo et luta livre : deux visions du grappling sans gi",
+    "Préparer son premier tournoi de sambo",
+    "Sambo et judo : complémentarité et différences tactiques",
+    "L'entraînement quotidien d'un judoka converti au sambo",
+    "Les catégories de poids en sambo compétition",
+  ],
+  sanda: [
+    "Le sanda : pieds-poings et projections en compétition",
+    "Les projections en sanda : technique et score",
+    "Histoire du sanda : du wushu militaire au sport olympique",
+    "La plateforme de sanda : règles et spécificités du ring surélevé",
+    "Entraîner les combinaisons pieds-poings en sanda",
+    "Sanda et kickboxing : complémentarités tactiques",
+    "Les tenu (attentes) en sanda : corps à corps et sortie de plateforme",
+    "Sanda féminin : croissance et spécificités",
+    "Préparer son premier combat de sanda",
+    "Le sanda comme base pour le MMA moderne",
+    "Nutrition et récupération pour le pratiquant de sanda",
+    "Les grandes compétitions mondiales de sanda",
+  ],
+  lethwei: [
+    "Le lethwei et les coups de tête : règles et techniques",
+    "Histoire du lethwei : art martial birman ancestral",
+    "Conditionnement physique pour le lethwei",
+    "Les bandages de mains en lethwei traditionnel",
+    "Lethwei et Muay Thaï : différences fondamentales",
+    "Le système de victoire en lethwei : KO ou match nul",
+    "Techniques de coude et de genou en lethwei",
+    "Le lethwei à l'international : expansion et adaptation",
+    "L'état mental du combattant de lethwei",
+    "Préparer un combat de lethwei : approche physique et mentale",
+    "Les règles modernes du lethwei : standard international",
+    "Lethwei et MMA : ce que le sport birman apporte aux combattants modernes",
+  ],
+  k1: [
+    "Le K-1 : règles et origine du kickboxing debout japonais",
+    "Les coups de pied de base en K-1 : mawashi, yoko, ura",
+    "Le clinch en K-1 : gestion et sortie réglementaire",
+    "Entraîner sa puissance de frappe pour le K-1",
+    "Histoire du K-1 World Grand Prix",
+    "Glory Kickboxing vs K-1 : comparaison des règles",
+    "Le travail en infight dans le kickboxing K-1",
+    "Choisir son entraîneur pour progresser en K-1",
+    "La préparation physique spécifique au kickboxing debout",
+    "K-1 et cardio : gérer 3 rounds intenses",
+    "Les catégories de poids du Glory Kickboxing mondial",
+    "Débuter le K-1 : premiers mois et progression",
+  ],
+};
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 function getTodayDate() {
@@ -47,67 +207,75 @@ function slugify(text) {
     .substring(0, 70);
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 function slugAlreadyExists(slug, articlesDir) {
   if (!fs.existsSync(articlesDir)) return false;
   return fs.readdirSync(articlesDir).some(f => f.includes(slug.substring(0, 40)));
 }
 
-// ─── Nettoyage sortie Gemini (correctifs V3.2) ───────────────────────────────
+function pickSport(dateStr) {
+  const d       = new Date(dateStr);
+  const jan1    = new Date(d.getUTCFullYear(), 0, 1);
+  const weekNum = Math.floor((d - jan1) / (7 * 86400000));
+  return SPORTS[weekNum % SPORTS.length];
+}
 
-function stripGeminiCodeFences(text) {
+function pickTopic(sport, articlesDir) {
+  const bank = TOPIC_BANK[sport] || TOPIC_BANK['mma'];
+  // Exclure les sujets déjà couverts (slug matching approximatif)
+  const existingSlugs = fs.existsSync(articlesDir)
+    ? fs.readdirSync(articlesDir).map(f => f.replace(/\.md$/, '').toLowerCase())
+    : [];
+  const unused = bank.filter(topic => {
+    const topicSlug = slugify(topic).substring(0, 30);
+    return !existingSlugs.some(s => s.includes(topicSlug.substring(0, 20)));
+  });
+  const pool = unused.length > 0 ? unused : bank;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ─── Nettoyage sortie Gemini ──────────────────────────────────────────────────
+function stripCodeFences(text) {
   let r = text.trim();
-  r = r.replace(/^```(?:markdown|yaml|md|json)?\s*\n?/i, '');
-  r = r.replace(/\n?```\s*$/i, '');
-  r = r.replace(/^```(?:markdown|yaml|md|json)?\s*\n?/i, '');
+  r = r.replace(/^```(?:markdown|yaml|md)?\s*\n?/i, '');
   r = r.replace(/\n?```\s*$/i, '');
   return r.trim();
 }
 
 function normalizeDashes(text) {
-  // Remplace tirets longs — ou – par --- sur les lignes de séparateur
   return text.replace(/^[\u2014\u2013\-]{3,}\s*$/gm, '---');
 }
 
 function repairFrontmatter(text) {
   if (!text.startsWith('---')) return text;
   const lines = text.split('\n');
-  let closingIdx = -1;
   for (let i = 1; i < lines.length; i++) {
-    if (lines[i].trim() === '---') { closingIdx = i; break; }
+    if (lines[i].trim() === '---') return text; // déjà fermé
   }
-  if (closingIdx !== -1) return text; // déjà fermé
-
-  // Cherche la dernière ligne YAML puis insère ---
   const yamlFieldRegex = /^[a-zA-Z_][a-zA-Z0-9_]*\s*:/;
   let lastYamlLine = 0;
   for (let i = 1; i < lines.length; i++) {
     const l = lines[i].trim();
-    if (yamlFieldRegex.test(l)) { lastYamlLine = i; }
+    if (yamlFieldRegex.test(l)) lastYamlLine = i;
     else if (l === '' && lastYamlLine > 0) break;
-    else if (l.startsWith('#') || l.startsWith('Le ') || l.startsWith('Au ')) break;
+    else if (l.startsWith('#') || l.startsWith('Le ') || l.startsWith('La ')) break;
   }
   if (lastYamlLine > 0) {
     lines.splice(lastYamlLine + 1, 0, '---');
-    console.log(`  🔧 Réparation frontmatter — --- inséré après ligne ${lastYamlLine + 1}`);
+    console.log(`  🔧 Frontmatter réparé`);
   }
   return lines.join('\n');
 }
 
-function cleanGeminiOutput(raw) {
-  let t = stripGeminiCodeFences(raw);
-  t = normalizeDashes(t);
-  t = repairFrontmatter(t);
-  return t;
+function cleanOutput(raw) {
+  return repairFrontmatter(normalizeDashes(stripCodeFences(raw)));
 }
 
-// ─── Étape 1 : Perplexity → IDÉE SEO uniquement (jamais de faits) ────────────
-
-async function getSeoTopic(sport) {
-  const sportLabel = SPORT_LABELS[sport] || sport;
+// ─── Perplexity (optionnel) — idée SEO uniquement ────────────────────────────
+async function refineTopic(baseTopic, sport) {
+  if (!PERPLEXITY_API_KEY) return baseTopic;
+  const label = SPORT_LABELS[sport] || sport;
   try {
     const res = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
@@ -120,72 +288,82 @@ async function getSeoTopic(sport) {
         messages: [
           {
             role: 'system',
-            content: `Tu es expert SEO spécialisé en sports de combat.
-RÈGLE ABSOLUE : tu donnes UNIQUEMENT des idées de sujets, jamais des faits, jamais des résultats.`
+            content: `Expert SEO sports de combat. Réponds en UN titre optimisé, jamais de faits, jamais de combattants, jamais de résultats. Français uniquement.`
           },
           {
             role: 'user',
-            content: `Propose UN seul sujet d'article evergreen SEO sur le ${sportLabel}.
-Le sujet doit être utile pour débutant ou pratiquant, intemporel, sans mention d'événements ou combattants spécifiques.
-Réponds uniquement avec le titre du sujet, rien d'autre.`
+            content: `Reformule ce sujet en titre d'article SEO accrocheur pour ${label} : "${baseTopic}"\nRéponds uniquement avec le titre, rien d'autre.`
           }
         ],
-        max_tokens: 150
+        max_tokens: 100
       })
     });
     const data = await res.json();
-    const topic = data.choices?.[0]?.message?.content?.trim() || '';
-    if (topic.length > 10) {
-      console.log(`  ✓ Perplexity — sujet SEO : "${topic}"`);
-      return topic;
+    const refined = data.choices?.[0]?.message?.content?.trim() || '';
+    if (refined.length > 15 && refined.length < 120) {
+      console.log(`  ✓ Sujet affiné (Perplexity) : "${refined}"`);
+      return refined;
     }
-    throw new Error('Réponse trop courte');
-  } catch (err) {
-    console.warn(`  ⚠ Perplexity fail (${err.message}) → fallback sujet`);
-    return '';
+    return baseTopic;
+  } catch {
+    return baseTopic; // Perplexity fail → on garde le sujet de base
   }
 }
 
-// ─── Étape 2 : Gemini → article evergreen fiable ─────────────────────────────
-
-async function generateArticle(topic, sport, date, attempts = 2) {
+// ─── Gemini : rédaction principale ───────────────────────────────────────────
+async function writeArticle(topic, sport, date, attempts = 2) {
   const sportLabel = SPORT_LABELS[sport] || sport;
-  const sujet = topic || `Progresser en ${sportLabel} : méthode et conseils`;
 
-  const prompt = `Tu es rédacteur expert en sports de combat pour FightFocus.fr.
+  const prompt = `Tu es un expert reconnu en arts martiaux et sports de combat, rédacteur pour FightFocus.fr, le média français de référence sur les sports de combat.
 
-SUJET : ${sujet}
-SPORT : ${sportLabel}
-DATE  : ${date}
+SUJET : ${topic}
+DISCIPLINE : ${sportLabel}
+DATE : ${date}
 
-OBJECTIF : article evergreen fiable, utile, optimisé SEO pour FightFocus.fr.
+TU DOIS produire un article expert, pédagogique et evergreen, 100% basé sur des principes techniques et méthodologiques reconnus dans la communauté des sports de combat. Jamais de faits inventés.
 
-RÈGLES ABSOLUES :
-✅ Français · ton expert et accessible
-✅ 900 à 1200 mots
-✅ Au minimum 3 sections ## bien développées
-✅ Introduction de 2-3 phrases · conclusion invitant à revenir sur FightFocus.fr
-❌ AUCUN fait d'actualité, résultat de combat, événement récent
-❌ AUCUN nom de combattant actif contemporain (tu peux citer des techniques ou concepts)
-❌ AUCUN placeholder : [NOM], [DATE], etc.
-❌ AUCUNE liste à puces dans le corps
-❌ JAMAIS de backticks \`\`\` autour de ta réponse
-❌ JAMAIS de tirets longs — à la place des séparateurs ---
+━━━ STRUCTURE OBLIGATOIRE ━━━
 
-Commence ta réponse EXACTEMENT par --- sans rien avant :
+Introduction (2-3 phrases) : accroche directe sur le sujet, sans préambule général.
+
+4 sections ## minimum, chacune développée en 150-220 mots :
+• Section 1 : concept fondamental (définition, principes, pourquoi c'est important)
+• Section 2 : technique ou méthode détaillée (comment faire concrètement)
+• Section 3 : application pratique ou erreurs communes (pédagogie)
+• Section 4 (ou plus) : progression, variations, ou contexte avancé
+
+Conclusion (2-3 phrases) : synthèse + invitation à explorer FightFocus.fr
+
+━━━ RÈGLES ABSOLUES ━━━
+✅ Français soigné, ton expert mais accessible au débutant
+✅ 950 à 1150 mots (corps uniquement, hors frontmatter)
+✅ Minimum 4 sections ## développées
+✅ Données factuelles uniquement si établies depuis des décennies (pas de stats récentes)
+❌ AUCUN combattant actif contemporain (vivant ou actif depuis moins de 20 ans)
+❌ AUCUN événement daté (compétitions, records, palmarès récents)
+❌ AUCUNE statistique inventée ou approximative
+❌ AUCUNE liste à puces dans le corps de l'article
+❌ AUCUN placeholder : [NOM], [CHIFFRE], [DATE], etc.
+❌ JAMAIS de backticks \`\`\` dans la réponse
+❌ JAMAIS de H1 (# Titre)
+
+━━━ FORMAT EXACT ━━━
+Commence ta réponse PAR --- sans rien avant :
 
 ---
-title: "Titre SEO accrocheur (50-70 caractères, mot-clé ${sportLabel} inclus)"
+title: "Titre SEO précis 55-70 caractères (inclure le mot-clé principal ${sportLabel})"
 sport: ${sport}
 category: guide
 date: "${date}"
-excerpt: "Résumé engageant 120-160 caractères"
+excerpt: "Accroche 130-155 caractères sans guillemets imbriqués"
 featured: false
 ---
 
+Introduction ici (2-3 phrases, pas de titre ##)
+
 ## Premier titre de section
 
-[Ton article ici]`;
+[contenu]`;
 
   for (let i = 1; i <= attempts; i++) {
     try {
@@ -196,64 +374,74 @@ featured: false
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: 2800, temperature: 0.6, topP: 0.9 }
+            generationConfig: { maxOutputTokens: 3200, temperature: 0.55, topP: 0.88 }
           })
         }
       );
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(`Gemini ${res.status}: ${err}`);
-      }
+      if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`);
       const data = await res.json();
       const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!raw) throw new Error('Gemini réponse vide');
-      console.log(`  ✓ Gemini — ${raw.length} chars · sport: ${sport}`);
-      return cleanGeminiOutput(raw);
+      if (!raw) throw new Error('Réponse vide');
+      console.log(`  ✓ Rédigé — ${raw.length} chars`);
+      return cleanOutput(raw);
     } catch (err) {
       if (i === attempts) throw err;
-      console.warn(`  ⚠ Gemini tentative ${i}: ${err.message} — retry 3s...`);
+      console.warn(`  ⚠ Tentative ${i}: ${err.message} — retry 3s...`);
       await sleep(3000);
     }
   }
 }
 
-// ─── Fallback article ─────────────────────────────────────────────────────────
-function fallbackArticle(sport, date) {
-  const label = SPORT_LABELS[sport] || sport;
-  return `---
-title: "Progresser en ${label} : les bases essentielles"
-sport: ${sport}
-category: guide
-date: "${date}"
-excerpt: "Guide complet pour progresser en ${label}, des fondamentaux à la pratique régulière."
-featured: false
----
+// ─── Gemini : self-review anti-hallucination ──────────────────────────────────
+async function selfReview(articleContent, sport) {
+  const fmEnd   = articleContent.indexOf('---', 3);
+  const body    = fmEnd !== -1 ? articleContent.substring(fmEnd + 3).trim() : articleContent;
+  const sportLabel = SPORT_LABELS[sport] || sport;
 
-Le ${label} est une discipline exigeante qui récompense la régularité et la méthode.
+  const reviewPrompt = `Tu es éditeur senior pour un média de sports de combat. Lis cet article sur le ${sportLabel} et corrige UNIQUEMENT les problèmes suivants :
 
-## Maîtriser les fondamentaux
+1. SUPPRIMER toute mention d'un combattant actif ou ayant combattu récemment (post-2005)
+2. SUPPRIMER toute statistique ou chiffre qui pourrait être inexact (remplacer par une description qualitative)
+3. SUPPRIMER tout placeholder [NOM], [CHIFFRE], [DATE], [À COMPLÉTER]
+4. SUPPRIMER les listes à puces (- ou *) dans le corps — les réécrire en prose
+5. NE PAS changer le fond, le style, ni la structure si tout est correct
 
-La progression en ${label} commence par une base solide. Les mouvements fondamentaux, s'ils sont bien intégrés, deviennent des automatismes qui libèrent l'esprit pour des techniques plus élaborées.
+Si l'article est déjà correct sur ces 5 points, renvoie-le tel quel.
+Ne modifie PAS le frontmatter (---...---).
+Renvoie l'article complet (frontmatter inclus) sans backticks.
 
-## Structurer son entraînement
+─── ARTICLE À RELIRE ───
+${articleContent}
+─── FIN ───`;
 
-Un programme équilibré alterne technique, cardio et récupération. La régularité prime sur l'intensité : trois séances hebdomadaires bien conduites valent mieux que des sessions irrégulières et épuisantes.
-
-## Les erreurs classiques à éviter
-
-Brûler les étapes, négliger la récupération, s'entraîner sans encadrement : ces erreurs ralentissent la progression et augmentent le risque de blessure. La patience est la première qualité d'un pratiquant sérieux.
-
-## Conclusion
-
-La progression en ${label} est une aventure longue terme. Revenez sur FightFocus.fr pour découvrir nos guides complets sur la technique et l'entraînement.
-`;
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: reviewPrompt }] }],
+          generationConfig: { maxOutputTokens: 3500, temperature: 0.2, topP: 0.85 }
+        })
+      }
+    );
+    if (!res.ok) return articleContent; // fail → garde l'original
+    const data    = await res.json();
+    const reviewed = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    if (!reviewed || reviewed.length < 200) return articleContent;
+    console.log(`  ✓ Self-review OK`);
+    return cleanOutput(reviewed);
+  } catch {
+    return articleContent; // fail → garde l'original
+  }
 }
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 function validateArticle(content) {
-  const cleaned = cleanGeminiOutput(content);
-
+  const cleaned = cleanOutput(content);
   if (!cleaned.startsWith('---')) throw new Error('Frontmatter absent');
+
   const fmEnd = cleaned.indexOf('---', 3);
   if (fmEnd === -1) throw new Error('Frontmatter non fermé');
 
@@ -264,24 +452,70 @@ function validateArticle(content) {
     if (!fm.includes(field)) throw new Error(`Champ manquant : ${field}`);
   }
 
-  const validSports = ['mma','boxe','kickboxing','muay-thai','grappling','karate','sanda','lethwei','savate','sambo'];
+  const validSports = ['mma','boxe','kickboxing','muay-thai','grappling','karate','sanda','lethwei','savate','sambo','k1'];
   const validCats   = ['guide','guide-debutant','conseil-entrainement','analyse','guide-equipement','actualite'];
-  const sportVal    = (fm.match(/^sport:\s*(.+)$/m)    || [])[1]?.trim();
+  const sportVal    = (fm.match(/^sport:\s*(.+)$/m) || [])[1]?.trim();
   const catVal      = (fm.match(/^category:\s*(.+)$/m) || [])[1]?.trim();
 
-  if (sportVal && !validSports.includes(sportVal))
-    throw new Error(`Sport invalide : "${sportVal}"`);
-  if (catVal && !validCats.includes(catVal))
-    throw new Error(`Category invalide : "${catVal}"`);
+  if (sportVal && !validSports.includes(sportVal)) throw new Error(`Sport invalide : "${sportVal}"`);
+  if (catVal   && !validCats.includes(catVal))     throw new Error(`Category invalide : "${catVal}"`);
 
-  const words  = body.split(/\s+/).filter(Boolean).length;
-  const h2cnt  = (body.match(/^##\s+\S/gm) || []).length;
+  const words = body.split(/\s+/).filter(Boolean).length;
+  const h2cnt = (body.match(/^##\s+\S/gm) || []).length;
 
-  if (words < 300) throw new Error(`Trop court : ${words} mots`);
-  if (h2cnt < 2)   throw new Error(`H2 insuffisants : ${h2cnt}`);
+  if (words < 350) throw new Error(`Trop court : ${words} mots`);
+  if (h2cnt < 2)   throw new Error(`Sections insuffisantes : ${h2cnt} H2`);
 
-  console.log(`  ✓ Validation OK — ${words} mots · ${h2cnt} H2 · ${sportVal} / ${catVal}`);
+  // Détection de placeholders résiduels
+  const placeholders = ['[NOM', '[DATE', '[TITRE', 'VOTRE-', 'À COMPLÉTER', 'à compléter', '[Nom du'];
+  for (const p of placeholders) {
+    if (body.includes(p)) throw new Error(`Placeholder résiduel : "${p}"`);
+  }
+
+  console.log(`  ✓ Validation — ${words} mots · ${h2cnt} H2 · ${sportVal} / ${catVal}`);
   return cleaned;
+}
+
+// ─── Fallback article ─────────────────────────────────────────────────────────
+function fallbackArticle(sport, date, topic) {
+  const label = SPORT_LABELS[sport] || sport;
+  return `---
+title: "${topic.substring(0, 65)}"
+sport: ${sport}
+category: guide
+date: "${date}"
+excerpt: "Guide complet sur ${label} pour progresser efficacement dès les premiers entraînements."
+featured: false
+---
+
+La progression en ${label} repose sur des principes fondamentaux accessibles à tous, mais qui demandent du temps et de la rigueur pour être intégrés pleinement. Cet article vous guide à travers les éléments essentiels à connaître pour avancer avec méthode.
+
+## Les fondamentaux à maîtriser en priorité
+
+Toute discipline de combat repose sur une base technique solide. En ${label}, les mouvements fondamentaux constituent le socle sur lequel s'accumulent toutes les techniques avancées. Consacrer du temps à leur répétition minutieuse, même après des années de pratique, reste l'une des habitudes les plus efficaces pour progresser durablement.
+
+La mécanique corporelle — position de garde, gestion du centre de gravité, déplacements — précède toujours l'apprentissage des techniques offensives. Un pratiquant dont la garde est stable et les déplacements fluides dispose d'une plateforme fiable pour toutes ses actions.
+
+## Structurer son entraînement pour progresser
+
+La régularité prévaut sur l'intensité. Trois entraînements hebdomadaires bien conduits produisent des résultats supérieurs à des sessions irrégulières et épuisantes. Chaque séance devrait idéalement se diviser en échauffement, travail technique, application en pression légère et récupération active.
+
+Le travail personnel entre les cours — shadow boxing, répétitions de techniques au ralenti, étirements — accélère sensiblement l'intégration des mouvements. L'automatisation des gestes libère l'attention pour des aspects plus tactiques.
+
+## Les erreurs classiques à corriger
+
+Aller trop vite dans l'apprentissage constitue l'erreur la plus commune. La précipitation vers des techniques avancées avant d'avoir solidifié les bases crée des lacunes qui freinent la progression à long terme. La patience est une qualité cardinale dans les arts martiaux.
+
+Négliger la récupération est une autre erreur fréquente. Le corps consolide les apprentissages pendant le repos. Dormir suffisamment, s'hydrater correctement et prendre des jours de repos actif font partie intégrante de l'entraînement.
+
+## Progresser sur le long terme
+
+La pratique des arts martiaux est une aventure de long terme. Les progrès ne sont pas toujours linéaires : des plateaux apparaissent, qui précèdent souvent des sauts qualitatifs significatifs. Les pratiquants qui persistent malgré ces phases de stagnation sont ceux qui atteignent leur potentiel plein.
+
+S'entraîner avec des partenaires de niveaux variés enrichit la pratique : les débutants permettent de consolider les bases, les plus expérimentés exposent aux limites actuelles.
+
+Revenez régulièrement sur FightFocus.fr pour découvrir l'ensemble de nos guides techniques et conseils d'entraînement sur le ${label} et les autres disciplines de combat.
+`;
 }
 
 // ─── Sauvegarde ───────────────────────────────────────────────────────────────
@@ -294,7 +528,7 @@ function saveArticle(content, date) {
 
   if (!fs.existsSync(articlesDir)) fs.mkdirSync(articlesDir, { recursive: true });
   if (slugAlreadyExists(slug, articlesDir))
-    throw new Error(`Slug déjà existant : "${slug}" — anti-doublon activé`);
+    throw new Error(`Slug déjà existant : "${slug}"`);
 
   fs.writeFileSync(path.join(articlesDir, filename), content, 'utf8');
   console.log(`  ✓ Sauvegardé : ${filename}`);
@@ -304,48 +538,59 @@ function saveArticle(content, date) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('\n═══════════════════════════════════════════');
-  console.log('  FightFocus — Génération V7-SAFE');
-  console.log('  Perplexity=idée · Gemini=rédaction evergreen');
+  console.log('  FightFocus — Génération V8-EXPERT');
+  console.log('  Banque interne + Gemini + self-review');
+  if (PERPLEXITY_API_KEY) console.log('  Perplexity : actif (affinage SEO)');
+  else                    console.log('  Perplexity : inactif (banque interne seule)');
   console.log('═══════════════════════════════════════════\n');
 
-  if (!PERPLEXITY_API_KEY) { console.error('❌ PERPLEXITY_API_KEY manquante'); process.exit(1); }
-  if (!GEMINI_API_KEY)     { console.error('❌ GEMINI_API_KEY manquante');     process.exit(1); }
+  if (!GEMINI_API_KEY) { console.error('❌ GEMINI_API_KEY manquante'); process.exit(1); }
 
-  const date  = getTodayDate();
-  const sport = pickSport(date);
-  console.log(`  Sport du jour : ${SPORT_LABELS[sport]} (${sport})`);
-  console.log(`  Date         : ${date}\n`);
+  const date       = getTodayDate();
+  const sport      = pickSport(date);
+  const articlesDir = path.resolve(__dirname, '../src/content/articles');
+  const baseTopic  = pickTopic(sport, articlesDir);
+
+  console.log(`  Sport du jour : ${SPORT_LABELS[sport]}`);
+  console.log(`  Date          : ${date}`);
+  console.log(`  Sujet initial : "${baseTopic}"\n`);
 
   try {
-    console.log('1/4 — Perplexity : idée SEO...');
-    const topic = await getSeoTopic(sport);
+    // 1. Affinage sujet (Perplexity optionnel)
+    console.log('1/4 — Sélection du sujet...');
+    const topic = await refineTopic(baseTopic, sport);
     await sleep(500);
 
-    console.log('2/4 — Gemini : rédaction...');
+    // 2. Rédaction Gemini
+    console.log('2/4 — Rédaction...');
     let content;
     try {
-      content = await generateArticle(topic, sport, date);
+      content = await writeArticle(topic, sport, date);
     } catch (err) {
-      console.warn(`  ⚠ Gemini fail : ${err.message} → fallback`);
-      content = fallbackArticle(sport, date);
+      console.warn(`  ⚠ Rédaction fail (${err.message}) → fallback`);
+      content = fallbackArticle(sport, date, topic);
     }
 
-    console.log('3/4 — Validation...');
+    // 3. Self-review anti-hallucination
+    console.log('3/4 — Relecture critique...');
+    const reviewed = await selfReview(content, sport);
+    await sleep(500);
+
+    // 4. Validation + sauvegarde
+    console.log('4/4 — Validation et sauvegarde...');
     let validated;
     try {
-      validated = validateArticle(content);
+      validated = validateArticle(reviewed);
     } catch (err) {
-      console.warn(`  ⚠ Validation fail : ${err.message} → fallback`);
-      validated = validateArticle(fallbackArticle(sport, date));
+      console.warn(`  ⚠ Validation fail (${err.message}) → fallback`);
+      validated = validateArticle(fallbackArticle(sport, date, topic));
     }
 
-    console.log('4/4 — Sauvegarde...');
     const filename = saveArticle(validated, date);
-
     console.log(`\n✅ SUCCÈS — ${filename}\n`);
+
   } catch (err) {
     console.error(`\n❌ ÉCHEC — ${err.message}`);
-    console.error('   Aucun fichier créé.\n');
     process.exit(1);
   }
 }
