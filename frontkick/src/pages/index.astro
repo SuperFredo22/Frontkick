@@ -150,9 +150,7 @@ const seoDesc = featuredArticle
   <div class="sports-hub">
     {disciplineCards.map(d => (
       <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card" style={`background: ${gradients[d.key] || gradients.mma};`}>
-        <div class="sport-hub-img">
-          <img src={d.key === 'guides' ? '/images/sections/guides.svg' : (sportImages[d.key] ?? '/images/sports/default.svg')} alt={d.name} loading="lazy"/>
-        </div>
+        <div class="sport-hub-img" style={`background-image:url('${d.key === 'guides' ? '/images/sections/guides.svg' : (sportImages[d.key] ?? '/images/sports/default.svg')}');background-size:cover;background-position:center;`}></div>
         <div class="sport-hub-top">
           <div>
             <div class="sport-name">{d.name}</div>
@@ -240,6 +238,103 @@ const seoDesc = featuredArticle
         </div>
       </a>
     ))}
+  </div>
+  )}
+
+  <!-- SECTIONS PAR SPORT -->
+  {mmaArticles.length > 0 && (
+  <div style="margin-top:2.5rem;">
+    <div class="sec-bar">
+      <h2>MMA</h2>
+      <div class="sec-line"></div>
+      <a href="/discipline/mma" class="see-all">Tous les articles MMA →</a>
+    </div>
+    <div class="art-grid">
+      {mmaArticles.map(a => (
+        <a href={`/articles/${a.slug}`} class="art-card">
+          <div class="art-image" style={`background:${gradients.mma};background-image:url('${sportImages.mma}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+          </div>
+          <div class="art-body">
+            <div class="art-title-sm" set:html={a.data.title}></div>
+            <div class="art-excerpt">{a.data.excerpt}</div>
+            <div class="art-foot"><span>{a.data.date}</span></div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+  )}
+
+  {boxeArticles.length > 0 && (
+  <div style="margin-top:2.5rem;">
+    <div class="sec-bar">
+      <h2>Boxe</h2>
+      <div class="sec-line"></div>
+      <a href="/discipline/boxe" class="see-all">Tous les articles Boxe →</a>
+    </div>
+    <div class="art-grid">
+      {boxeArticles.map(a => (
+        <a href={`/articles/${a.slug}`} class="art-card">
+          <div class="art-image" style={`background:${gradients.boxe};background-image:url('${sportImages.boxe}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+          </div>
+          <div class="art-body">
+            <div class="art-title-sm" set:html={a.data.title}></div>
+            <div class="art-excerpt">{a.data.excerpt}</div>
+            <div class="art-foot"><span>{a.data.date}</span></div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+  )}
+
+  {muayThaiArticles.length > 0 && (
+  <div style="margin-top:2.5rem;">
+    <div class="sec-bar">
+      <h2>Muay Thaï</h2>
+      <div class="sec-line"></div>
+      <a href="/discipline/muay-thai" class="see-all">Tous les articles Muay Thaï →</a>
+    </div>
+    <div class="art-grid">
+      {muayThaiArticles.map(a => (
+        <a href={`/articles/${a.slug}`} class="art-card">
+          <div class="art-image" style={`background:${gradients['muay-thai']};background-image:url('${sportImages['muay-thai']}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+          </div>
+          <div class="art-body">
+            <div class="art-title-sm" set:html={a.data.title}></div>
+            <div class="art-excerpt">{a.data.excerpt}</div>
+            <div class="art-foot"><span>{a.data.date}</span></div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+  )}
+
+  {grapplingArticles.length > 0 && (
+  <div style="margin-top:2.5rem;">
+    <div class="sec-bar">
+      <h2>Grappling</h2>
+      <div class="sec-line"></div>
+      <a href="/discipline/grappling" class="see-all">Tous les articles Grappling →</a>
+    </div>
+    <div class="art-grid">
+      {grapplingArticles.map(a => (
+        <a href={`/articles/${a.slug}`} class="art-card">
+          <div class="art-image" style={`background:${gradients.grappling};background-image:url('${sportImages.grappling}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
+          </div>
+          <div class="art-body">
+            <div class="art-title-sm" set:html={a.data.title}></div>
+            <div class="art-excerpt">{a.data.excerpt}</div>
+            <div class="art-foot"><span>{a.data.date}</span></div>
+          </div>
+        </a>
+      ))}
+    </div>
   </div>
   )}
 

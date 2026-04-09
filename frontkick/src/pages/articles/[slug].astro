@@ -33,13 +33,13 @@ const gradients: Record<string, string> = {
   kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
   'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
   grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
-  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  karate:       'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
+  sanda:        'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei:      'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:       'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:        'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
+  k1:           'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
   equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
-  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
-};
-const emojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
 };
 const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
@@ -48,7 +48,8 @@ const catLabel: Record<string, string> = {
 
 const sportLabel: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
-  grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
+  grappling: 'Grappling', karate: 'Karaté', sanda: 'Sanda', lethwei: 'Lethwei',
+  savate: 'Savate', sambo: 'Sambo', k1: 'K-1 / Glory', equipement: 'Équipement',
 };
 const sportImages: Record<string, string> = {
   mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
@@ -64,9 +65,10 @@ const articleUrl = `${siteUrl}/articles/${slug}`;
 const cleanTitle = article.data.title.replace(/<[^>]+>/g, '');
 
 // Discipline page URL
-const disciplineUrl = article.data.sport === 'autres' || article.data.sport === 'karate' || article.data.sport === 'equipement'
-  ? `/autres-disciplines`
-  : `/discipline/${article.data.sport}`;
+const knownDisciplines = ['mma','boxe','kickboxing','muay-thai','grappling','karate','sanda','lethwei','savate','sambo','k1'];
+const disciplineUrl = knownDisciplines.includes(article.data.sport)
+  ? `/discipline/${article.data.sport}`
+  : `/guides`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -151,8 +153,8 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
       <div class="ad-slot ad-leader" style="margin-bottom:24px;"></div>
 
       <!-- Header article -->
-      <div class="art-image-hero" style={`background: ${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; height:200px; border-radius:12px; margin-bottom:24px; position:relative; overflow:hidden;`}>
-        <img src={sportImages[article.data.sport] || '/images/sports/mma.svg'} alt={article.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" loading="eager"/>
+      <div class="art-image-hero" style={`background:${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'};height:200px;border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;`}>
+        <div style={`position:absolute;inset:0;background-image:url('${sportImages[article.data.sport] || '/images/sports/mma.svg'}');background-size:cover;background-position:center;opacity:0.85;`}></div>
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);"></div>
       </div>
 
@@ -203,9 +205,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
           <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             {similar.map((a, i) => (
               <a href={`/articles/${a.slug}`} class="similar-item" style={i < similar.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}>
-                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;`}>
-                  <img src={sportImages[a.data.sport] || '/images/sports/mma.svg'} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" loading="lazy"/>
-                </div>
+                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;background-image:url('${sportImages[a.data.sport] || '/images/sports/mma.svg'}');background-size:cover;background-position:center;`}></div>
                 <div style="flex:1;min-width:0;">
                   <div class="similar-title" set:html={a.data.title}></div>
                   <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">{sportLabel[a.data.sport] || a.data.sport} · {a.data.date}</div>
