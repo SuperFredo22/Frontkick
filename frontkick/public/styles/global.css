@@ -1890,7 +1890,9 @@ footer {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   opacity: 0.75;
 }
 .discipline-hero__overlay {
@@ -2222,6 +2224,8 @@ footer {
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
   opacity: 0.75 !important;
 }

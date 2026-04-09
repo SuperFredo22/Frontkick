@@ -126,7 +126,7 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
 <div id="app">
   <div class="list-page">
     <div class="discipline-hero" style={`background: ${gradient};`}>
-      <img src={sportImages[sport] || '/images/sports/mma.svg'} alt="" role="presentation" class="discipline-hero__bg" loading="eager" onerror="this.style.display='none'"/>
+      <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport] || '/images/sports/mma.svg'}');`}></div>
       <div class="discipline-hero__overlay"></div>
       <div class="discipline-hero__content">
         <div class="discipline-hero__label">Discipline</div>
