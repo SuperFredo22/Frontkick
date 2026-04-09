@@ -34,9 +34,16 @@ function parseDate(d: string): number {
   return y ? parseInt(y[0]) * 1000000 : 0;
 }
 
+// Sports reconnus : un article qui a déjà un sport précis différent ne doit jamais
+// apparaître sur une autre page discipline via le slug matching (ex: lethwei-boxe-birmane
+// ne doit pas s'afficher sur /discipline/boxe)
+const knownSports = ['mma','boxe','kickboxing','muay-thai','grappling','karate','sanda','lethwei','savate','sambo','k1'];
+
 const articles = all
   .filter(a => {
     if (a.data.sport === sport) return true;
+    // Si l'article appartient déjà à une autre discipline précise → pas de slug matching
+    if (knownSports.includes(a.data.sport) && a.data.sport !== sport) return false;
     if (['guide-equipement', 'guide-debutant', 'guide', 'analyse'].includes(a.data.category)) {
       return aliases.some(alias => {
         const slug = a.slug;
@@ -66,6 +73,14 @@ const labels: Record<string, string> = {
 const emojis: Record<string, string> = {
   mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
   sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
+};
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
 };
 const gradients: Record<string, string> = {
   mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
@@ -109,32 +124,57 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
 <Base title={`${label} — FightFocus`} description={description}>
 <div id="app">
   <div class="list-page">
-    <div class="list-hero" style={`background: ${gradient}; border-radius:16px; padding:40px 32px; margin-bottom:32px;`}>
-      <h1 style="color:white;">{emoji} {label}</h1>
-      <p style="color:rgba(255,255,255,0.8);">{description}</p>
+    <div class="discipline-hero" style={`background: ${gradient};`}>
+      <img src={sportImages[sport] || '/images/sports/mma.svg'} alt={label} class="discipline-hero__bg" loading="eager"/>
+      <div class="discipline-hero__overlay"></div>
+      <div class="discipline-hero__content">
+        <div class="discipline-hero__label">Discipline</div>
+        <h1 class="discipline-hero__title">{label}</h1>
+        <p class="discipline-hero__desc">{description}</p>
+      </div>
     </div>
 
     {articles.length > 0 ? (
-      <div class="art-grid">
-        {articles.map(a => (
-          <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradient}; display:flex; align-items:center; justify-content:center;`}>
-              <span style="font-size:2.8rem;">{emojis[a.data.sport] || emoji}</span>
-              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+      <div>
+        {/* Article featured — le premier de la liste */}
+        <a href={`/articles/${articles[0].slug}`} class="art-card art-card--featured">
+          <div class="art-image art-image--featured" style={`background: ${gradients[articles[0].data.sport] || gradient}; position:relative; overflow:hidden;`}>
+            <img src={sportImages[articles[0].data.sport] ?? '/images/sports/default.svg'} alt={articles[0].data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="eager"/>
+            <span class="art-cat-tag">{catLabel[articles[0].data.category] || articles[0].data.category}</span>
+          </div>
+          <div class="art-body art-body--featured">
+            <div class="art-title-sm" style="font-size:1.25rem;margin-bottom:10px;" set:html={articles[0].data.title}></div>
+            <div class="art-excerpt" style="font-size:0.9rem;line-height:1.6;margin-bottom:16px;">{articles[0].data.excerpt}</div>
+            <div class="art-foot">
+              <span>{articles[0].data.date}</span>
+              <span class="read-more">Lire l'article →</span>
             </div>
-            <div class="art-body">
-              <div class="art-title-sm" set:html={a.data.title}></div>
-              <div class="art-excerpt">{a.data.excerpt}</div>
-              <div class="art-foot">
-                <span>{a.data.date}</span>
-              </div>
-            </div>
-          </a>
-        ))}
+          </div>
+        </a>
+
+        {/* Reste des articles */}
+        {articles.slice(1).length > 0 && (
+          <div class="art-grid" style="margin-top:24px;">
+            {articles.slice(1).map(a => (
+              <a href={`/articles/${a.slug}`} class="art-card">
+                <div class="art-image" style={`background: ${gradients[a.data.sport] || gradient}; position:relative; overflow:hidden;`}>
+                  <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
+                  <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+                </div>
+                <div class="art-body">
+                  <div class="art-title-sm" set:html={a.data.title}></div>
+                  <div class="art-excerpt">{a.data.excerpt}</div>
+                  <div class="art-foot">
+                    <span>{a.data.date}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     ) : (
       <div class="empty-state">
-        <span class="emoji">{emoji}</span>
         <h3>Bientôt disponible</h3>
         <p>Les articles pour cette discipline arrivent prochainement. Revenez vite !</p>
         <a href="/" class="btn">← Retour à l'accueil</a>

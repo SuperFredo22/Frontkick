@@ -50,6 +50,14 @@ const sportLabel: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
   grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
 };
+const sportImages: Record<string, string> = {
+  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
+  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
+  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
+  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
+  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
+  k1: '/images/sports/k1.svg',
+};
 
 const siteUrl = 'https://fightfocus.fr';
 const articleUrl = `${siteUrl}/articles/${slug}`;
@@ -143,8 +151,9 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
       <div class="ad-slot ad-leader" style="margin-bottom:24px;"></div>
 
       <!-- Header article -->
-      <div class="art-image-hero" style={`background: ${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; height:260px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:28px; position:relative; overflow:hidden;`}>
-        <span style="font-size:5rem; filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));">{emojis[article.data.sport] || '🥊'}</span>
+      <div class="art-image-hero" style={`background: ${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; height:200px; border-radius:12px; margin-bottom:24px; position:relative; overflow:hidden;`}>
+        <img src={sportImages[article.data.sport] || '/images/sports/mma.svg'} alt={article.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" loading="eager"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);"></div>
       </div>
 
       <div class="art-tags">
@@ -155,14 +164,14 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
       <h1 class="art-h1" set:html={article.data.title}></h1>
       <p class="art-lead">{article.data.excerpt}</p>
 
-      <div class="art-meta-row" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
-        <span>📅 <strong>{article.data.date}</strong></span>
-        <span id="reading-time" style="color:var(--text-muted);font-size:0.85rem;">⏱️ <span id="rt-val">...</span> min de lecture</span>
+      <div class="art-meta-row">
+        <span><strong>{article.data.date}</strong></span>
+        <span id="reading-time"><span id="rt-val">...</span> min de lecture</span>
       </div>
 
       <!-- Table des matières (générée par JS) -->
       <div id="toc-container" style="display:none;" class="toc-box">
-        <div class="toc-title">📋 Sommaire</div>
+        <div class="toc-title">Sommaire</div>
         <ul id="toc-list" style="list-style:none;padding:0;margin:0;"></ul>
       </div>
 
@@ -171,30 +180,16 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
       </div>
 
       <!-- Boutons de partage social -->
-      <div class="share-section" style="margin-top:40px;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);">
-        <div style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:14px;">📢 Partager cet article</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href={twitterUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#000;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            𝕏 Twitter / X
-          </a>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            💬 WhatsApp
-          </a>
-          <a href={fbUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#1877F2;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            👍 Facebook
-          </a>
-          <button onclick="copyLink()" id="copy-btn" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--border);color:var(--text);border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:opacity .2s;">
-            🔗 Copier le lien
-          </button>
-          <a href={redditUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#FF4500;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            🟠 Reddit
-          </a>
-          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#2AABEE;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            ✈️ Telegram
-          </a>
-          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#0A66C2;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
-            💼 LinkedIn
-          </a>
+      <div class="share-section" style="margin-top:36px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:12px;">Partager</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a href={twitterUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--x">𝕏</a>
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--wa">WhatsApp</a>
+          <a href={fbUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--fb">Facebook</a>
+          <a href={redditUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--rd">Reddit</a>
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--tg">Telegram</a>
+          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="share-btn share-btn--li">LinkedIn</a>
+          <button onclick="copyLink()" id="copy-btn" class="share-btn share-btn--copy">Copier le lien</button>
         </div>
       </div>
 
@@ -203,25 +198,17 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
 
       <!-- Articles similaires -->
       {similar.length > 0 && (
-        <div class="similar-section" style="margin-top:48px;">
-          <div class="sec-bar" style="margin-bottom:20px;">
-            <h2 style="font-size:1.25rem;margin:0;">🔥 Articles similaires</h2>
-            <div class="sec-line"></div>
-          </div>
-          <div class="art-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
-            {similar.map(a => (
-              <a href={`/articles/${a.slug}`} class="art-card">
-                <div class="art-image" style={`background:${gradients[a.data.sport] || gradients.mma};display:flex;align-items:center;justify-content:center;`}>
-                  <span style="font-size:2.5rem;">{emojis[a.data.sport] || '🥊'}</span>
-                  <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+        <div style="margin-top:40px;">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Articles similaires</div>
+          <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            {similar.map((a, i) => (
+              <a href={`/articles/${a.slug}`} class="similar-item" style={i < similar.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}>
+                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;`}>
+                  <img src={sportImages[a.data.sport] || '/images/sports/mma.svg'} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" loading="lazy"/>
                 </div>
-                <div class="art-body">
-                  <div class="art-title-sm" set:html={a.data.title}></div>
-                  <div class="art-excerpt">{a.data.excerpt}</div>
-                  <div class="art-foot">
-                    <span>{a.data.date}</span>
-                    <span class="atype t-guide">{sportLabel[a.data.sport] || a.data.sport}</span>
-                  </div>
+                <div style="flex:1;min-width:0;">
+                  <div class="similar-title" set:html={a.data.title}></div>
+                  <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">{sportLabel[a.data.sport] || a.data.sport} · {a.data.date}</div>
                 </div>
               </a>
             ))}
@@ -232,7 +219,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
 
     <aside class="art-sidebar">
       <div class="nl-widget">
-        <div class="widget-head">📬 Newsletter</div>
+        <div class="widget-head">Newsletter</div>
         <p>Les meilleurs articles chaque semaine. Gratuit.</p>
         <input class="nl-input" type="email" id="nl-email" placeholder="votre@email.com" />
         <button class="nl-btn" onclick="subscribeNewsletter()">S'abonner</button>
@@ -241,22 +228,22 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
 
       <!-- Widget navigation interne SEO -->
       <div class="widget" style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;">
-        <div class="widget-head" style="font-weight:700;margin-bottom:12px;font-size:0.9rem;">🔗 Explorer FightFocus</div>
+        <div class="widget-head" style="font-weight:700;margin-bottom:12px;font-size:0.9rem;">Explorer FightFocus</div>
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
-          <li><a href="/discipline/mma" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 MMA / UFC</a></li>
-          <li><a href="/discipline/boxe" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 Boxe anglaise</a></li>
-          <li><a href="/discipline/muay-thai" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Muay Thaï</a></li>
-          <li><a href="/discipline/kickboxing" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Kickboxing</a></li>
-          <li><a href="/discipline/grappling" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🤼 Grappling / BJJ</a></li>
-          <li><a href="/guides" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">📖 Guides débutants</a></li>
-          <li><a href="/equipement" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🛒 Équipement</a></li>
-          <li><a href="/classements" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🏆 Classements UFC</a></li>
+          <li><a href="/discipline/mma" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">MMA / UFC</a></li>
+          <li><a href="/discipline/boxe" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Boxe anglaise</a></li>
+          <li><a href="/discipline/muay-thai" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Muay Thaï</a></li>
+          <li><a href="/discipline/kickboxing" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Kickboxing</a></li>
+          <li><a href="/discipline/grappling" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Grappling / BJJ</a></li>
+          <li><a href="/guides" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Guides débutants</a></li>
+          <li><a href="/equipement" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Équipement</a></li>
+          <li><a href="/classements" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">Classements UFC</a></li>
         </ul>
       </div>
 
       <!-- Widget discipline -->
       <div class="widget" style="margin-top:20px;">
-        <div class="widget-head">🥋 {sportLabel[article.data.sport] || 'Discipline'}</div>
+        <div class="widget-head">{sportLabel[article.data.sport] || 'Discipline'}</div>
         <div class="widget-body">
           <a href={disciplineUrl} style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--blue);color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;width:100%;justify-content:center;">
             Voir tous les articles →
@@ -326,7 +313,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function copyLink() {
   const btn = document.getElementById('copy-btn');
   navigator.clipboard.writeText(window.location.href).then(() => {
-    if (btn) { btn.textContent = '✅ Copié !'; setTimeout(() => btn.textContent = '🔗 Copier le lien', 2000); }
+    if (btn) { btn.textContent = 'Copié !'; setTimeout(() => btn.textContent = 'Copier le lien', 2000); }
   });
 }
 
@@ -335,10 +322,10 @@ function subscribeNewsletter() {
   const email = (document.getElementById('nl-email') as HTMLInputElement)?.value?.trim();
   const fb = document.getElementById('nl-feedback');
   if (!email || !email.includes('@')) {
-    if (fb) { fb.textContent = '⚠️ Email invalide'; fb.style.color = '#ef4444'; }
+    if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#ef4444'; }
     return;
   }
-  if (fb) { fb.textContent = '✅ Merci ! Tu recevras le prochain numéro.'; fb.style.color = '#10b981'; }
+  if (fb) { fb.textContent = 'Merci ! Tu recevras le prochain numéro.'; fb.style.color = '#10b981'; }
   (document.getElementById('nl-email') as HTMLInputElement).value = '';
 }
 

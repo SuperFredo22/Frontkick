@@ -85,6 +85,20 @@ const disciplineCards = [
   { key: 'guides',     name: 'Guides',         emoji: '📖', origin: 'Débutant · Intermédiaire · Avancé' },
 ];
 
+const sportImages: Record<string, string> = {
+  mma:         '/images/sports/mma.svg',
+  boxe:        '/images/sports/boxe.svg',
+  kickboxing:  '/images/sports/kickboxing.svg',
+  'muay-thai': '/images/sports/muay-thai.svg',
+  grappling:   '/images/sports/grappling.svg',
+  karate:      '/images/sports/karate.svg',
+  sambo:       '/images/sports/sambo.svg',
+  savate:      '/images/sports/savate.svg',
+  sanda:       '/images/sports/sanda.svg',
+  lethwei:     '/images/sports/lethwei.svg',
+  k1:          '/images/sports/k1.svg',
+};
+
 // ── SEO : description dynamique basée sur la une ──────────────────────────
 const seoDesc = featuredArticle
   ? `FightFocus — ${featuredArticle.data.excerpt ?? featuredArticle.data.title}`
@@ -98,8 +112,8 @@ const seoDesc = featuredArticle
   <div class="hero">
     <a href={`/articles/${featuredArticle.slug}`} class="featured-card">
       <div class="featured-image" style={`background: ${gradients[featuredArticle.data.sport] ?? gradients.mma};`}>
-        <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));">{emojis[featuredArticle.data.sport] ?? '🥊'}</span>
-        <span class="fi-badge">🔥 À la une</span>
+        <img src={sportImages[featuredArticle.data.sport] ?? '/images/sports/default.svg'} alt={featuredArticle.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" loading="lazy"/>
+        <span class="fi-badge">À la une</span>
       </div>
       <div class="featured-body">
         <div class="feat-meta">
@@ -116,7 +130,6 @@ const seoDesc = featuredArticle
     <div class="hero-sidebar">
       {sidebar.map(a => (
         <a href={`/articles/${a.slug}`} class="mini-card">
-          <div class="mini-icon">{emojis[a.data.sport] ?? '🥊'}</div>
           <div>
             <div class="mini-cat">{sportLabel[a.data.sport] ?? a.data.sport} · {catLabel[a.data.category] ?? a.data.category}</div>
             <div class="mini-title" set:html={a.data.title}></div>
@@ -136,17 +149,19 @@ const seoDesc = featuredArticle
   </div>
   <div class="sports-hub">
     {disciplineCards.map(d => (
-      <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card">
+      <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card" style={`background: ${gradients[d.key] || gradients.mma};`}>
+        <div class="sport-hub-img">
+          <img src={d.key === 'guides' ? '/images/sections/guides.svg' : (sportImages[d.key] ?? '/images/sports/default.svg')} alt={d.name} loading="lazy"/>
+        </div>
         <div class="sport-hub-top">
-          <span class="sport-emoji">{d.emoji}</span>
           <div>
             <div class="sport-name">{d.name}</div>
             <div class="sport-origin">{d.origin}</div>
           </div>
         </div>
         <div class="sport-links">
-          <div class="sport-link"><span>📝 Articles</span></div>
-          <div class="sport-link"><span>📖 Guide →</span></div>
+          <div class="sport-link"><span>Articles</span></div>
+          <div class="sport-link"><span>Guide →</span></div>
         </div>
       </a>
     ))}
@@ -164,8 +179,8 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {latestNews.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; position:relative; overflow:hidden;`}>
+              <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
               <span class="art-cat-tag">Actualité</span>
             </div>
             <div class="art-body">
@@ -183,13 +198,13 @@ const seoDesc = featuredArticle
 
     <aside class="sidebar-col">
       <div class="nl-widget">
-        <div class="widget-head">📬 Newsletter hebdo</div>
+        <div class="widget-head">Newsletter hebdo</div>
         <p>Les meilleurs articles de la semaine. Gratuit.</p>
         <input class="nl-input" type="email" placeholder="votre@email.com" />
         <button class="nl-btn">S'abonner</button>
       </div>
       <div class="widget">
-        <div class="widget-head">🏆 Prochains événements</div>
+        <div class="widget-head">Prochains événements</div>
         <div class="widget-body">
           <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
           <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
@@ -213,8 +228,8 @@ const seoDesc = featuredArticle
   <div class="art-grid" style="padding:0 1.5rem 2rem;">
     {guides.map(a => (
       <a href={`/articles/${a.slug}`} class="art-card">
-        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-          <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; position:relative; overflow:hidden;`}>
+          <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
           <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
         </div>
         <div class="art-body">
@@ -242,8 +257,8 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {recent.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
-              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] ?? '🥊'}</span>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; position:relative; overflow:hidden;`}>
+              <img src={sportImages[a.data.sport] ?? '/images/sports/default.svg'} alt={a.data.sport} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.8;" loading="lazy"/>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">
@@ -261,13 +276,13 @@ const seoDesc = featuredArticle
 
     <aside class="sidebar-col">
       <div class="nl-widget">
-        <div class="widget-head">📬 Newsletter hebdo</div>
+        <div class="widget-head">Newsletter hebdo</div>
         <p>Les meilleurs articles de la semaine. Gratuit.</p>
         <input class="nl-input" type="email" placeholder="votre@email.com" />
         <button class="nl-btn">S'abonner</button>
       </div>
       <div class="widget">
-        <div class="widget-head">🏆 Prochains événements</div>
+        <div class="widget-head">Prochains événements</div>
         <div class="widget-body">
           <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
           <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
