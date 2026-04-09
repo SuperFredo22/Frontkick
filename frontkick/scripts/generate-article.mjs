@@ -546,9 +546,18 @@ async function main() {
 
   if (!GEMINI_API_KEY) { console.error('❌ GEMINI_API_KEY manquante'); process.exit(1); }
 
-  const date       = getTodayDate();
-  const sport      = pickSport(date);
+  const date        = getTodayDate();
   const articlesDir = path.resolve(__dirname, '../src/content/articles');
+
+  // Support FORCE_SPORT (variable d'environnement ou arg CLI)
+  const forceSport = process.env.FORCE_SPORT || process.argv[2] || '';
+  const sport = (forceSport && SPORTS.includes(forceSport))
+    ? forceSport
+    : pickSport(date);
+
+  if (forceSport && !SPORTS.includes(forceSport)) {
+    console.warn(`  ⚠ Sport "${forceSport}" inconnu — rotation automatique utilisée`);
+  }
   const baseTopic  = pickTopic(sport, articlesDir);
 
   console.log(`  Sport du jour : ${SPORT_LABELS[sport]}`);
