@@ -44,24 +44,27 @@ const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
   'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité', 'guide': 'Guide',
 };
+function cardBg(sportKey: string): string {
+  const g = gradients[sportKey as keyof typeof gradients] || gradients.mma;
+  const img = sportImages[sportKey as keyof typeof sportImages];
+  return img
+    ? `background-image:url('${img}'),${g};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;`
+    : `background-image:${g};position:relative;overflow:hidden;`;
+}
 ---
 <Base title="Actualités — FightFocus" description="Les dernières actualités des sports de combat : UFC, MMA, boxe, kickboxing et plus.">
 <div id="app">
   <div class="list-page">
-    <div class="discipline-hero" style="background:linear-gradient(135deg,#7f1d1d 0%,#DC2626 100%);margin-bottom:32px;">
-      <div class="discipline-hero__bg" style="background-image:url('/images/banners/boxe.png');"></div>
-      <div class="discipline-hero__overlay"></div>
-      <div class="discipline-hero__content">
-        <div class="discipline-hero__label">FightFocus</div>
-        <h1 class="discipline-hero__title">Actualités</h1>
-        <p class="discipline-hero__desc">Les dernières news des sports de combat.</p>
-      </div>
+    <div style="padding:24px 0 20px;margin-bottom:32px;border-bottom:1px solid var(--border);">
+      <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:7px;">FightFocus</div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;color:var(--text);line-height:1;margin:0 0 10px;">Actualités</h1>
+      <p style="font-size:0.93rem;color:var(--text-light);max-width:520px;line-height:1.6;margin:0;">Les dernières news des sports de combat.</p>
     </div>
     {articles.length > 0 ? (
       <div class="art-grid">
         {articles.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={cardBg(a.data.sport)}>
               <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
             </div>
             <div class="art-body">

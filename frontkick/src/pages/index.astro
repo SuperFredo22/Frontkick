@@ -96,6 +96,15 @@ const sportImages: Record<string, string> = {
   // kickboxing, savate, sambo, sanda, lethwei, k1 → gradient seul (pas de bannière encore)
 };
 
+// Helper : background card propre (évite url('') qui écrase le gradient)
+function cardBg(sportKey: string): string {
+  const g = gradients[sportKey] || gradients.mma;
+  const img = sportImages[sportKey as keyof typeof sportImages];
+  return img
+    ? `background-image:url('${img}'),${g};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;`
+    : `background-image:${g};position:relative;overflow:hidden;`;
+}
+
 // ── SEO : description dynamique basée sur la une ──────────────────────────
 const seoDesc = featuredArticle
   ? `FightFocus — ${featuredArticle.data.excerpt ?? featuredArticle.data.title}`
@@ -108,7 +117,7 @@ const seoDesc = featuredArticle
   {featuredArticle && (
   <div class="hero">
     <a href={`/articles/${featuredArticle.slug}`} class="featured-card">
-      <div class="featured-image" style={`background: ${gradients[featuredArticle.data.sport] ?? gradients.mma}; background-image: url('${sportImages[featuredArticle.data.sport] ?? ''}'); background-size: cover; background-position: center;`}>
+      <div class="featured-image" style={cardBg(featuredArticle.data.sport)}>
         <span class="fi-badge">À la une</span>
       </div>
       <div class="featured-body">
@@ -146,7 +155,9 @@ const seoDesc = featuredArticle
   <div class="sports-hub">
     {disciplineCards.map(d => (
       <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card" style={`background: ${gradients[d.key] || gradients.mma};`}>
-        <div class="sport-hub-img" style={`background-image:url('${sportImages[d.key] ?? '/images/banners/mma.png'}');background-size:cover;background-position:center;`}></div>
+        {sportImages[d.key as keyof typeof sportImages] && (
+          <div class="sport-hub-img" style={`background-image:url('${sportImages[d.key as keyof typeof sportImages]}');background-size:cover;background-position:center top;`}></div>
+        )}
         <div class="sport-hub-top">
           <div>
             <div class="sport-name">{d.name}</div>
@@ -173,7 +184,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {latestNews.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={`${cardBg(a.data.sport)}`}>
               <span class="art-cat-tag">Actualité</span>
             </div>
             <div class="art-body">
@@ -222,7 +233,7 @@ const seoDesc = featuredArticle
   <div class="art-grid" style="padding:0 1.5rem 2rem;">
     {guides.map(a => (
       <a href={`/articles/${a.slug}`} class="art-card">
-        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+        <div class="art-image" style={`${cardBg(a.data.sport)}`}>
           <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
         </div>
         <div class="art-body">
@@ -347,7 +358,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {recent.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={`${cardBg(a.data.sport)}`}>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">

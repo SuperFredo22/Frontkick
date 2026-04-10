@@ -121,27 +121,44 @@ const label = labels[sport] || sport;
 const emoji = emojis[sport] || '🥊';
 const gradient = gradients[sport] || gradients.mma;
 const description = descriptions[sport] || `Guides et articles sur ${label}.`;
+const hasBanner = !!sportImages[sport];
+
+// Helper : background card propre (pas de url('') qui écrase le gradient)
+function cardBg(sportKey: string, extra = ''): string {
+  const g = gradients[sportKey] || gradient;
+  const img = sportImages[sportKey];
+  if (img) return `background-image:url('${img}'),${g};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;${extra}`;
+  return `background-image:${g};position:relative;overflow:hidden;${extra}`;
+}
 ---
 <Base title={`${label} — FightFocus`} description={description}>
 <div id="app">
   <div class="list-page">
-    <div class="discipline-hero" style={`background: ${gradient};`}>
-      {sportImages[sport] && (
-        <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport]}');`}></div>
-      )}
-      <div class="discipline-hero__overlay"></div>
-      <div class="discipline-hero__content">
-        <div class="discipline-hero__label">Discipline</div>
-        <h1 class="discipline-hero__title">{label}</h1>
-        <p class="discipline-hero__desc">{description}</p>
+
+    {/* ── Hero : photo intégrée si bannière dispo, header minimal sinon ── */}
+    {hasBanner ? (
+      <div style="position:relative;height:300px;border-radius:14px;overflow:hidden;margin-bottom:36px;">
+        <div style={`position:absolute;inset:0;background-image:url('${sportImages[sport]}');background-size:cover;background-position:center top;`}></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;padding:24px 28px;">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,0.5);margin-bottom:5px;">Discipline</div>
+          <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;color:#fff;line-height:1;margin:0 0 6px;">{label}</h1>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);max-width:500px;line-height:1.5;margin:0;">{description}</p>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div style="padding:24px 0 20px;margin-bottom:32px;border-bottom:1px solid var(--border);">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:7px;">Discipline</div>
+        <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;color:var(--text);line-height:1;margin:0 0 10px;">{label}</h1>
+        <p style="font-size:0.93rem;color:var(--text-light);max-width:520px;line-height:1.6;margin:0;">{description}</p>
+      </div>
+    )}
 
     {articles.length > 0 ? (
       <div>
         {/* Article featured — le premier de la liste */}
         <a href={`/articles/${articles[0].slug}`} class="art-card art-card--featured">
-          <div class="art-image art-image--featured" style={`background:${gradients[articles[0].data.sport] || gradient};background-image:url('${sportImages[articles[0].data.sport] ?? ''}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+          <div class="art-image art-image--featured" style={cardBg(articles[0].data.sport)}>
             <span class="art-cat-tag">{catLabel[articles[0].data.category] || articles[0].data.category}</span>
           </div>
           <div class="art-body art-body--featured">
@@ -159,7 +176,7 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
           <div class="art-grid" style="margin-top:24px;">
             {articles.slice(1).map(a => (
               <a href={`/articles/${a.slug}`} class="art-card">
-                <div class="art-image" style={`background:${gradients[a.data.sport] || gradient};background-image:url('${sportImages[a.data.sport] ?? ''}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+                <div class="art-image" style={cardBg(a.data.sport)}>
                   <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
                 </div>
                 <div class="art-body">

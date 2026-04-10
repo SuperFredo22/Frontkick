@@ -85,7 +85,7 @@ const catLabel: Record<string, string> = {
         <div class="art-grid">
           {autresArticles.map(a => (
             <a href={`/articles/${a.slug}`} class="art-card">
-              <div class="art-image" style={`background:${gradients[a.data.sport] || 'linear-gradient(135deg,#1a1a2e,#4B5563)'}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative;overflow:hidden;`}>
+              <div class="art-image" style={sportImages[a.data.sport] ? `background-image:url('${sportImages[a.data.sport]}'),${gradients[a.data.sport] || 'linear-gradient(135deg,#1a1a2e,#4B5563)'};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;` : `background-image:${gradients[a.data.sport] || 'linear-gradient(135deg,#1a1a2e,#4B5563)'};position:relative;overflow:hidden;`}>
                 <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
               </div>
               <div class="art-body">

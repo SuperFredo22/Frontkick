@@ -196,11 +196,14 @@ function search(rawQuery) {
 // ── Rendu d'une carte article ──────────────────
 function renderCard(a) {
   const grad = gradients[a.sport] || DEFAULT_GRADIENT;
-  const img = sportImages[a.sport] || '/images/sports/default.svg';
+  const img = sportImages[a.sport] || '';
   const label = catLabel[a.category] || a.category;
+  const bgStyle = img
+    ? `background-image:url('${img}'),${grad};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;`
+    : `background-image:${grad};position:relative;overflow:hidden;`;
   return `
     <a href="/articles/${a.slug}" class="art-card">
-      <div class="art-image" style="background:${grad};background-image:url('${img}');background-size:cover;background-position:center;position:relative;overflow:hidden;">
+      <div class="art-image" style="${bgStyle}">
         <span class="art-cat-tag">${label}</span>
       </div>
       <div class="art-body">

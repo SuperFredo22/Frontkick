@@ -70,13 +70,13 @@ const sportLabelJSON   = JSON.stringify(sportLabel);
 <Base title="Guides — FightFocus" description="Tous les guides pour débutants et pratiquants en sports de combat — débutant, équipement, entraînement.">
 <div id="app">
   <div class="list-page">
-    <div class="discipline-hero" style="background:linear-gradient(135deg,#0F172A 0%,#1e3a8a 100%);margin-bottom:32px;">
-      <div class="discipline-hero__bg" style="background-image:url('/images/banners/guide.png');"></div>
-      <div class="discipline-hero__overlay"></div>
-      <div class="discipline-hero__content">
-        <div class="discipline-hero__label">FightFocus</div>
-        <h1 class="discipline-hero__title">Guides</h1>
-        <p class="discipline-hero__desc">Débuter, progresser, s'équiper — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
+    <div style="position:relative;height:280px;border-radius:14px;overflow:hidden;margin-bottom:36px;">
+      <div style="position:absolute;inset:0;background-image:url('/images/banners/guide.png');background-size:cover;background-position:center top;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);"></div>
+      <div style="position:absolute;bottom:0;left:0;padding:24px 28px;">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,0.5);margin-bottom:5px;">FightFocus</div>
+        <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;color:#fff;line-height:1;margin:0 0 6px;">Guides</h1>
+        <p style="font-size:0.88rem;color:rgba(255,255,255,0.8);max-width:500px;line-height:1.5;margin:0;">Débuter, progresser, s'équiper — <strong id="guides-count">{guides.length}</strong> guides disponibles.</p>
       </div>
     </div>
 
@@ -109,9 +109,13 @@ function renderCard(a) {
   const img = sportImages[a.sport] || '';
   const label = catLabel[a.category] || a.category;
   const sport = sportLabel[a.sport] || a.sport;
+  // background-image multi-couche : pas de url('') qui écraserait le gradient
+  const bgStyle = img
+    ? `background-image:url('${img}'),${grad};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;`
+    : `background-image:${grad};position:relative;overflow:hidden;`;
   return `
     <a href="/articles/${a.slug}" class="art-card">
-      <div class="art-image" style="background:${grad};background-image:url('${img}');background-size:cover;background-position:center;position:relative;overflow:hidden;">
+      <div class="art-image" style="${bgStyle}">
         <span class="art-cat-tag">${label}</span>
       </div>
       <div class="art-body">
