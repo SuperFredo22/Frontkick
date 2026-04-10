@@ -92,13 +92,8 @@ const sportImages: Record<string, string> = {
   'muay-thai':  '/images/banners/muay-thai.png',
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
-  kickboxing:   '/images/sports/kickboxing.svg',
-  sambo:        '/images/sports/sambo.svg',
-  savate:       '/images/sports/savate.svg',
-  sanda:        '/images/sports/sanda.svg',
-  lethwei:      '/images/sports/lethwei.svg',
-  k1:           '/images/sports/k1.svg',
   guides:       '/images/banners/guide.png',
+  // kickboxing, savate, sambo, sanda, lethwei, k1 → gradient seul (pas de bannière encore)
 };
 
 // ── SEO : description dynamique basée sur la une ──────────────────────────
@@ -113,7 +108,7 @@ const seoDesc = featuredArticle
   {featuredArticle && (
   <div class="hero">
     <a href={`/articles/${featuredArticle.slug}`} class="featured-card">
-      <div class="featured-image" style={`background: ${gradients[featuredArticle.data.sport] ?? gradients.mma}; background-image: url('${sportImages[featuredArticle.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center;`}>
+      <div class="featured-image" style={`background: ${gradients[featuredArticle.data.sport] ?? gradients.mma}; background-image: url('${sportImages[featuredArticle.data.sport] ?? ''}'); background-size: cover; background-position: center;`}>
         <span class="fi-badge">À la une</span>
       </div>
       <div class="featured-body">
@@ -178,7 +173,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {latestNews.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
               <span class="art-cat-tag">Actualité</span>
             </div>
             <div class="art-body">
@@ -227,7 +222,7 @@ const seoDesc = featuredArticle
   <div class="art-grid" style="padding:0 1.5rem 2rem;">
     {guides.map(a => (
       <a href={`/articles/${a.slug}`} class="art-card">
-        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+        <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
           <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
         </div>
         <div class="art-body">
@@ -352,7 +347,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {recent.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] ?? gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">

@@ -33,12 +33,6 @@ const sportImages: Record<string, string> = {
   'muay-thai':  '/images/banners/muay-thai.png',
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
-  kickboxing:   '/images/sports/kickboxing.svg',
-  sambo:        '/images/sports/sambo.svg',
-  savate:       '/images/sports/savate.svg',
-  sanda:        '/images/sports/sanda.svg',
-  lethwei:      '/images/sports/lethwei.svg',
-  k1:           '/images/sports/k1.svg',
 };
 const gradients: Record<string, string> = {
   karate:  'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
@@ -66,9 +60,11 @@ const catLabel: Record<string, string> = {
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:48px;">
       {disciplines.map(d => (
         <a href={`/discipline/${d.slug}`} class="disc-bubble" style={`background:${d.gradient};`}>
-          <div class="disc-bubble__img">
-            <img src={sportImages[d.slug] || '/images/sports/mma.svg'} alt={d.label} loading="lazy"/>
-          </div>
+          {sportImages[d.slug] && (
+            <div class="disc-bubble__img">
+              <img src={sportImages[d.slug]} alt={d.label} loading="lazy"/>
+            </div>
+          )}
           <div class="disc-bubble__overlay"></div>
           <div class="disc-bubble__content">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:white;letter-spacing:.05em;line-height:1;">{d.label}</div>
@@ -89,7 +85,7 @@ const catLabel: Record<string, string> = {
         <div class="art-grid">
           {autresArticles.map(a => (
             <a href={`/articles/${a.slug}`} class="art-card">
-              <div class="art-image" style={`background:${gradients[a.data.sport] || 'linear-gradient(135deg,#1a1a2e,#4B5563)'}; background-image: url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center; position:relative;overflow:hidden;`}>
+              <div class="art-image" style={`background:${gradients[a.data.sport] || 'linear-gradient(135deg,#1a1a2e,#4B5563)'}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative;overflow:hidden;`}>
                 <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
               </div>
               <div class="art-body">

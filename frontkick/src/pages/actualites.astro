@@ -39,12 +39,6 @@ const sportImages: Record<string, string> = {
   'muay-thai':  '/images/banners/muay-thai.png',
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
-  kickboxing:   '/images/sports/kickboxing.svg',
-  sambo:        '/images/sports/sambo.svg',
-  savate:       '/images/sports/savate.svg',
-  sanda:        '/images/sports/sanda.svg',
-  lethwei:      '/images/sports/lethwei.svg',
-  k1:           '/images/sports/k1.svg',
 };
 const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
@@ -67,7 +61,7 @@ const catLabel: Record<string, string> = {
       <div class="art-grid">
         {articles.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; background-image: url('${sportImages[a.data.sport] ?? ''}'); background-size: cover; background-position: center; position:relative; overflow:hidden;`}>
               <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
             </div>
             <div class="art-body">

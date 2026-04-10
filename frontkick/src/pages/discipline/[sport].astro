@@ -80,12 +80,7 @@ const sportImages: Record<string, string> = {
   'muay-thai':  '/images/banners/muay-thai.png',
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
-  kickboxing:   '/images/sports/kickboxing.svg',
-  sambo:        '/images/sports/sambo.svg',
-  savate:       '/images/sports/savate.svg',
-  sanda:        '/images/sports/sanda.svg',
-  lethwei:      '/images/sports/lethwei.svg',
-  k1:           '/images/sports/k1.svg',
+  // kickboxing, savate, sambo, sanda, lethwei, k1 → gradient seul (pas de bannière encore)
 };
 const gradients: Record<string, string> = {
   mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
@@ -131,7 +126,9 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
 <div id="app">
   <div class="list-page">
     <div class="discipline-hero" style={`background: ${gradient};`}>
-      <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport] || '/images/banners/mma.png'}');`}></div>
+      {sportImages[sport] && (
+        <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport]}');`}></div>
+      )}
       <div class="discipline-hero__overlay"></div>
       <div class="discipline-hero__content">
         <div class="discipline-hero__label">Discipline</div>
@@ -144,7 +141,7 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
       <div>
         {/* Article featured — le premier de la liste */}
         <a href={`/articles/${articles[0].slug}`} class="art-card art-card--featured">
-          <div class="art-image art-image--featured" style={`background:${gradients[articles[0].data.sport] || gradient};background-image:url('${sportImages[articles[0].data.sport] ?? '/images/sports/default.svg'}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+          <div class="art-image art-image--featured" style={`background:${gradients[articles[0].data.sport] || gradient};background-image:url('${sportImages[articles[0].data.sport] ?? ''}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
             <span class="art-cat-tag">{catLabel[articles[0].data.category] || articles[0].data.category}</span>
           </div>
           <div class="art-body art-body--featured">
@@ -162,7 +159,7 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
           <div class="art-grid" style="margin-top:24px;">
             {articles.slice(1).map(a => (
               <a href={`/articles/${a.slug}`} class="art-card">
-                <div class="art-image" style={`background:${gradients[a.data.sport] || gradient};background-image:url('${sportImages[a.data.sport] ?? '/images/sports/default.svg'}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+                <div class="art-image" style={`background:${gradients[a.data.sport] || gradient};background-image:url('${sportImages[a.data.sport] ?? ''}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
                   <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
                 </div>
                 <div class="art-body">

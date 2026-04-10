@@ -61,12 +61,6 @@ const sportImages: Record<string, string> = {
   'muay-thai':  '/images/banners/muay-thai.png',
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
-  kickboxing:   '/images/sports/kickboxing.svg',
-  sambo:        '/images/sports/sambo.svg',
-  savate:       '/images/sports/savate.svg',
-  sanda:        '/images/sports/sanda.svg',
-  lethwei:      '/images/sports/lethwei.svg',
-  k1:           '/images/sports/k1.svg',
 };
 const gradientsJSON    = JSON.stringify(gradients);
 const sportImagesJSON  = JSON.stringify(sportImages);
@@ -112,7 +106,7 @@ const DEFAULT_GRAD = 'linear-gradient(135deg,#0F172A,#1E88E5)';
 
 function renderCard(a) {
   const grad = gradients[a.sport] || DEFAULT_GRAD;
-  const img = sportImages[a.sport] || '/images/sports/default.svg';
+  const img = sportImages[a.sport] || '';
   const label = catLabel[a.category] || a.category;
   const sport = sportLabel[a.sport] || a.sport;
   return `
