@@ -70,6 +70,22 @@ const disciplineUrl = knownDisciplines.includes(article.data.sport)
   ? `/discipline/${article.data.sport}`
   : `/guides`;
 
+// OG image : préférer og-[sport].png si dispo, sinon og-default.png
+const ogImages: Record<string, string> = {
+  mma:         '/images/og/og-mma.png',
+  boxe:        '/images/og/og-boxe.png',
+  kickboxing:  '/images/og/og-kickboxing.png',
+  'muay-thai': '/images/og/og-muay-thai.png',
+  grappling:   '/images/og/og-grappling.png',
+  karate:      '/images/og/og-karate.png',
+  sanda:       '/images/og/og-sanda.png',
+  lethwei:     '/images/og/og-lethwei.png',
+  savate:      '/images/og/og-savate.png',
+  sambo:       '/images/og/og-sambo.png',
+  k1:          '/images/og/og-k1.png',
+};
+const articleOgImage = ogImages[article.data.sport] || '/og-default.png';
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -122,6 +138,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
 <Base
   title={`${cleanTitle} — FightFocus`}
   description={article.data.excerpt}
+  ogImage={articleOgImage}
   ogType="article"
 >
   <Fragment slot="head">
@@ -317,16 +334,47 @@ function copyLink() {
   });
 }
 
-// ── Newsletter ─────────────────────────────────────────
-function subscribeNewsletter() {
-  const email = (document.getElementById('nl-email') as HTMLInputElement)?.value?.trim();
+// ── Newsletter Brevo ───────────────────────────────────
+async function subscribeNewsletter() {
+  const emailEl = document.getElementById('nl-email') as HTMLInputElement;
   const fb = document.getElementById('nl-feedback');
+  const email = emailEl?.value?.trim();
+
   if (!email || !email.includes('@')) {
     if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#ef4444'; }
     return;
   }
-  if (fb) { fb.textContent = 'Merci ! Tu recevras le prochain numéro.'; fb.style.color = '#10b981'; }
-  (document.getElementById('nl-email') as HTMLInputElement).value = '';
+
+  if (fb) { fb.textContent = 'Inscription en cours…'; fb.style.color = '#94a3b8'; }
+
+  try {
+    const res = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': 'BREVO_API_KEY_PLACEHOLDER' // ← Remplacez par votre clé API Brevo (gratuit sur brevo.com)
+      },
+      body: JSON.stringify({
+        email: email,
+        listIds: [2], // ID de la liste Brevo — à ajuster dans votre compte
+        updateEnabled: true,
+        attributes: { SOURCE: 'FightFocus Article' }
+      })
+    });
+
+    if (res.ok || res.status === 204) {
+      if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#10b981'; }
+      if (emailEl) emailEl.value = '';
+    } else if (res.status === 400) {
+      // Le contact existe peut-être déjà
+      if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#10b981'; }
+    } else {
+      throw new Error('API error ' + res.status);
+    }
+  } catch (err) {
+    if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#ef4444'; }
+  }
 }
 
 // Exposer pour onclick inline

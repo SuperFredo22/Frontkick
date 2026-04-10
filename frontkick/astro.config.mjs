@@ -5,19 +5,26 @@ export default defineConfig({
   site: 'https://fightfocus.fr',
   integrations: [
     sitemap({
-      // Prioriser les articles récents et les pages discipline
+      // Exclure pages inutiles pour le crawl budget
+      filter: (page) => !page.includes('/recherche'),
       serialize(item) {
-        // Pages de disciplines = priorité haute
+        const now = new Date().toISOString().split('T')[0];
+        // Pages discipline = priorité haute, re-crawl hebdo
         if (item.url.includes('/discipline/')) {
-          return { ...item, priority: 0.9, changefreq: 'weekly' };
+          return { ...item, priority: 0.9, changefreq: 'weekly', lastmod: now };
         }
-        // Articles = priorité normale
+        // Articles = priorité normale, crawl mensuel
         if (item.url.includes('/articles/')) {
           return { ...item, priority: 0.7, changefreq: 'monthly' };
         }
-        // Pages statiques principales
-        if (['/', '/guides', '/actualites', '/classements', '/equipement', '/autres-disciplines'].some(p => item.url.endsWith(p) || item.url.endsWith(p + '/'))) {
-          return { ...item, priority: 0.8, changefreq: 'weekly' };
+        // Pages principales
+        const mainPages = ['/', '/guides', '/actualites', '/classements', '/equipement', '/autres-disciplines'];
+        if (mainPages.some(p => item.url.endsWith(p) || item.url.endsWith(p + '/'))) {
+          return { ...item, priority: 0.8, changefreq: 'weekly', lastmod: now };
+        }
+        // Pages légales / contact = faible priorité
+        if (['/mentions-legales', '/politique-confidentialite', '/a-propos', '/contact'].some(p => item.url.includes(p))) {
+          return { ...item, priority: 0.3, changefreq: 'yearly' };
         }
         return { ...item, priority: 0.5, changefreq: 'monthly' };
       }

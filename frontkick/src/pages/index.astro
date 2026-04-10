@@ -197,8 +197,9 @@ const seoDesc = featuredArticle
       <div class="nl-widget">
         <div class="widget-head">Newsletter hebdo</div>
         <p>Les meilleurs articles de la semaine. Gratuit.</p>
-        <input class="nl-input" type="email" placeholder="votre@email.com" />
-        <button class="nl-btn">S'abonner</button>
+        <input class="nl-input" type="email" id="nl-email-home" placeholder="votre@email.com" />
+        <button class="nl-btn" onclick="subscribeHome()">S'abonner</button>
+        <div id="nl-feedback-home" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
       </div>
       <div class="widget">
         <div class="widget-head">Prochains événements</div>
@@ -370,8 +371,9 @@ const seoDesc = featuredArticle
       <div class="nl-widget">
         <div class="widget-head">Newsletter hebdo</div>
         <p>Les meilleurs articles de la semaine. Gratuit.</p>
-        <input class="nl-input" type="email" placeholder="votre@email.com" />
-        <button class="nl-btn">S'abonner</button>
+        <input class="nl-input" type="email" id="nl-email-home" placeholder="votre@email.com" />
+        <button class="nl-btn" onclick="subscribeHome()">S'abonner</button>
+        <div id="nl-feedback-home" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
       </div>
       <div class="widget">
         <div class="widget-head">Prochains événements</div>
@@ -387,4 +389,51 @@ const seoDesc = featuredArticle
   )}
 
 </div>
+
+<script>
+// ── Newsletter Brevo (page d'accueil) ──────────────────
+async function subscribeHome() {
+  const emailEl = document.getElementById('nl-email-home') as HTMLInputElement;
+  const fb = document.getElementById('nl-feedback-home');
+  const email = emailEl?.value?.trim();
+
+  if (!email || !email.includes('@')) {
+    if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#ef4444'; }
+    return;
+  }
+
+  if (fb) { fb.textContent = 'Inscription en cours…'; fb.style.color = '#94a3b8'; }
+
+  try {
+    const res = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': 'BREVO_API_KEY_PLACEHOLDER' // ← Remplacez par votre clé API Brevo (gratuit sur brevo.com)
+      },
+      body: JSON.stringify({
+        email: email,
+        listIds: [2], // ID de la liste Brevo — à ajuster dans votre compte
+        updateEnabled: true,
+        attributes: { SOURCE: 'FightFocus Accueil' }
+      })
+    });
+
+    if (res.ok || res.status === 204) {
+      if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#10b981'; }
+      if (emailEl) emailEl.value = '';
+    } else if (res.status === 400) {
+      // Le contact existe peut-être déjà
+      if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#10b981'; }
+    } else {
+      throw new Error('API error ' + res.status);
+    }
+  } catch (err) {
+    if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#ef4444'; }
+  }
+}
+
+(window as any).subscribeHome = subscribeHome;
+</script>
 </Base>
