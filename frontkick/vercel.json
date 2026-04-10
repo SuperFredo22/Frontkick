@@ -15,6 +15,76 @@
       "permanent": true
     },
     {
+      "source": "/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants",
+      "destination": "/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases",
+      "permanent": true
+    },
+    {
+      "source": "/articles/2026-04-05-kickboxing-le-guide-complet-pour-debutants",
+      "destination": "/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases",
+      "permanent": true
+    },
+    {
+      "source": "/articles/2026-04-07-kickboxing-le-guide-complet-pour-debuter-en-toute-securite",
+      "destination": "/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases",
+      "permanent": true
+    },
+    {
+      "source": "/articles/bjj-ceintures-progression",
+      "destination": "/articles/guide-debuter-bjj-grappling",
+      "permanent": true
+    },
+    {
+      "source": "/articles/bjj-guide-debutant",
+      "destination": "/articles/guide-debuter-bjj-grappling",
+      "permanent": true
+    },
+    {
+      "source": "/articles/choisir-protege-dents",
+      "destination": "/articles/guide-equipement-muay-thai",
+      "permanent": true
+    },
+    {
+      "source": "/articles/grappling-no-gi-guide",
+      "destination": "/articles/grappling-disciplines-gi-nogi-luta-livre",
+      "permanent": true
+    },
+    {
+      "source": "/articles/judo-projections-bases",
+      "destination": "/articles/judo-bases-chutes-projections",
+      "permanent": true
+    },
+    {
+      "source": "/articles/karate-kyokushin-guide",
+      "destination": "/articles/karate-kyokushin-sport-contact-complet",
+      "permanent": true
+    },
+    {
+      "source": "/articles/kickboxing-debutant-guide",
+      "destination": "/articles/guide-debuter-kickboxing",
+      "permanent": true
+    },
+    {
+      "source": "/articles/muay-thai-histoire-culture",
+      "destination": "/articles/muay-thai-histoire-culture-mondiale",
+      "permanent": true
+    },
+    {
+      "source": "/articles/boxe-mars-2026-pereira-ufc-seattle-murphy-tsarukyan",
+      "destination": "/discipline/boxe",
+      "permanent": true
+    },
+    {
+      "source": "/articles/2026-03-29-sambo-la-france-en-effervescence-apres-les-finales-de-la-sambo-league",
+      "destination": "/articles/sambo-sport-combat-russe-complet",
+      "permanent": true
+    },
+    {
+      "source": "/articles/2026-03-30-ufc-seattle-pyfer-cree-la-sensation-adesanya-surpris",
+      "destination": "/discipline/mma",
+      "permanent": true
+    },
+    {
       "source": "/articles/bjj-guide-debutant-positions-fondamentales",
       "destination": "/articles/guide-debuter-bjj-grappling",
       "permanent": true
