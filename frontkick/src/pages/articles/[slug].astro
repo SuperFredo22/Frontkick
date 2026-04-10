@@ -86,6 +86,16 @@ const ogImages: Record<string, string> = {
 };
 const articleOgImage = ogImages[article.data.sport] || '/og-default.png';
 
+const sportLabelsForSeo: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
+  grappling: 'Grappling', karate: 'Karaté', sanda: 'Sanda', lethwei: 'Lethwei',
+  savate: 'Savate', sambo: 'Sambo', k1: 'K-1',
+};
+const catLabelsForSeo: Record<string, string> = {
+  'guide': 'Guide', 'guide-debutant': 'Guide débutant', 'conseil-entrainement': 'Conseil entraînement',
+  'guide-equipement': 'Guide équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -94,6 +104,12 @@ const jsonLd = {
   "url": articleUrl,
   "datePublished": article.data.date,
   "dateModified": article.data.date,
+  "image": {
+    "@type": "ImageObject",
+    "url": `${siteUrl}${articleOgImage}`,
+    "width": 1200,
+    "height": 630
+  },
   "author": {
     "@type": "Person",
     "name": "Frédéric Laviemienandy",
@@ -105,10 +121,20 @@ const jsonLd = {
     "url": siteUrl,
     "logo": {
       "@type": "ImageObject",
-      "url": `${siteUrl}/images/fightfocus-logo.png`
+      "url": `${siteUrl}/images/fightfocus-logo.png`,
+      "width": 200,
+      "height": 60
     }
   },
-  "keywords": [article.data.sport, article.data.category, "sports de combat", "FightFocus"],
+  "keywords": [
+    sportLabelsForSeo[article.data.sport] || article.data.sport,
+    catLabelsForSeo[article.data.category] || article.data.category,
+    "sports de combat",
+    "arts martiaux",
+    "FightFocus"
+  ].join(', '),
+  "inLanguage": "fr-FR",
+  "isAccessibleForFree": true,
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": articleUrl

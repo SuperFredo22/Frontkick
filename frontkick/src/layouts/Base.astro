@@ -48,10 +48,11 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Fonts : display=swap évite le FOIT, on charge uniquement ce qui est utilisé -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" /></noscript>
+  <!-- Fonts critiques : Bebas Neue (logo/titres) + DM Sans (corps texte) -->
+  <!-- Chargement non-bloquant avec display=swap -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="/styles/global.css" />
 
   <slot name="head" />
