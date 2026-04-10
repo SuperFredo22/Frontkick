@@ -56,12 +56,17 @@ const guidesJSON = JSON.stringify(guides.map(a => ({
   date: a.data.date,
 })));
 const sportImages: Record<string, string> = {
-  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
-  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
-  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
-  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
-  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
-  k1: '/images/sports/k1.svg',
+  mma:          '/images/banners/mma.png',
+  boxe:         '/images/banners/boxe.png',
+  'muay-thai':  '/images/banners/muay-thai.png',
+  grappling:    '/images/banners/grappling.png',
+  karate:       '/images/banners/karate.png',
+  kickboxing:   '/images/sports/kickboxing.svg',
+  sambo:        '/images/sports/sambo.svg',
+  savate:       '/images/sports/savate.svg',
+  sanda:        '/images/sports/sanda.svg',
+  lethwei:      '/images/sports/lethwei.svg',
+  k1:           '/images/sports/k1.svg',
 };
 const gradientsJSON    = JSON.stringify(gradients);
 const sportImagesJSON  = JSON.stringify(sportImages);
@@ -72,7 +77,7 @@ const sportLabelJSON   = JSON.stringify(sportLabel);
 <div id="app">
   <div class="list-page">
     <div class="discipline-hero" style="background:linear-gradient(135deg,#0F172A 0%,#1e3a8a 100%);margin-bottom:32px;">
-      <div class="discipline-hero__bg" style="background-image:url('/images/sports/grappling.svg');"></div>
+      <div class="discipline-hero__bg" style="background-image:url('/images/banners/guide.png');"></div>
       <div class="discipline-hero__overlay"></div>
       <div class="discipline-hero__content">
         <div class="discipline-hero__label">FightFocus</div>

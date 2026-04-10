@@ -87,17 +87,18 @@ const disciplineCards = [
 ];
 
 const sportImages: Record<string, string> = {
-  mma:         '/images/sports/mma.svg',
-  boxe:        '/images/sports/boxe.svg',
-  kickboxing:  '/images/sports/kickboxing.svg',
-  'muay-thai': '/images/sports/muay-thai.svg',
-  grappling:   '/images/sports/grappling.svg',
-  karate:      '/images/sports/karate.svg',
-  sambo:       '/images/sports/sambo.svg',
-  savate:      '/images/sports/savate.svg',
-  sanda:       '/images/sports/sanda.svg',
-  lethwei:     '/images/sports/lethwei.svg',
-  k1:          '/images/sports/k1.svg',
+  mma:          '/images/banners/mma.png',
+  boxe:         '/images/banners/boxe.png',
+  'muay-thai':  '/images/banners/muay-thai.png',
+  grappling:    '/images/banners/grappling.png',
+  karate:       '/images/banners/karate.png',
+  kickboxing:   '/images/sports/kickboxing.svg',
+  sambo:        '/images/sports/sambo.svg',
+  savate:       '/images/sports/savate.svg',
+  sanda:        '/images/sports/sanda.svg',
+  lethwei:      '/images/sports/lethwei.svg',
+  k1:           '/images/sports/k1.svg',
+  guides:       '/images/banners/guide.png',
 };
 
 // ── SEO : description dynamique basée sur la une ──────────────────────────
@@ -150,7 +151,7 @@ const seoDesc = featuredArticle
   <div class="sports-hub">
     {disciplineCards.map(d => (
       <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card" style={`background: ${gradients[d.key] || gradients.mma};`}>
-        <div class="sport-hub-img" style={`background-image:url('${d.key === 'guides' ? '/images/sections/guides.svg' : (sportImages[d.key] ?? '/images/sports/default.svg')}');background-size:cover;background-position:center;`}></div>
+        <div class="sport-hub-img" style={`background-image:url('${sportImages[d.key] ?? '/images/banners/mma.png'}');background-size:cover;background-position:center;`}></div>
         <div class="sport-hub-top">
           <div>
             <div class="sport-name">{d.name}</div>

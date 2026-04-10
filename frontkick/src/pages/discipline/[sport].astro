@@ -75,12 +75,17 @@ const emojis: Record<string, string> = {
   sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
 };
 const sportImages: Record<string, string> = {
-  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
-  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
-  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
-  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
-  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
-  k1: '/images/sports/k1.svg',
+  mma:          '/images/banners/mma.png',
+  boxe:         '/images/banners/boxe.png',
+  'muay-thai':  '/images/banners/muay-thai.png',
+  grappling:    '/images/banners/grappling.png',
+  karate:       '/images/banners/karate.png',
+  kickboxing:   '/images/sports/kickboxing.svg',
+  sambo:        '/images/sports/sambo.svg',
+  savate:       '/images/sports/savate.svg',
+  sanda:        '/images/sports/sanda.svg',
+  lethwei:      '/images/sports/lethwei.svg',
+  k1:           '/images/sports/k1.svg',
 };
 const gradients: Record<string, string> = {
   mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
@@ -126,7 +131,7 @@ const description = descriptions[sport] || `Guides et articles sur ${label}.`;
 <div id="app">
   <div class="list-page">
     <div class="discipline-hero" style={`background: ${gradient};`}>
-      <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport] || '/images/sports/mma.svg'}');`}></div>
+      <div class="discipline-hero__bg" style={`background-image:url('${sportImages[sport] || '/images/banners/mma.png'}');`}></div>
       <div class="discipline-hero__overlay"></div>
       <div class="discipline-hero__content">
         <div class="discipline-hero__label">Discipline</div>

@@ -52,13 +52,28 @@ const sportLabel: Record<string, string> = {
   savate: 'Savate', sambo: 'Sambo', k1: 'K-1 / Glory', equipement: 'Équipement',
 };
 const sportImages: Record<string, string> = {
-  mma: '/images/sports/mma.svg', boxe: '/images/sports/boxe.svg',
-  kickboxing: '/images/sports/kickboxing.svg', 'muay-thai': '/images/sports/muay-thai.svg',
-  grappling: '/images/sports/grappling.svg', karate: '/images/sports/karate.svg',
-  sambo: '/images/sports/sambo.svg', savate: '/images/sports/savate.svg',
-  sanda: '/images/sports/sanda.svg', lethwei: '/images/sports/lethwei.svg',
-  k1: '/images/sports/k1.svg',
+  mma:          '/images/banners/mma.png',
+  boxe:         '/images/banners/boxe.png',
+  'muay-thai':  '/images/banners/muay-thai.png',
+  grappling:    '/images/banners/grappling.png',
+  karate:       '/images/banners/karate.png',
+  kickboxing:   '/images/sports/kickboxing.svg',
+  sambo:        '/images/sports/sambo.svg',
+  savate:       '/images/sports/savate.svg',
+  sanda:        '/images/sports/sanda.svg',
+  lethwei:      '/images/sports/lethwei.svg',
+  k1:           '/images/sports/k1.svg',
 };
+
+// Détection des articles de comparaison (ex: kickboxing-vs-muay-thai)
+function getComparisonImage(slugStr: string): string | null {
+  const s = slugStr.toLowerCase();
+  const hasKick = s.includes('kickboxing') || s.includes('k-1') || s.includes('k1');
+  const hasMuay = s.includes('muay-thai') || s.includes('muay_thai') || s.includes('muaythai');
+  if (hasKick && hasMuay) return '/images/banners/muay-thai-vs-kickboxing.png';
+  return null;
+}
+const heroImage = getComparisonImage(slug) || sportImages[article.data.sport] || '/images/banners/mma.png';
 
 const siteUrl = 'https://fightfocus.fr';
 const articleUrl = `${siteUrl}/articles/${slug}`;
@@ -197,7 +212,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
 
       <!-- Header article -->
       <div class="art-image-hero" style={`background:${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'};height:200px;border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;`}>
-        <div style={`position:absolute;inset:0;background-image:url('${sportImages[article.data.sport] || '/images/sports/mma.svg'}');background-size:cover;background-position:center;opacity:0.85;`}></div>
+        <div style={`position:absolute;inset:0;background-image:url('${heroImage}');background-size:cover;background-position:center;opacity:0.85;`}></div>
         <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);"></div>
       </div>
 
@@ -248,7 +263,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
           <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             {similar.map((a, i) => (
               <a href={`/articles/${a.slug}`} class="similar-item" style={i < similar.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}>
-                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;background-image:url('${sportImages[a.data.sport] || '/images/sports/mma.svg'}');background-size:cover;background-position:center;`}></div>
+                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;background-image:url('${getComparisonImage(a.slug) || sportImages[a.data.sport] || '/images/banners/mma.png'}');background-size:cover;background-position:center;`}></div>
                 <div style="flex:1;min-width:0;">
                   <div class="similar-title" set:html={a.data.title}></div>
                   <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">{sportLabel[a.data.sport] || a.data.sport} · {a.data.date}</div>
