@@ -4,8 +4,8 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 
-// Articles des disciplines "autres" (kickboxing + k1 + les 6 autres)
-const autresSports = ['kickboxing', 'k1', 'sanda', 'lethwei', 'savate', 'sambo', 'karate'];
+// Articles des disciplines "autres" (sans kickboxing/k1 qui ont leur propre page)
+const autresSports = ['sanda', 'lethwei', 'savate', 'sambo', 'karate'];
 const autresArticles = allArticles
   .filter(a => autresSports.includes(a.data.sport))
   .sort((a, b) => {
@@ -15,13 +15,11 @@ const autresArticles = allArticles
   });
 
 const disciplines = [
-  { slug: "kickboxing", label: "Kickboxing",           emoji: "🥊", desc: "Full contact, low kick, point fighting — la frappe debout",  gradient: "linear-gradient(135deg,#064e3b,#10B981)" },
-  { slug: "k1",         label: "K-1 / Glory",          emoji: "⚡", desc: "Le kickboxing de haut niveau, frappes pures",                gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)" },
-  { slug: "karate",     label: "Karaté",                emoji: "🥋", desc: "Kata, kumite et philosophie martiale",                       gradient: "linear-gradient(135deg,#1a1a2e,#e94560)" },
-  { slug: "sanda",      label: "Sanda",                 emoji: "🐉", desc: "Le kickboxing chinois avec projections",                     gradient: "linear-gradient(135deg,#7c2d12,#ea580c)" },
-  { slug: "savate",     label: "Savate Boxe Française", emoji: "🇫🇷", desc: "L'art du pied et du poing, made in France",                gradient: "linear-gradient(135deg,#1e3a5f,#2563EB)" },
-  { slug: "sambo",      label: "Sambo",                 emoji: "🇷🇺", desc: "L'art martial russe de Khabib et Fedor",                   gradient: "linear-gradient(135deg,#1a1a1a,#dc2626)" },
-  { slug: "lethwei",    label: "Lethwei",               emoji: "💀", desc: "L'art martial birman le plus brutal au monde",               gradient: "linear-gradient(135deg,#1c1917,#78716c)" },
+  { slug: "karate",  label: "Karaté",                emoji: "🥋", desc: "Kata, kumite et philosophie martiale",          gradient: "linear-gradient(135deg,#1a1a2e,#e94560)" },
+  { slug: "sanda",   label: "Sanda",                 emoji: "🐉", desc: "Le kickboxing chinois avec projections",        gradient: "linear-gradient(135deg,#7c2d12,#ea580c)" },
+  { slug: "savate",  label: "Savate Boxe Française", emoji: "🇫🇷", desc: "L'art du pied et du poing, made in France",   gradient: "linear-gradient(135deg,#1e3a5f,#2563EB)" },
+  { slug: "sambo",   label: "Sambo",                 emoji: "🇷🇺", desc: "L'art martial russe de Khabib et Fedor",      gradient: "linear-gradient(135deg,#1a1a1a,#dc2626)" },
+  { slug: "lethwei", label: "Lethwei",               emoji: "💀", desc: "L'art martial birman le plus brutal au monde", gradient: "linear-gradient(135deg,#1c1917,#78716c)" },
 ];
 
 const emojis: Record<string, string> = {

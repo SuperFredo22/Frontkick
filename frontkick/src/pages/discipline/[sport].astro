@@ -15,7 +15,7 @@ const all = await getCollection('articles');
 const sportAliases: Record<string, string[]> = {
   mma:          ['mma', 'ufc'],
   boxe:         ['boxe'],
-  kickboxing:   ['kickboxing'],
+  kickboxing:   ['kickboxing', 'k1', 'glory'],  // K-1 fusionné dans kickboxing
   'muay-thai':  ['muay-thai'],
   grappling:    ['grappling', 'bjj', 'judo', 'wrestling'],
   karate:       ['karate', 'kyokushin'],
@@ -39,9 +39,16 @@ function parseDate(d: string): number {
 // ne doit pas s'afficher sur /discipline/boxe)
 const knownSports = ['mma','boxe','kickboxing','muay-thai','grappling','karate','sanda','lethwei','savate','sambo','k1'];
 
+// Sports considérés comme synonymes de kickboxing → leurs articles s'affichent sur /discipline/kickboxing
+const sportSynonyms: Record<string, string[]> = {
+  kickboxing: ['k1'],
+};
+
 const articles = all
   .filter(a => {
     if (a.data.sport === sport) return true;
+    // K-1 fusionné dans kickboxing : les articles k1 apparaissent sur la page kickboxing
+    if (sportSynonyms[sport]?.includes(a.data.sport)) return true;
     // Si l'article appartient déjà à une autre discipline précise → pas de slug matching
     if (knownSports.includes(a.data.sport) && a.data.sport !== sport) return false;
     if (['guide-equipement', 'guide-debutant', 'guide', 'analyse'].includes(a.data.category)) {

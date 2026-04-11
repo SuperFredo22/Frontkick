@@ -144,10 +144,11 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <!-- Disciplines principales -->
       <a href="/discipline/mma"        class={`nav-link ${currentPath.includes('/mma') ? 'active' : ''}`}>MMA</a>
       <a href="/discipline/boxe"       class={`nav-link ${currentPath.includes('/boxe') ? 'active' : ''}`}>Boxe</a>
+      <a href="/discipline/kickboxing" class={`nav-link ${currentPath.includes('/kickboxing') || currentPath.includes('/k1') ? 'active' : ''}`}>Kickboxing</a>
       <a href="/discipline/muay-thai"  class={`nav-link ${currentPath.includes('/muay-thai') ? 'active' : ''}`}>Muay Thaï</a>
       <a href="/discipline/grappling"  class={`nav-link ${currentPath.includes('/grappling') ? 'active' : ''}`}>Grappling</a>
 
-      <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/kickboxing','/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/k1','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
+      <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
 
       <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
       <a href="/equipement"  class={`nav-link ${currentPath.startsWith('/equipement') ? 'active' : ''}`}>Équipement</a>

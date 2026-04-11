@@ -15,13 +15,8 @@
       "permanent": true
     },
     {
-      "source": "/discipline/kickboxing",
-      "destination": "/autres-disciplines",
-      "permanent": false
-    },
-    {
       "source": "/discipline/k1",
-      "destination": "/autres-disciplines",
+      "destination": "/discipline/kickboxing",
       "permanent": false
     },
     {
