@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Pages utilitaires sans valeur SEO
+Disallow: /search
+Disallow: /recherche
+
+# Crawl-delay pour les petits crawlers
+Crawl-delay: 1
+
+Sitemap: https://fightfocus.fr/sitemap-index.xml

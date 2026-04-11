@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Lethwei — headbutt (signature technique) -->
+    <!-- Attacker leaning head forward -->
+    <!-- Head (low, driving forward) -->
+    <circle cx="38" cy="30" r="13"/>
+    <!-- Neck / body leaning aggressively forward -->
+    <polygon points="30,43 52,40 70,60 52,72 26,68"/>
+    <!-- Left arm wrapping around opponent (clinch) -->
+    <polygon points="46,48 80,38 82,48 68,58 46,60"/>
+    <!-- Right arm clinch other side -->
+    <polygon points="30,50 8,42 6,52 20,58 28,62"/>
+    <!-- Legs in aggressive pushing stance -->
+    <polygon points="28,68 42,66 38,108 24,110"/>
+    <ellipse cx="30" cy="112" rx="12" ry="5"/>
+    <polygon points="50,70 62,68 66,108 52,110"/>
+    <ellipse cx="58" cy="112" rx="12" ry="5"/>
+    <!-- Head wrap (lethwei uses cloth wraps) — circle around head -->
+    <circle cx="38" cy="30" r="15" fill="none" stroke="white" stroke-width="2.5" stroke-dasharray="4,3" opacity="0.6"/>
+  </g>
+</svg>

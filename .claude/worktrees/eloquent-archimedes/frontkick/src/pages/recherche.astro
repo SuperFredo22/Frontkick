@@ -1,0 +1,6 @@
+---
+// Redirige /recherche?q=... vers /search?q=...
+const q = Astro.url.searchParams.get('q');
+const target = q ? `/search?q=${encodeURIComponent(q)}` : '/search';
+return Astro.redirect(target, 301);
+---

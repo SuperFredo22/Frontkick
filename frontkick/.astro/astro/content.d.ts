@@ -141,16 +141,93 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"articles": {
-"bjj-ceintures-progression.md": {
-	id: "bjj-ceintures-progression.md";
-  slug: "bjj-ceintures-progression";
+"10-soumissions-efficaces-mma.md": {
+	id: "10-soumissions-efficaces-mma.md";
+  slug: "10-soumissions-efficaces-mma";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"bjj-guide-debutant.md": {
-	id: "bjj-guide-debutant.md";
-  slug: "bjj-guide-debutant";
+"2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants.md": {
+	id: "2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants.md";
+  slug: "2026-03-30-muay-thai-8-techniques-essentielles-pour-debutants";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g.md": {
+	id: "2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g.md";
+  slug: "2026-04-01-muay-thai-pour-debutants-maitriser-les-bases-des-poings-pieds-coudes-g";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases.md": {
+	id: "2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases.md";
+  slug: "2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants.md": {
+	id: "2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants.md";
+  slug: "2026-04-09-grappling-bjj-8-bases-essentielles-pour-debutants";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-09-histoire-du-kickboxing-voyage-explosif-du-japon-a-leurope.md": {
+	id: "2026-04-09-histoire-du-kickboxing-voyage-explosif-du-japon-a-leurope.md";
+  slug: "2026-04-09-histoire-du-kickboxing-voyage-explosif-du-japon-a-leurope";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-10-k1-kickboxing-regles-histoire-et-origines.md": {
+	id: "2026-04-10-k1-kickboxing-regles-histoire-et-origines.md";
+  slug: "2026-04-10-k1-kickboxing-regles-histoire-et-origines";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-10-k1-low-kick-technique-et-entrainement.md": {
+	id: "2026-04-10-k1-low-kick-technique-et-entrainement.md";
+  slug: "2026-04-10-k1-low-kick-technique-et-entrainement";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-10-karate-debuter-guide-complet.md": {
+	id: "2026-04-10-karate-debuter-guide-complet.md";
+  slug: "2026-04-10-karate-debuter-guide-complet";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-10-karate-shotokan-techniques-fondamentales.md": {
+	id: "2026-04-10-karate-shotokan-techniques-fondamentales.md";
+  slug: "2026-04-10-karate-shotokan-techniques-fondamentales";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"2026-04-10-savate-technique-coups-de-pied.md": {
+	id: "2026-04-10-savate-technique-coups-de-pied.md";
+  slug: "2026-04-10-savate-technique-coups-de-pied";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"alimentation-sportif-arts-martiaux.md": {
+	id: "alimentation-sportif-arts-martiaux.md";
+  slug: "alimentation-sportif-arts-martiaux";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"boxe-8-coups-fondamentaux.md": {
+	id: "boxe-8-coups-fondamentaux.md";
+  slug: "boxe-8-coups-fondamentaux";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -169,44 +246,149 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"choisir-protege-dents.md": {
-	id: "choisir-protege-dents.md";
-  slug: "choisir-protege-dents";
+"boxe-vs-kickboxing.md": {
+	id: "boxe-vs-kickboxing.md";
+  slug: "boxe-vs-kickboxing";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"grappling-no-gi-guide.md": {
-	id: "grappling-no-gi-guide.md";
-  slug: "grappling-no-gi-guide";
+"comment-lire-combat-boxe.md": {
+	id: "comment-lire-combat-boxe.md";
+  slug: "comment-lire-combat-boxe";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"judo-projections-bases.md": {
-	id: "judo-projections-bases.md";
-  slug: "judo-projections-bases";
+"debuter-sports-de-combat-apres-30-ans.md": {
+	id: "debuter-sports-de-combat-apres-30-ans.md";
+  slug: "debuter-sports-de-combat-apres-30-ans";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"k1-guide-debutant.md": {
-	id: "k1-guide-debutant.md";
-  slug: "k1-guide-debutant";
+"grappling-disciplines-gi-nogi-luta-livre.md": {
+	id: "grappling-disciplines-gi-nogi-luta-livre.md";
+  slug: "grappling-disciplines-gi-nogi-luta-livre";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"karate-kyokushin-guide.md": {
-	id: "karate-kyokushin-guide.md";
-  slug: "karate-kyokushin-guide";
+"grappling-vs-mma-frappes.md": {
+	id: "grappling-vs-mma-frappes.md";
+  slug: "grappling-vs-mma-frappes";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"kickboxing-debutant-guide.md": {
-	id: "kickboxing-debutant-guide.md";
-  slug: "kickboxing-debutant-guide";
+"guide-debuter-bjj-grappling.md": {
+	id: "guide-debuter-bjj-grappling.md";
+  slug: "guide-debuter-bjj-grappling";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-debuter-boxe.md": {
+	id: "guide-debuter-boxe.md";
+  slug: "guide-debuter-boxe";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-debuter-kickboxing.md": {
+	id: "guide-debuter-kickboxing.md";
+  slug: "guide-debuter-kickboxing";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-debuter-mma.md": {
+	id: "guide-debuter-mma.md";
+  slug: "guide-debuter-mma";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-debuter-muay-thai.md": {
+	id: "guide-debuter-muay-thai.md";
+  slug: "guide-debuter-muay-thai";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-equipement-bjj-grappling.md": {
+	id: "guide-equipement-bjj-grappling.md";
+  slug: "guide-equipement-bjj-grappling";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-equipement-boxe.md": {
+	id: "guide-equipement-boxe.md";
+  slug: "guide-equipement-boxe";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-equipement-kickboxing.md": {
+	id: "guide-equipement-kickboxing.md";
+  slug: "guide-equipement-kickboxing";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-equipement-mma.md": {
+	id: "guide-equipement-mma.md";
+  slug: "guide-equipement-mma";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-equipement-muay-thai.md": {
+	id: "guide-equipement-muay-thai.md";
+  slug: "guide-equipement-muay-thai";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"guide-sac-de-frappe-choisir.md": {
+	id: "guide-sac-de-frappe-choisir.md";
+  slug: "guide-sac-de-frappe-choisir";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"huit-armes-muay-thai.md": {
+	id: "huit-armes-muay-thai.md";
+  slug: "huit-armes-muay-thai";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"judo-bases-chutes-projections.md": {
+	id: "judo-bases-chutes-projections.md";
+  slug: "judo-bases-chutes-projections";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"karate-kyokushin-sport-contact-complet.md": {
+	id: "karate-kyokushin-sport-contact-complet.md";
+  slug: "karate-kyokushin-sport-contact-complet";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"kickboxing-vs-muay-thai.md": {
+	id: "kickboxing-vs-muay-thai.md";
+  slug: "kickboxing-vs-muay-thai";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"lethwei-boxe-birmane-art-martial-oublie.md": {
+	id: "lethwei-boxe-birmane-art-martial-oublie.md";
+  slug: "lethwei-boxe-birmane-art-martial-oublie";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -218,23 +400,44 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"mma-discipline-complete.md": {
-	id: "mma-discipline-complete.md";
-  slug: "mma-discipline-complete";
+"lethwei-vs-muay-thai-differences.md": {
+	id: "lethwei-vs-muay-thai-differences.md";
+  slug: "lethwei-vs-muay-thai-differences";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"mma-gants-guide-achat.md": {
-	id: "mma-gants-guide-achat.md";
-  slug: "mma-gants-guide-achat";
+"low-kick-muay-thai-technique-puissance.md": {
+	id: "low-kick-muay-thai-technique-puissance.md";
+  slug: "low-kick-muay-thai-technique-puissance";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
-"muay-thai-histoire-culture.md": {
-	id: "muay-thai-histoire-culture.md";
-  slug: "muay-thai-histoire-culture";
+"mental-competition-gerer-stress.md": {
+	id: "mental-competition-gerer-stress.md";
+  slug: "mental-competition-gerer-stress";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"mma-preparation-physique-programme.md": {
+	id: "mma-preparation-physique-programme.md";
+  slug: "mma-preparation-physique-programme";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"mma-vs-boxe-differences.md": {
+	id: "mma-vs-boxe-differences.md";
+  slug: "mma-vs-boxe-differences";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"muay-thai-histoire-culture-mondiale.md": {
+	id: "muay-thai-histoire-culture-mondiale.md";
+  slug: "muay-thai-histoire-culture-mondiale";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -246,9 +449,65 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
+"muay-thai-vs-mma.md": {
+	id: "muay-thai-vs-mma.md";
+  slug: "muay-thai-vs-mma";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"preparation-premier-combat-boxe-amateur.md": {
+	id: "preparation-premier-combat-boxe-amateur.md";
+  slug: "preparation-premier-combat-boxe-amateur";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"regles-bjj-competition.md": {
+	id: "regles-bjj-competition.md";
+  slug: "regles-bjj-competition";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"regles-boxe-anglaise.md": {
+	id: "regles-boxe-anglaise.md";
+  slug: "regles-boxe-anglaise";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"regles-kickboxing.md": {
+	id: "regles-kickboxing.md";
+  slug: "regles-kickboxing";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"regles-mma-expliquees.md": {
+	id: "regles-mma-expliquees.md";
+  slug: "regles-mma-expliquees";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"regles-muay-thai.md": {
+	id: "regles-muay-thai.md";
+  slug: "regles-muay-thai";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
 "sambo-guide-debutant.md": {
 	id: "sambo-guide-debutant.md";
   slug: "sambo-guide-debutant";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"sambo-sport-combat-russe-complet.md": {
+	id: "sambo-sport-combat-russe-complet.md";
+  slug: "sambo-sport-combat-russe-complet";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -260,9 +519,44 @@ declare module 'astro:content' {
   collection: "articles";
   data: InferEntrySchema<"articles">
 } & { render(): Render[".md"] };
+"sanda-wushu-combat-sport-chinois.md": {
+	id: "sanda-wushu-combat-sport-chinois.md";
+  slug: "sanda-wushu-combat-sport-chinois";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"savate-boxe-francaise-histoire.md": {
+	id: "savate-boxe-francaise-histoire.md";
+  slug: "savate-boxe-francaise-histoire";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
 "savate-guide-debutant.md": {
 	id: "savate-guide-debutant.md";
   slug: "savate-guide-debutant";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"styles-kickboxing-mondial.md": {
+	id: "styles-kickboxing-mondial.md";
+  slug: "styles-kickboxing-mondial";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"teep-muay-thai-guide-technique.md": {
+	id: "teep-muay-thai-guide-technique.md";
+  slug: "teep-muay-thai-guide-technique";
+  body: string;
+  collection: "articles";
+  data: InferEntrySchema<"articles">
+} & { render(): Render[".md"] };
+"wrestling-base-mma-moderne.md": {
+	id: "wrestling-base-mma-moderne.md";
+  slug: "wrestling-base-mma-moderne";
   body: string;
   collection: "articles";
   data: InferEntrySchema<"articles">
@@ -277,5 +571,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("../../src/content/config.js");
+	export type ContentConfig = typeof import("./../../src/content/config.js");
 }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Savate — fouetté front kick (chassé frontal) -->
+    <!-- Head -->
+    <circle cx="42" cy="12" r="11"/>
+    <!-- Torso upright, savate is elegant -->
+    <polygon points="34,28 54,28 56,66 30,68"/>
+    <!-- Kicking leg (right, extending forward high) -->
+    <polygon points="46,68 58,64 84,42 76,30"/>
+    <!-- Savate shoe / boot (distinctive!) -->
+    <ellipse cx="82" cy="32" rx="11" ry="8"/>
+    <!-- Boot tip detail -->
+    <polygon points="88,28 100,30 98,38 86,38"/>
+    <!-- Standing leg (left) -->
+    <polygon points="34,68 46,68 40,114 28,114"/>
+    <ellipse cx="33" cy="116" rx="13" ry="5"/>
+    <!-- Guard arms (classic French boxing high guard) -->
+    <polygon points="36,36 12,22 10,32 28,44"/>
+    <rect x="6" y="18" width="10" height="15" rx="4"/>
+    <polygon points="54,34 72,20 75,30 60,44"/>
+    <rect x="70" y="16" width="10" height="14" rx="4"/>
+  </g>
+</svg>

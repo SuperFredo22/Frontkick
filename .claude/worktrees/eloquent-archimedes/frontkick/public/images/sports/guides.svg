@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Open book -->
+    <!-- Left page -->
+    <path d="M6,22 C6,16 12,14 18,15 L48,20 L48,105 L18,100 C12,99 6,97 6,91 Z"/>
+    <!-- Right page -->
+    <path d="M94,22 C94,16 88,14 82,15 L52,20 L52,105 L82,100 C88,99 94,97 94,91 Z"/>
+    <!-- Spine -->
+    <rect x="47" y="18" width="6" height="89" rx="2"/>
+
+    <!-- Left page lines (text) -->
+    <rect x="14" y="30" width="28" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="39" width="24" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="48" width="28" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="57" width="20" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="66" width="28" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="75" width="22" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+    <rect x="14" y="84" width="28" height="3" rx="1.5" fill="rgba(0,0,0,0.22)"/>
+
+    <!-- Right page — martial arts target / crosshair -->
+    <circle cx="73" cy="62" r="22" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2.5"/>
+    <circle cx="73" cy="62" r="13" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2.5"/>
+    <circle cx="73" cy="62" r="4" fill="rgba(0,0,0,0.25)"/>
+    <rect x="71.5" y="38" width="3" height="10" rx="1.5" fill="rgba(0,0,0,0.2)"/>
+    <rect x="71.5" y="76" width="3" height="10" rx="1.5" fill="rgba(0,0,0,0.2)"/>
+    <rect x="49" y="60.5" width="10" height="3" rx="1.5" fill="rgba(0,0,0,0.2)"/>
+    <rect x="87" y="60.5" width="10" height="3" rx="1.5" fill="rgba(0,0,0,0.2)"/>
+
+    <!-- Book bottom / page depth -->
+    <ellipse cx="50" cy="108" rx="44" ry="6" opacity="0.28"/>
+  </g>
+</svg>

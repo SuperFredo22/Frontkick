@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('articles');
+const articles = all
+  .filter(a => a.data.category === 'actualite')
+  .sort((a, b) => {
+    // Tri par date décroissante (les plus récents en premier)
+    const da = new Date(a.data.date).getTime() || 0;
+    const db = new Date(b.data.date).getTime() || 0;
+    if (db !== da) return db - da;
+    // Si même date ou date non parseable, featured en premier
+    return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
+  });
+
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+};
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
+};
+const catLabel: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+---
+<Base title="Actualités — FightFocus" description="Les dernières actualités des sports de combat : UFC, MMA, boxe, kickboxing et plus.">
+<div id="app">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>📰 Actualités</h1>
+      <p>Les dernières news des sports de combat.</p>
+    </div>
+    {articles.length > 0 ? (
+      <div class="art-grid">
+        {articles.map(a => (
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradients.mma}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));">{emojis[a.data.sport] || '🥊'}</span>
+              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+            </div>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot">
+                <span>{a.data.date}</span>
+                <span class="atype t-guide">{a.data.sport}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <span class="emoji">🔜</span>
+        <h3>Actualités bientôt disponibles</h3>
+        <p>Les news des sports de combat arrivent prochainement.</p>
+        <a href="/guides" class="btn">📖 Voir les guides →</a>
+      </div>
+    )}
+  </div>
+</div>
+</Base>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Octagon cage (background shape) -->
+    <polygon points="50,4 72,12 86,32 86,72 72,92 50,100 28,92 14,72 14,32 28,12"
+             fill="none" stroke="white" stroke-width="3.5" opacity="0.35"/>
+
+    <!-- Fighter in aggressive crouched stance / shooting for takedown -->
+    <!-- Head (low, hunched forward) -->
+    <circle cx="26" cy="36" r="10"/>
+    <!-- Torso (hunched forward, going right) -->
+    <polygon points="22,46 40,38 72,52 60,68 20,66"/>
+    <!-- Left arm shooting forward (right of figure) -->
+    <polygon points="54,44 90,60 92,70 78,72 52,56"/>
+    <!-- Left MMA glove -->
+    <ellipse cx="92" cy="66" rx="9" ry="8"/>
+    <!-- Right arm (other side) -->
+    <polygon points="24,52 6,68 6,78 18,76 28,62"/>
+    <!-- Right MMA glove -->
+    <ellipse cx="5" cy="73" rx="8" ry="8"/>
+    <!-- Left leg (wide stance, front) -->
+    <polygon points="22,66 36,64 34,102 20,104"/>
+    <!-- Left foot -->
+    <ellipse cx="26" cy="106" rx="12" ry="5"/>
+    <!-- Right leg (back, pushing) -->
+    <polygon points="46,68 60,66 64,102 50,104"/>
+    <!-- Right foot -->
+    <ellipse cx="56" cy="106" rx="12" ry="5"/>
+  </g>
+</svg>

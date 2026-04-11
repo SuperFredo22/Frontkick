@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Karate — reverse punch (gyaku-zuki), front stance -->
+    <!-- Head -->
+    <circle cx="50" cy="12" r="11"/>
+    <!-- Torso (front stance, facing forward-left) -->
+    <polygon points="42,28 62,26 66,65 36,67"/>
+    <!-- Punching arm (left, extending straight left) -->
+    <polygon points="44,38 2,50 2,60 14,60 44,50"/>
+    <!-- Punching fist -->
+    <rect x="0" y="48" width="11" height="15" rx="3"/>
+    <!-- Guard hand (right, pulled back to hip) -->
+    <polygon points="64,38 88,32 90,42 70,52"/>
+    <!-- Front leg (left, forward in zenkutsu-dachi) -->
+    <polygon points="40,67 52,65 48,112 34,112"/>
+    <!-- Back leg (right, straight) -->
+    <polygon points="52,67 64,65 70,112 58,112"/>
+    <!-- Front foot -->
+    <ellipse cx="40" cy="114" rx="12" ry="5"/>
+    <!-- Back foot (angled 90 degrees) -->
+    <ellipse cx="64" cy="114" rx="14" ry="5"/>
+    <!-- Gi belt suggestion (horizontal stripe on torso) -->
+  </g>
+</svg>

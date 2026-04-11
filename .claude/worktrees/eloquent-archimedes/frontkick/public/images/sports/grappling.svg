@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- HIP THROW (Seoi Nage) — two figures -->
+
+    <!-- THROWER (front figure, bent forward) -->
+    <!-- Head -->
+    <circle cx="40" cy="48" r="10"/>
+    <!-- Torso (bent forward) -->
+    <polygon points="36,58 54,52 60,76 32,78"/>
+    <!-- Left leg (front, bent) -->
+    <polygon points="34,78 46,76 42,112 30,112"/>
+    <!-- Right leg (back, planted) -->
+    <polygon points="47,78 58,76 62,112 50,112"/>
+    <!-- Left foot -->
+    <ellipse cx="35" cy="114" rx="11" ry="5"/>
+    <!-- Right foot -->
+    <ellipse cx="56" cy="114" rx="11" ry="5"/>
+    <!-- Arms gripping thrown person (going up-right) -->
+    <polygon points="38,62 16,46 14,54 28,62"/>
+    <polygon points="54,56 76,38 79,46 60,62"/>
+
+    <!-- THROWN PERSON (going over back, airborne diagonal) -->
+    <!-- Body (diagonal, going upper-right to lower-left) -->
+    <polygon points="22,14 40,8 78,30 64,44"/>
+    <!-- Head -->
+    <circle cx="28" cy="10" r="9"/>
+    <!-- Right leg (in air, upper right) -->
+    <polygon points="66,38 76,30 90,44 80,54"/>
+    <!-- Left leg (in air) -->
+    <polygon points="70,42 82,36 94,54 82,62"/>
+    <!-- Left foot -->
+    <ellipse cx="90" cy="52" rx="8" ry="5"/>
+    <!-- Right foot -->
+    <ellipse cx="88" cy="62" rx="8" ry="5"/>
+  </g>
+</svg>

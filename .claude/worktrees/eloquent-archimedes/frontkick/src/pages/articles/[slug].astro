@@ -1,0 +1,348 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map(a => ({ params: { slug: a.slug } }));
+}
+
+const { slug } = Astro.params;
+const article = await getEntry('articles', slug as string);
+if (!article) return Astro.redirect('/');
+const { Content } = await article.render();
+
+const allArticles = await getCollection('articles');
+
+// Articles similaires : même sport en priorité, sinon même catégorie
+const similar = allArticles
+  .filter(a => a.slug !== slug)
+  .map(a => ({
+    article: a,
+    score: (a.data.sport === article.data.sport ? 3 : 0) +
+           (a.data.category === article.data.category ? 2 : 0)
+  }))
+  .filter(x => x.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3)
+  .map(x => x.article);
+
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
+  equipement:   'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
+  autres:       'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
+};
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
+  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
+};
+const catLabel: Record<string, string> = {
+  'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
+  'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité',
+};
+
+const sportLabel: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay Thaï',
+  grappling: 'Grappling', karate: 'Karaté', equipement: 'Équipement', autres: 'Autres',
+};
+
+const siteUrl = 'https://fightfocus.fr';
+const articleUrl = `${siteUrl}/articles/${slug}`;
+const cleanTitle = article.data.title.replace(/<[^>]+>/g, '');
+
+// Discipline page URL
+const disciplineUrl = article.data.sport === 'autres' || article.data.sport === 'karate' || article.data.sport === 'equipement'
+  ? `/autres-disciplines`
+  : `/discipline/${article.data.sport}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": cleanTitle,
+  "description": article.data.excerpt,
+  "url": articleUrl,
+  "datePublished": article.data.date,
+  "dateModified": article.data.date,
+  "author": {
+    "@type": "Person",
+    "name": "Frédéric Laviemienandy",
+    "url": `${siteUrl}/a-propos`
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FightFocus",
+    "url": siteUrl,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/images/fightfocus-logo.png`
+    }
+  },
+  "keywords": [article.data.sport, article.data.category, "sports de combat", "FightFocus"],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": articleUrl
+  }
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": sportLabel[article.data.sport] || article.data.sport, "item": `${siteUrl}${disciplineUrl}` },
+    { "@type": "ListItem", "position": 3, "name": cleanTitle, "item": articleUrl },
+  ]
+};
+
+// Encodage pour partage social
+const shareTitle = encodeURIComponent(cleanTitle);
+const shareUrl = encodeURIComponent(articleUrl);
+const twitterUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}&via=fightfocus_fr`;
+const whatsappUrl = `https://wa.me/?text=${shareTitle}%20${shareUrl}`;
+const fbUrl      = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+const redditUrl  = `https://www.reddit.com/submit?url=${shareUrl}&title=${shareTitle}`;
+const telegramUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}`;
+const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
+---
+<Base
+  title={`${cleanTitle} — FightFocus`}
+  description={article.data.excerpt}
+  ogType="article"
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={article.data.date} />
+    <meta property="article:modified_time" content={article.data.date} />
+    <meta property="article:author" content="Frédéric Laviemienandy" />
+    <meta property="article:section" content={article.data.sport} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  </Fragment>
+
+<!-- Barre de progression de lecture -->
+<div id="reading-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:var(--blue);z-index:9999;transition:width 0.1s linear;border-radius:0 2px 2px 0;"></div>
+
+<div id="app">
+  <div class="article-wrap">
+    <div class="art-main">
+
+      <!-- Fil d'Ariane -->
+      <nav class="breadcrumb" aria-label="Fil d'Ariane" style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;flex-wrap:wrap;">
+        <a href="/" style="color:var(--text-muted);text-decoration:none;hover:color:var(--blue);">Accueil</a>
+        <span>›</span>
+        <a href={disciplineUrl} style="color:var(--text-muted);text-decoration:none;">{sportLabel[article.data.sport] || article.data.sport}</a>
+        <span>›</span>
+        <span style="color:var(--text-light);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title={cleanTitle}>{cleanTitle}</span>
+      </nav>
+
+      <!-- AdSense haut -->
+      <div class="ad-slot ad-leader" style="margin-bottom:24px;"></div>
+
+      <!-- Header article -->
+      <div class="art-image-hero" style={`background: ${gradients[article.data.sport] || 'linear-gradient(135deg,#0F172A,#38BDF8)'}; height:260px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:28px; position:relative; overflow:hidden;`}>
+        <span style="font-size:5rem; filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));">{emojis[article.data.sport] || '🥊'}</span>
+      </div>
+
+      <div class="art-tags">
+        <span class="art-tag">{sportLabel[article.data.sport] || article.data.sport}</span>
+        <span class="art-tag">{catLabel[article.data.category] || article.data.category}</span>
+      </div>
+
+      <h1 class="art-h1" set:html={article.data.title}></h1>
+      <p class="art-lead">{article.data.excerpt}</p>
+
+      <div class="art-meta-row" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+        <span>📅 <strong>{article.data.date}</strong></span>
+        <span id="reading-time" style="color:var(--text-muted);font-size:0.85rem;">⏱️ <span id="rt-val">...</span> min de lecture</span>
+      </div>
+
+      <!-- Table des matières (générée par JS) -->
+      <div id="toc-container" style="display:none;" class="toc-box">
+        <div class="toc-title">📋 Sommaire</div>
+        <ul id="toc-list" style="list-style:none;padding:0;margin:0;"></ul>
+      </div>
+
+      <div class="art-content" id="article-content">
+        <Content />
+      </div>
+
+      <!-- Boutons de partage social -->
+      <div class="share-section" style="margin-top:40px;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);">
+        <div style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:14px;">📢 Partager cet article</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href={twitterUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#000;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            𝕏 Twitter / X
+          </a>
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            💬 WhatsApp
+          </a>
+          <a href={fbUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#1877F2;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            👍 Facebook
+          </a>
+          <button onclick="copyLink()" id="copy-btn" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--border);color:var(--text);border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:opacity .2s;">
+            🔗 Copier le lien
+          </button>
+          <a href={redditUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#FF4500;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            🟠 Reddit
+          </a>
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#2AABEE;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            ✈️ Telegram
+          </a>
+          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#0A66C2;color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">
+            💼 LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- AdSense bas -->
+      <div class="ad-slot ad-leader" style="margin-top:40px;"></div>
+
+      <!-- Articles similaires -->
+      {similar.length > 0 && (
+        <div class="similar-section" style="margin-top:48px;">
+          <div class="sec-bar" style="margin-bottom:20px;">
+            <h2 style="font-size:1.25rem;margin:0;">🔥 Articles similaires</h2>
+            <div class="sec-line"></div>
+          </div>
+          <div class="art-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
+            {similar.map(a => (
+              <a href={`/articles/${a.slug}`} class="art-card">
+                <div class="art-image" style={`background:${gradients[a.data.sport] || gradients.mma};display:flex;align-items:center;justify-content:center;`}>
+                  <span style="font-size:2.5rem;">{emojis[a.data.sport] || '🥊'}</span>
+                  <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+                </div>
+                <div class="art-body">
+                  <div class="art-title-sm" set:html={a.data.title}></div>
+                  <div class="art-excerpt">{a.data.excerpt}</div>
+                  <div class="art-foot">
+                    <span>{a.data.date}</span>
+                    <span class="atype t-guide">{sportLabel[a.data.sport] || a.data.sport}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <aside class="art-sidebar">
+      <div class="nl-widget">
+        <div class="widget-head">📬 Newsletter</div>
+        <p>Les meilleurs articles chaque semaine. Gratuit.</p>
+        <input class="nl-input" type="email" id="nl-email" placeholder="votre@email.com" />
+        <button class="nl-btn" onclick="subscribeNewsletter()">S'abonner</button>
+        <div id="nl-feedback" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
+      </div>
+
+      <!-- Widget navigation interne SEO -->
+      <div class="widget" style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <div class="widget-head" style="font-weight:700;margin-bottom:12px;font-size:0.9rem;">🔗 Explorer FightFocus</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="/discipline/mma" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 MMA / UFC</a></li>
+          <li><a href="/discipline/boxe" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🥊 Boxe anglaise</a></li>
+          <li><a href="/discipline/muay-thai" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Muay Thaï</a></li>
+          <li><a href="/discipline/kickboxing" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🦵 Kickboxing</a></li>
+          <li><a href="/discipline/grappling" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🤼 Grappling / BJJ</a></li>
+          <li><a href="/guides" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">📖 Guides débutants</a></li>
+          <li><a href="/equipement" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🛒 Équipement</a></li>
+          <li><a href="/classements" style="color:var(--blue);text-decoration:none;font-size:0.87rem;">🏆 Classements UFC</a></li>
+        </ul>
+      </div>
+
+      <!-- Widget discipline -->
+      <div class="widget" style="margin-top:20px;">
+        <div class="widget-head">🥋 {sportLabel[article.data.sport] || 'Discipline'}</div>
+        <div class="widget-body">
+          <a href={disciplineUrl} style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--blue);color:#fff;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;width:100%;justify-content:center;">
+            Voir tous les articles →
+          </a>
+        </div>
+      </div>
+
+      <div class="ad-slot ad-rect" style="margin-top:20px;"></div>
+    </aside>
+  </div>
+</div>
+</Base>
+
+<script>
+// ── Barre de progression ────────────────────────────────
+function updateProgress() {
+  const bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  const content = document.getElementById('article-content');
+  if (!content) return;
+  const rect = content.getBoundingClientRect();
+  const contentHeight = content.offsetHeight;
+  const scrolled = Math.max(0, -rect.top);
+  const pct = Math.min(100, (scrolled / contentHeight) * 100);
+  bar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+// ── Temps de lecture ───────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const content = document.getElementById('article-content');
+  const rtVal = document.getElementById('rt-val');
+  if (content && rtVal) {
+    const words = content.innerText.trim().split(/\s+/).length;
+    const mins = Math.max(1, Math.round(words / 220));
+    rtVal.textContent = mins.toString();
+  }
+
+  // ── Table des matières automatique ────────────────
+  const headings = content ? content.querySelectorAll('h2, h3') : [];
+  const tocContainer = document.getElementById('toc-container');
+  const tocList = document.getElementById('toc-list');
+  if (headings.length >= 3 && tocContainer && tocList) {
+    headings.forEach((h, i) => {
+      const id = `heading-${i}`;
+      h.id = id;
+      const li = document.createElement('li');
+      li.className = 'toc-item';
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent || '';
+      a.style.cssText = `
+        color:var(--text-light);font-size:0.85rem;text-decoration:none;
+        padding-left:${h.tagName === 'H3' ? '16px' : '0'};
+        display:block;transition:color .2s;
+      `;
+      a.addEventListener('mouseover', () => a.style.color = 'var(--blue)');
+      a.addEventListener('mouseout', () => a.style.color = 'var(--text-light)');
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+    tocContainer.style.display = 'block';
+  }
+});
+
+// ── Copier le lien ─────────────────────────────────────
+function copyLink() {
+  const btn = document.getElementById('copy-btn');
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    if (btn) { btn.textContent = '✅ Copié !'; setTimeout(() => btn.textContent = '🔗 Copier le lien', 2000); }
+  });
+}
+
+// ── Newsletter ─────────────────────────────────────────
+function subscribeNewsletter() {
+  const email = (document.getElementById('nl-email') as HTMLInputElement)?.value?.trim();
+  const fb = document.getElementById('nl-feedback');
+  if (!email || !email.includes('@')) {
+    if (fb) { fb.textContent = '⚠️ Email invalide'; fb.style.color = '#ef4444'; }
+    return;
+  }
+  if (fb) { fb.textContent = '✅ Merci ! Tu recevras le prochain numéro.'; fb.style.color = '#10b981'; }
+  (document.getElementById('nl-email') as HTMLInputElement).value = '';
+}
+
+// Exposer pour onclick inline
+(window as any).copyLink = copyLink;
+(window as any).subscribeNewsletter = subscribeNewsletter;
+</script>

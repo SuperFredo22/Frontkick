@@ -1,0 +1,145 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const sports = [
+    'mma','boxe','kickboxing','muay-thai','grappling','karate',
+    'sanda','lethwei','savate','sambo','k1'
+  ];
+  return sports.map(s => ({ params: { sport: s } }));
+}
+
+const { sport } = Astro.params;
+const all = await getCollection('articles');
+const sportAliases: Record<string, string[]> = {
+  mma:          ['mma', 'ufc'],
+  boxe:         ['boxe'],
+  kickboxing:   ['kickboxing'],
+  'muay-thai':  ['muay-thai'],
+  grappling:    ['grappling', 'bjj', 'judo', 'wrestling'],
+  karate:       ['karate', 'kyokushin'],
+  sanda:        ['sanda', 'wushu'],
+  lethwei:      ['lethwei'],
+  savate:       ['savate'],
+  sambo:        ['sambo'],
+  k1:           ['k1', 'glory'],
+};
+const aliases = sportAliases[sport] || [sport];
+
+function parseDate(d: string): number {
+  const parsed = new Date(d);
+  if (!isNaN(parsed.getTime())) return parsed.getTime();
+  const y = d?.match(/\d{4}/);
+  return y ? parseInt(y[0]) * 1000000 : 0;
+}
+
+const articles = all
+  .filter(a => {
+    if (a.data.sport === sport) return true;
+    if (['guide-equipement', 'guide-debutant', 'guide', 'analyse'].includes(a.data.category)) {
+      return aliases.some(alias => {
+        const slug = a.slug;
+        const idx = slug.indexOf(alias);
+        if (idx === -1) return false;
+        const before = idx === 0 || slug[idx - 1] === '-';
+        const after = idx + alias.length === slug.length || slug[idx + alias.length] === '-';
+        return before && after;
+      });
+    }
+    return false;
+  })
+  .sort((a, b) => {
+    if (b.data.featured !== a.data.featured) return (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0);
+    const aIsActu = a.data.category === 'actualite' ? 1 : 0;
+    const bIsActu = b.data.category === 'actualite' ? 1 : 0;
+    if (bIsActu !== aIsActu) return bIsActu - aIsActu;
+    return parseDate(b.data.date) - parseDate(a.data.date);
+  });
+
+const labels: Record<string, string> = {
+  mma: 'MMA', boxe: 'Boxe anglaise', kickboxing: 'Kickboxing',
+  'muay-thai': 'Muay-Thaï', grappling: 'Grappling', karate: 'Karaté',
+  sanda: 'Sanda (Wushu)', lethwei: 'Lethwei', savate: 'Savate Boxe Française',
+  sambo: 'Sambo', k1: 'K-1 / Glory',
+};
+const emojis: Record<string, string> = {
+  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵', grappling: '🤼', karate: '🥋',
+  sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
+};
+const gradients: Record<string, string> = {
+  mma:          'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
+  boxe:         'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
+  kickboxing:   'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  'muay-thai':  'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
+  grappling:    'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
+  karate:       'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
+  sanda:        'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei:      'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:       'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:        'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
+  k1:           'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
+};
+const descriptions: Record<string, string> = {
+  mma: 'Guides, analyses et conseils pour les pratiquants de MMA.',
+  boxe: 'Technique, équipement et actualités pour les boxeurs.',
+  kickboxing: 'Tout sur le kickboxing : technique, entraînement, compétition.',
+  'muay-thai': "L'art des 8 membres décrypté : clinch, coudes, genoux.",
+  grappling: 'Soumissions, takedowns et positions au sol.',
+  karate: 'Kata, kumite et philosophie du karaté.',
+  sanda: "Le Sanda (Wushu Sanda) : l'art martial chinois de compétition qui mêle frappes et projections.",
+  lethwei: "Le Lethwei birman : le sport de combat le plus brutal au monde, où les coups de tête sont autorisés.",
+  savate: "La Savate, boxe française : l'art du pied et du poing, sport de combat typiquement français.",
+  sambo: "Le Sambo russe : entre judo et lutte, une discipline redoutable au sol comme debout.",
+  k1: "Le K-1 et le Glory : le kickboxing de haut niveau, frappe debout pure.",
+};
+const catLabel: Record<string, string> = {
+  'guide-debutant':       'Guide Débutant',
+  'conseil-entrainement': 'Conseil',
+  'guide-equipement':     'Équipement',
+  'guide':                'Guide',
+  'analyse':              'Analyse',
+  'actualite':            'Actualité',
+};
+const label = labels[sport] || sport;
+const emoji = emojis[sport] || '🥊';
+const gradient = gradients[sport] || gradients.mma;
+const description = descriptions[sport] || `Guides et articles sur ${label}.`;
+---
+<Base title={`${label} — FightFocus`} description={description}>
+<div id="app">
+  <div class="list-page">
+    <div class="list-hero" style={`background: ${gradient}; border-radius:16px; padding:40px 32px; margin-bottom:32px;`}>
+      <h1 style="color:white;">{emoji} {label}</h1>
+      <p style="color:rgba(255,255,255,0.8);">{description}</p>
+    </div>
+
+    {articles.length > 0 ? (
+      <div class="art-grid">
+        {articles.map(a => (
+          <a href={`/articles/${a.slug}`} class="art-card">
+            <div class="art-image" style={`background: ${gradients[a.data.sport] || gradient}; display:flex; align-items:center; justify-content:center;`}>
+              <span style="font-size:2.8rem;">{emojis[a.data.sport] || emoji}</span>
+              <span class="art-cat-tag">{catLabel[a.data.category] || a.data.category}</span>
+            </div>
+            <div class="art-body">
+              <div class="art-title-sm" set:html={a.data.title}></div>
+              <div class="art-excerpt">{a.data.excerpt}</div>
+              <div class="art-foot">
+                <span>{a.data.date}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <span class="emoji">{emoji}</span>
+        <h3>Bientôt disponible</h3>
+        <p>Les articles pour cette discipline arrivent prochainement. Revenez vite !</p>
+        <a href="/" class="btn">← Retour à l'accueil</a>
+      </div>
+    )}
+  </div>
+</div>
+</Base>

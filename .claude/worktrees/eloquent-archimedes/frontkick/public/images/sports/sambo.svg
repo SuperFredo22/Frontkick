@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Sambo — leg grab takedown -->
+    <!-- Head -->
+    <circle cx="30" cy="34" r="10"/>
+    <!-- Torso (bent forward) -->
+    <polygon points="26,44 44,38 68,54 54,68 22,68"/>
+    <!-- Arms grabbing leg (going forward-right) -->
+    <polygon points="48,48 84,64 86,74 72,76 46,62"/>
+    <!-- Hands gripping -->
+    <ellipse cx="88" cy="70" rx="9" ry="8"/>
+    <!-- Other arm low -->
+    <polygon points="28,56 8,68 8,78 20,76 30,66"/>
+    <!-- Left leg (stance) -->
+    <polygon points="24,68 36,66 32,106 18,108"/>
+    <ellipse cx="24" cy="110" rx="12" ry="5"/>
+    <!-- Right leg -->
+    <polygon points="42,68 54,66 58,106 44,108"/>
+    <ellipse cx="50" cy="110" rx="12" ry="5"/>
+    <!-- Opponent's leg being grabbed (extending from right) -->
+    <polygon points="82,72 96,58 100,66 88,80"/>
+    <ellipse cx="98" cy="63" rx="8" ry="6"/>
+  </g>
+</svg>

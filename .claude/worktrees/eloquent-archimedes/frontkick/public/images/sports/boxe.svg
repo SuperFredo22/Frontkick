@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <g fill="white">
+    <!-- Head -->
+    <circle cx="63" cy="14" r="11"/>
+    <!-- Neck -->
+    <polygon points="58,25 68,25 66,32 60,32"/>
+    <!-- Torso angled, orthodox stance -->
+    <polygon points="50,32 70,32 74,70 46,72"/>
+    <!-- Front jab arm extending left -->
+    <polygon points="52,42 5,57 3,66 15,66 54,52"/>
+    <!-- Jab glove (rectangular boxing glove) -->
+    <rect x="0" y="55" width="12" height="16" rx="4"/>
+    <!-- Back guard arm (right) -->
+    <polygon points="69,38 87,25 90,33 76,48"/>
+    <!-- Back glove near face -->
+    <rect x="84" y="22" width="11" height="14" rx="4"/>
+    <!-- Front leg (left, forward) -->
+    <polygon points="50,72 61,72 55,114 43,112"/>
+    <!-- Back leg (right, planted) -->
+    <polygon points="62,72 73,70 81,112 69,114"/>
+    <!-- Front foot -->
+    <ellipse cx="48" cy="115" rx="13" ry="5"/>
+    <!-- Back foot -->
+    <ellipse cx="75" cy="114" rx="13" ry="5"/>
+  </g>
+</svg>

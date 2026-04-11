@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "FightFocus — Dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "frontkick"],
+      "port": 4321
+    },
+    {
+      "name": "FightFocus — Preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview", "--prefix", "frontkick", "--", "--port", "4322"],
+      "port": 4322
+    }
+  ]
+}

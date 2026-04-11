@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l articles/*.md)",
+      "Bash(timeout 10 node -e \"import\\(''astro''\\).then\\(m => console.log\\(''ok''\\)\\).catch\\(e => console.error\\(''ERREUR:'', e.message\\)\\)\")",
+      "Bash(timeout 20 npx astro check)",
+      "Bash(timeout 30 npx astro build)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(rm \"C:/Users/frede/Mesprojets/Frontkick/frontkick/.claude/launch.json\")",
+      "Bash(rmdir \"C:/Users/frede/Mesprojets/Frontkick/frontkick/.claude\")",
+      "Bash(sort -k2)",
+      "Bash(npm run:*)",
+      "mcp__mcp-registry__search_mcp_registry",
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Read(//c/Users/frede/.codex/skills/**)",
+      "Read(//c/Users/frede/.agents/**)",
+      "Bash(git clone:*)",
+      "Bash(node \"C:/Users/frede/Mesprojets/Frontkick/frontkick/scripts/audit-articles.mjs\")",
+      "Bash(node -e ':*)",
+      "Bash(xargs -I{} sh -c 'grep \"^sport:\" \"src/content/articles/{}\" 2>/dev/null | head -1')",
+      "Bash(node scripts/audit-articles.mjs)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); sources=[r['source'] for r in d.get\\('redirects',[]\\)]; print\\('\\\\n'.join\\(sources\\)\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
