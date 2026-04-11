@@ -15,6 +15,16 @@
       "permanent": true
     },
     {
+      "source": "/discipline/kickboxing",
+      "destination": "/autres-disciplines",
+      "permanent": false
+    },
+    {
+      "source": "/discipline/k1",
+      "destination": "/autres-disciplines",
+      "permanent": false
+    },
+    {
       "source": "/articles/2026-04-04-kickboxing-guide-complet-des-techniques-de-base-pour-debutants",
       "destination": "/articles/2026-04-03-kickboxing-pour-debutants-le-guide-complet-des-bases",
       "permanent": true

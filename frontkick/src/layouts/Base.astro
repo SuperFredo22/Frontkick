@@ -144,11 +144,10 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <!-- Disciplines principales -->
       <a href="/discipline/mma"        class={`nav-link ${currentPath.includes('/mma') ? 'active' : ''}`}>MMA</a>
       <a href="/discipline/boxe"       class={`nav-link ${currentPath.includes('/boxe') ? 'active' : ''}`}>Boxe</a>
-      <a href="/discipline/kickboxing" class={`nav-link ${currentPath.includes('/kickboxing') ? 'active' : ''}`}>Kickboxing</a>
       <a href="/discipline/muay-thai"  class={`nav-link ${currentPath.includes('/muay-thai') ? 'active' : ''}`}>Muay Thaï</a>
       <a href="/discipline/grappling"  class={`nav-link ${currentPath.includes('/grappling') ? 'active' : ''}`}>Grappling</a>
 
-      <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/k1','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
+      <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/kickboxing','/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/k1','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
 
       <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
       <a href="/equipement"  class={`nav-link ${currentPath.startsWith('/equipement') ? 'active' : ''}`}>Équipement</a>
@@ -182,13 +181,9 @@ const canonicalURL = new URL(currentPath, siteUrl);
         <li><a href="/discipline/mma">MMA / UFC</a></li>
         <li><a href="/discipline/boxe">Boxe anglaise</a></li>
         <li><a href="/discipline/muay-thai">Muay-Thaï</a></li>
-        <li><a href="/discipline/kickboxing">Kickboxing</a></li>
         <li><a href="/discipline/grappling">Grappling</a></li>
-        <li><a href="/discipline/sanda">Sanda</a></li>
-        <li><a href="/discipline/lethwei">Lethwei</a></li>
-        <li><a href="/discipline/savate">Savate</a></li>
-        <li><a href="/discipline/sambo">Sambo</a></li>
-        <li><a href="/discipline/k1">K-1 / Glory</a></li>
+        <li><a href="/autres-disciplines">Kickboxing / K-1</a></li>
+        <li><a href="/autres-disciplines">Karaté & Autres</a></li>
       </ul>
     </div>
     <div class="footer-col">

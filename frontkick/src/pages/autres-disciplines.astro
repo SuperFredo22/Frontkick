@@ -4,8 +4,8 @@ import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('articles');
 
-// Articles des 6 disciplines "autres" (toutes sauf les 5 principales)
-const autresSports = ['sanda', 'lethwei', 'savate', 'sambo', 'k1', 'karate'];
+// Articles des disciplines "autres" (kickboxing + k1 + les 6 autres)
+const autresSports = ['kickboxing', 'k1', 'sanda', 'lethwei', 'savate', 'sambo', 'karate'];
 const autresArticles = allArticles
   .filter(a => autresSports.includes(a.data.sport))
   .sort((a, b) => {
@@ -15,12 +15,13 @@ const autresArticles = allArticles
   });
 
 const disciplines = [
-  { slug: "sanda",   label: "Sanda",                emoji: "🐉", desc: "Le kickboxing chinois avec projections",        gradient: "linear-gradient(135deg,#7c2d12,#ea580c)" },
-  { slug: "lethwei", label: "Lethwei",               emoji: "💀", desc: "L'art martial birman le plus brutal au monde",  gradient: "linear-gradient(135deg,#1c1917,#78716c)" },
-  { slug: "savate",  label: "Savate Boxe Française", emoji: "🇫🇷", desc: "L'art du pied et du poing, made in France",    gradient: "linear-gradient(135deg,#1e3a5f,#2563EB)" },
-  { slug: "sambo",   label: "Sambo",                 emoji: "🇷🇺", desc: "L'art martial russe de Khabib et Fedor",       gradient: "linear-gradient(135deg,#1a1a1a,#dc2626)" },
-  { slug: "k1",      label: "K-1 / Glory",           emoji: "⚡", desc: "Le kickboxing de haut niveau, frappes pures",  gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)" },
-  { slug: "karate",  label: "Karaté",                emoji: "🥋", desc: "Kata, kumite et philosophie martiale",          gradient: "linear-gradient(135deg,#1a1a2e,#e94560)" },
+  { slug: "kickboxing", label: "Kickboxing",           emoji: "🥊", desc: "Full contact, low kick, point fighting — la frappe debout",  gradient: "linear-gradient(135deg,#064e3b,#10B981)" },
+  { slug: "k1",         label: "K-1 / Glory",          emoji: "⚡", desc: "Le kickboxing de haut niveau, frappes pures",                gradient: "linear-gradient(135deg,#1a1a2e,#7C3AED)" },
+  { slug: "karate",     label: "Karaté",                emoji: "🥋", desc: "Kata, kumite et philosophie martiale",                       gradient: "linear-gradient(135deg,#1a1a2e,#e94560)" },
+  { slug: "sanda",      label: "Sanda",                 emoji: "🐉", desc: "Le kickboxing chinois avec projections",                     gradient: "linear-gradient(135deg,#7c2d12,#ea580c)" },
+  { slug: "savate",     label: "Savate Boxe Française", emoji: "🇫🇷", desc: "L'art du pied et du poing, made in France",                gradient: "linear-gradient(135deg,#1e3a5f,#2563EB)" },
+  { slug: "sambo",      label: "Sambo",                 emoji: "🇷🇺", desc: "L'art martial russe de Khabib et Fedor",                   gradient: "linear-gradient(135deg,#1a1a1a,#dc2626)" },
+  { slug: "lethwei",    label: "Lethwei",               emoji: "💀", desc: "L'art martial birman le plus brutal au monde",               gradient: "linear-gradient(135deg,#1c1917,#78716c)" },
 ];
 
 const emojis: Record<string, string> = {
@@ -35,25 +36,26 @@ const sportImages: Record<string, string> = {
   karate:       '/images/banners/karate.png',
 };
 const gradients: Record<string, string> = {
-  karate:  'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
-  sanda:   'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
-  lethwei: 'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
-  savate:  'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
-  sambo:   'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
-  k1:      'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
+  kickboxing: 'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
+  k1:         'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
+  karate:     'linear-gradient(135deg, #1a1a2e 0%, #e94560 100%)',
+  sanda:      'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
+  lethwei:    'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
+  savate:     'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
+  sambo:      'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
 };
 const catLabel: Record<string, string> = {
   'guide-debutant': 'Guide Débutant', 'conseil-entrainement': 'Conseil',
   'guide-equipement': 'Équipement', 'analyse': 'Analyse', 'actualite': 'Actualité', 'guide': 'Guide',
 };
 ---
-<Base title="Autres disciplines — FightFocus" description="Découvrez les sports de combat les plus nichés : Sanda, Lethwei, Savate, Sambo, K-1, Karaté.">
+<Base title="Autres disciplines — FightFocus" description="Découvrez tous les sports de combat : Kickboxing, K-1, Karaté, Sanda, Savate, Sambo, Lethwei.">
 <div id="app">
   <div style="max-width:1100px; margin:0 auto; padding:0 16px;">
 
     <div class="list-hero">
       <h1>Autres disciplines</h1>
-      <p>Les sports de combat les plus nichés — méconnus mais fascinants.</p>
+      <p>Kickboxing, K-1, Karaté et plus — tous les sports de combat hors des 4 grandes disciplines.</p>
     </div>
 
     <!-- Grille disciplines -->

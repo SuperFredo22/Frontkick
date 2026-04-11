@@ -1481,23 +1481,35 @@ footer {
 ═══════════════════════════════════════════════════════ */
 
 /* Boutons de partage */
+.share-section-inner {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 .share-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 13px;
-  border-radius: 7px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
   border: none;
   font-family: inherit;
-  transition: opacity .18s, transform .18s;
+  transition: transform .18s, box-shadow .18s, opacity .18s;
   line-height: 1;
   white-space: nowrap;
+  letter-spacing: .02em;
 }
-.share-btn:hover { opacity: .82; transform: translateY(-1px); }
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  opacity: .95;
+}
 .share-btn svg { flex-shrink: 0; }
 .share-btn--x    { background: #000; color: #fff; }
 .share-btn--wa   { background: #25D366; color: #fff; }
@@ -1505,7 +1517,7 @@ footer {
 .share-btn--rd   { background: #FF4500; color: #fff; }
 .share-btn--tg   { background: #2AABEE; color: #fff; }
 .share-btn--li   { background: #0A66C2; color: #fff; }
-.share-btn--copy { background: var(--border); color: var(--text); }
+.share-btn--copy { background: var(--border); color: var(--text); border: 1.5px solid var(--border); }
 
 /* Articles similaires — liste compacte */
 .similar-item {
