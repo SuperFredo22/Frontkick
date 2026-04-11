@@ -1,9 +1,9 @@
 name: Génération automatique d'articles
 
 on:
-  # Lundi à 7h UTC (9h Paris) chaque semaine
+  # Tous les jours à 8h UTC (10h Paris)
   schedule:
-    - cron: '0 7 * * 1'
+    - cron: '0 8 * * *'
   # Possibilité de déclencher manuellement depuis l'onglet Actions
   workflow_dispatch:
     inputs:
