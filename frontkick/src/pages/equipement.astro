@@ -35,45 +35,6 @@ const sportImages: Record<string, string> = {
   k1: '/images/sports/k1.svg',
 };
 
-// Liens affiliés Amazon par catégorie (à remplacer par vos vrais liens affiliés)
-const affiliateLinks = [
-  {
-    label: "Gants de boxe",
-    desc: "Gants d'entraînement et de compétition — toutes marques",
-    url: "https://www.amazon.fr/s?k=gants+de+boxe&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-  {
-    label: "Protège-tibias",
-    desc: "Indispensable pour le muay thaï et le kickboxing",
-    url: "https://www.amazon.fr/s?k=protege+tibias+muay+thai&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-  {
-    label: "Sac de frappe",
-    desc: "Sacs suspendus, sur pied et d'angle — pour la maison et la salle",
-    url: "https://www.amazon.fr/s?k=sac+de+frappe&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-  {
-    label: "Shorts MMA / Muay Thaï",
-    desc: "Shorts de combat pour l'entraînement et la compétition",
-    url: "https://www.amazon.fr/s?k=short+mma+muay+thai&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-  {
-    label: "Protège-dents",
-    desc: "Protection buccale pour tous les sports de contact",
-    url: "https://www.amazon.fr/s?k=protege+dents+boxe&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-  {
-    label: "Corde à sauter",
-    desc: "Cardio, coordination et endurance — outil de base du boxeur",
-    url: "https://www.amazon.fr/s?k=corde+a+sauter+boxe&tag=VOTRE-TAG-20",
-    cta: "Voir sur Amazon →",
-  },
-];
 ---
 <Base title="Équipement Sports de Combat — FightFocus" description="Guides d'achat, comparatifs et recommandations d'équipement pour les sports de combat — boxe, MMA, muay thaï, kickboxing, grappling.">
 <div id="app">
@@ -86,26 +47,8 @@ const affiliateLinks = [
       <div class="discipline-hero__content">
         <div class="discipline-hero__label">FightFocus</div>
         <h1 class="discipline-hero__title">Équipement</h1>
-        <p class="discipline-hero__desc">Le bon matériel pour chaque discipline — sélection vérifiée, liens affiliés Amazon.</p>
+        <p class="discipline-hero__desc">Le bon matériel pour chaque discipline — sélection vérifiée par nos experts.</p>
       </div>
-    </div>
-
-    <!-- Grille affiliés Amazon -->
-    <div style="margin-bottom:48px;">
-      <div class="sec-bar" style="margin-bottom:20px;">
-        <h2 style="font-size:1.15rem;margin:0;font-weight:700;">Acheter sur Amazon</h2>
-        <div class="sec-line"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
-        {affiliateLinks.map(item => (
-          <a href={item.url} target="_blank" rel="noopener noreferrer sponsored" class="aff-card" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-md)';this.style.borderColor='var(--blue)'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor=''">
-            <div style="font-size:1.05rem;font-weight:700;color:var(--text);">{item.label}</div>
-            <div style="font-size:0.83rem;color:var(--text-light);line-height:1.5;flex:1;">{item.desc}</div>
-            <div style="font-size:0.8rem;color:var(--blue);font-weight:700;margin-top:4px;">{item.cta}</div>
-          </a>
-        ))}
-      </div>
-      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px;">* Liens affiliés — en tant que Partenaire Amazon, nous percevons une commission sur les achats qualifiés, sans surcoût pour vous.</p>
     </div>
 
     <!-- Articles équipement -->
