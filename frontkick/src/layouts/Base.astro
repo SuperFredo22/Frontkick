@@ -25,7 +25,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <meta name="description" content={description} />
   <meta name="google-site-verification" content="s_3JA_wJFz2bQ93Se9Y7qfwhreJA5ZD1F6R04EeJeBc" />
   <meta name="robots" content="index, follow" />
-  <meta name="author" content="FightFocus" />
+  <meta name="author" content="Frédéric Laviemienandy" />
   <meta name="theme-color" content="#0F172A" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -150,9 +150,9 @@ const canonicalURL = new URL(currentPath, siteUrl);
 
       <a href="/autres-disciplines" class={`nav-link ${currentPath.startsWith('/autres-disciplines') || ['/discipline/sanda','/discipline/lethwei','/discipline/savate','/discipline/sambo','/discipline/karate'].some(s => currentPath.startsWith(s)) ? 'active' : ''}`}>Autres</a>
 
-      <a href="/guides"     class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
+      <a href="/guides"      class={`nav-link ${currentPath.startsWith('/guides') ? 'active' : ''}`}>Guides</a>
       <a href="/equipement"  class={`nav-link ${currentPath.startsWith('/equipement') ? 'active' : ''}`}>Équipement</a>
-      <a href="/actualites" class={`nav-link ${currentPath.startsWith('/actualites') ? 'active' : ''}`}>Actualités</a>
+      <a href="/evenements"  class={`nav-link ${currentPath.startsWith('/evenements') ? 'active' : ''}`}>Événements</a>
       <a href="/classements" class={`nav-link ${currentPath.startsWith('/classements') ? 'active' : ''}`}>Classements</a>
     </div>
   </nav>
@@ -192,7 +192,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
       <ul>
         <li><a href="/guides">Guides débutants</a></li>
         <li><a href="/equipement">Équipement</a></li>
-        <li><a href="/actualites">Actualités</a></li>
+        <li><a href="/evenements">Événements à venir</a></li>
         <li><a href="/classements">Classements UFC</a></li>
       </ul>
     </div>

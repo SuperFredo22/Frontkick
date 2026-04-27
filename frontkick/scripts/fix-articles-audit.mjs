@@ -122,7 +122,7 @@ async function main() {
     }
 
     // ── Détection articles trop courts ────────────────────────────────────────
-    if (wc < 150) {
+    if (wc < 300) {
       console.warn(`  🔴 ${file} — TROP COURT : ${wc} mots → À SUPPRIMER MANUELLEMENT`);
       report.tooShort.push({ file, wc });
     } else if (!modified) {
@@ -140,7 +140,7 @@ async function main() {
     report.dateFixed.forEach(f => console.log(`   · ${f}`));
   }
 
-  console.log(`\n🔴 Articles trop courts (< 150 mots) — À SUPPRIMER MANUELLEMENT : ${report.tooShort.length}`);
+  console.log(`\n🔴 Articles trop courts (< 300 mots) — À SUPPRIMER MANUELLEMENT : ${report.tooShort.length}`);
   if (report.tooShort.length > 0) {
     report.tooShort.forEach(({ file, wc }) => {
       console.log(`   · ${file} (${wc} mots)`);

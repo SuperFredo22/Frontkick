@@ -1,0 +1,305 @@
+---
+import Base from '../layouts/Base.astro';
+import { evenements, DERNIERE_MAJ } from '../data/evenements.js';
+
+// Disciplines : labels, couleurs, images
+const disciplineLabel: Record<string, string> = {
+  mma:          'MMA',
+  boxe:         'Boxe',
+  kickboxing:   'Kickboxing',
+  'muay-thai':  'Muay Thaï',
+  grappling:    'Grappling',
+  karate:       'Karaté',
+  sanda:        'Sanda',
+  lethwei:      'Lethwei',
+  savate:       'Savate',
+  sambo:        'Sambo',
+  k1:           'K-1',
+};
+
+const disciplineColor: Record<string, string> = {
+  mma:          '#1E88E5',
+  boxe:         '#DC2626',
+  kickboxing:   '#10B981',
+  'muay-thai':  '#F59E0B',
+  grappling:    '#3B82F6',
+  karate:       '#e94560',
+  sanda:        '#ea580c',
+  lethwei:      '#a8a29e',
+  savate:       '#2563EB',
+  sambo:        '#dc2626',
+  k1:           '#7C3AED',
+};
+
+const categorieColor: Record<string, string> = {
+  'PPV':             'var(--blue)',
+  'Fight Night':     '#10B981',
+  'ONE Event':       '#F59E0B',
+  'ONE Fight Night': '#F59E0B',
+  'Glory Collision': '#7C3AED',
+  'Glory / Rise':    '#7C3AED',
+};
+
+// Tri par date croissante (les prochains en premier)
+const sorted = [...evenements].sort((a, b) => a.date.localeCompare(b.date));
+
+// Sérialisation pour le JS client (filtrage des événements passés)
+const eventsJSON = JSON.stringify(sorted);
+---
+
+<Base
+  title="Événements Sports de Combat — FightFocus"
+  description="Calendrier des prochains événements sports de combat : UFC, ONE Championship, GLORY Kickboxing, Muay Thai. Mis à jour chaque mois."
+>
+<div id="app">
+  <div class="list-page">
+
+    <!-- Hero -->
+    <div style="position:relative;height:220px;border-radius:14px;overflow:hidden;margin-bottom:32px;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1E88E5 100%);">
+      <div style="position:absolute;inset:0;background:url('/images/sports/mma.svg') center/cover;opacity:0.12;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 32px;">
+        <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,0.45);margin-bottom:6px;">FightFocus · Agenda</div>
+        <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:white;letter-spacing:.04em;line-height:1;margin:0 0 6px;">Prochains Événements</h1>
+        <p style="font-size:0.85rem;color:rgba(255,255,255,0.65);margin:0;">
+          UFC · ONE Championship · GLORY Kickboxing · Muay Thaï — 60 jours à venir
+        </p>
+      </div>
+    </div>
+
+    <!-- Bandeau mise à jour + avertissement -->
+    <div style="display:flex;align-items:flex-start;gap:12px;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:14px 18px;margin-bottom:28px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div style="font-size:0.8rem;color:var(--text-light);line-height:1.6;">
+        <strong>Données vérifiées le {DERNIERE_MAJ}</strong> — Sources : UFC.com, CBS Sports, ESPN, ONE Championship, Glory Kickboxing, Wikipedia.
+        Les horaires français sont approximatifs. Les programmes de certains gala peuvent évoluer. Consultez les sites officiels pour confirmation avant le jour J.
+      </div>
+    </div>
+
+    <!-- Filtres discipline -->
+    <div id="filter-bar" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+      <button class="ev-filter active" data-filter="tous" style="padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);background:var(--blue);color:#fff;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;">Tous</button>
+      <button class="ev-filter" data-filter="mma"         style="padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--text-light);font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;">MMA</button>
+      <button class="ev-filter" data-filter="kickboxing"  style="padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--text-light);font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;">Kickboxing</button>
+      <button class="ev-filter" data-filter="muay-thai"   style="padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);background:var(--card);color:var(--text-light);font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;">Muay Thaï</button>
+    </div>
+
+    <!-- Compteur -->
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:20px;">
+      <span id="ev-count">...</span> événement(s) dans les 60 prochains jours
+    </div>
+
+    <!-- Conteneur événements (rendu par JS) -->
+    <div id="events-list"></div>
+
+    <div id="no-events" style="display:none;text-align:center;padding:3rem;color:var(--text-muted);">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px;opacity:.4;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <p style="margin:0;">Aucun événement à venir pour ce filtre.</p>
+      <p style="margin-top:8px;font-size:0.8rem;">Revenez prochainement ou <a href="/guides" style="color:var(--blue);">consultez nos guides</a>.</p>
+    </div>
+
+  </div>
+</div>
+</Base>
+
+<script define:vars={{ eventsJSON }}>
+
+// ── Données & config ────────────────────────────────────────────────────────
+const events = JSON.parse(eventsJSON);
+
+const HORIZON_JOURS = 60; // fenêtre maximale d'affichage
+
+const disciplineLabel = {
+  mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing',
+  'muay-thai': 'Muay Thaï', grappling: 'Grappling', karate: 'Karaté',
+  sanda: 'Sanda', lethwei: 'Lethwei', savate: 'Savate', sambo: 'Sambo', k1: 'K-1',
+};
+
+const disciplineColor = {
+  mma: '#1E88E5', boxe: '#DC2626', kickboxing: '#10B981',
+  'muay-thai': '#F59E0B', grappling: '#3B82F6', karate: '#e94560',
+  sanda: '#ea580c', lethwei: '#a8a29e', savate: '#2563EB', sambo: '#dc2626', k1: '#7C3AED',
+};
+
+const categorieColor = {
+  'PPV': '#1E88E5',
+  'Fight Night': '#10B981',
+  'ONE Event': '#F59E0B',
+  'ONE Fight Night': '#F59E0B',
+  'Glory Collision': '#7C3AED',
+  'Glory / Rise': '#7C3AED',
+};
+
+const moisFR = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const moisLongFR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+// ── Utilitaires date ────────────────────────────────────────────────────────
+function parseDate(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function formatDate(str) {
+  const d = parseDate(str);
+  const jourSemaine = ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'][d.getDay()];
+  return `${jourSemaine} ${d.getDate()} ${moisFR[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function jourRestants(str) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const ev = parseDate(str);
+  const diff = Math.round((ev - today) / 86400000);
+  return diff;
+}
+
+// ── Rendu d'une carte événement ─────────────────────────────────────────────
+function renderCard(ev, jours) {
+  const color  = disciplineColor[ev.discipline] || '#1E88E5';
+  const catCol = categorieColor[ev.categorie]   || '#64748B';
+  const label  = disciplineLabel[ev.discipline] || ev.discipline;
+
+  let urgenceStyle = '';
+  let urgenceTag   = '';
+  if (jours === 0) {
+    urgenceStyle = 'border-color:' + color + ';';
+    urgenceTag   = `<span style="background:#DC2626;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:.08em;">Aujourd'hui</span>`;
+  } else if (jours <= 7) {
+    urgenceTag = `<span style="background:#F59E0B;color:#000;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:.08em;">Cette semaine</span>`;
+  }
+
+  const joursLabel = jours === 0 ? '' : jours === 1 ? 'demain' : `dans ${jours} jours`;
+  const confidenceNotice = ev.confidence === 'moyenne'
+    ? `<div style="margin-top:10px;padding:7px 10px;background:rgba(245,158,11,0.1);border-radius:6px;font-size:0.73rem;color:#92400e;">⚠ Programme à confirmer — vérifiez la source officielle</div>`
+    : '';
+
+  return `
+    <div class="ev-card" data-discipline="${ev.discipline}" style="background:var(--card);border:1.5px solid var(--border);${urgenceStyle}border-radius:14px;overflow:hidden;margin-bottom:16px;transition:box-shadow .2s;">
+      <!-- Bande couleur discipline -->
+      <div style="height:4px;background:${color};"></div>
+      <div style="padding:20px 22px;">
+        <!-- En-tête : date + tags -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin-bottom:3px;">
+              ${formatDate(ev.date)}
+              ${urgenceTag}
+            </div>
+            ${joursLabel ? `<div style="font-size:0.75rem;color:var(--text-muted);">${joursLabel}</div>` : ''}
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span style="padding:3px 10px;border-radius:50px;font-size:0.7rem;font-weight:700;background:${color}22;color:${color};border:1px solid ${color}44;">${label}</span>
+            <span style="padding:3px 10px;border-radius:50px;font-size:0.7rem;font-weight:700;background:${catCol}22;color:${catCol};border:1px solid ${catCol}44;">${ev.categorie}</span>
+          </div>
+        </div>
+
+        <!-- Nom événement -->
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em;color:var(--text);line-height:1.1;margin-bottom:4px;">${ev.nom}</div>
+        <div style="font-size:0.88rem;font-weight:600;color:var(--text-light);margin-bottom:12px;">${ev.sousTitre}</div>
+
+        <!-- Détails -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px 20px;margin-bottom:10px;">
+          <div style="display:flex;align-items:flex-start;gap:7px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;margin-top:1px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span style="font-size:0.8rem;color:var(--text-light);">${ev.lieu}</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:7px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span style="font-size:0.8rem;color:var(--text-light);">${ev.heure}</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:7px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;margin-top:1px;"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <span style="font-size:0.8rem;color:var(--text-light);">${ev.diffusion}</span>
+          </div>
+        </div>
+
+        <!-- Combat principal -->
+        <div style="margin-top:12px;padding:10px 14px;background:var(--bg);border-radius:8px;border-left:3px solid ${color};">
+          <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:3px;">Combat principal</div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--text);">${ev.combatPrincipal}</div>
+        </div>
+
+        ${confidenceNotice}
+
+        <!-- Source -->
+        <div style="margin-top:10px;font-size:0.7rem;color:var(--text-muted);">
+          Source : <a href="${ev.source}" target="_blank" rel="noopener noreferrer" style="color:var(--blue);text-decoration:none;">${new URL(ev.source).hostname.replace('www.','')}</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Rendu par mois ──────────────────────────────────────────────────────────
+function renderByMonth(filtered) {
+  const grouped = {};
+  filtered.forEach(({ ev, jours }) => {
+    const d = parseDate(ev.date);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    if (!grouped[key]) grouped[key] = { label: `${moisLongFR[d.getMonth()]} ${d.getFullYear()}`, items: [] };
+    grouped[key].items.push({ ev, jours });
+  });
+
+  return Object.values(grouped).map(({ label, items }) => `
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="width:4px;height:26px;background:var(--blue);border-radius:2px;"></div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.05em;color:var(--text-light);margin:0;">${label}</h2>
+      </div>
+      ${items.map(({ ev, jours }) => renderCard(ev, jours)).join('')}
+    </div>
+  `).join('');
+}
+
+// ── Filtrage principal ──────────────────────────────────────────────────────
+let currentFilter = 'tous';
+
+function getFiltered() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const horizon = new Date(today); horizon.setDate(horizon.getDate() + HORIZON_JOURS);
+
+  return events
+    .map(ev => ({ ev, jours: jourRestants(ev.date) }))
+    .filter(({ ev, jours }) => {
+      if (jours < 0) return false; // passé
+      if (parseDate(ev.date) > horizon) return false; // trop loin
+      if (currentFilter !== 'tous' && ev.discipline !== currentFilter) return false;
+      return true;
+    });
+}
+
+function render() {
+  const list = document.getElementById('events-list');
+  const noEv = document.getElementById('no-events');
+  const count = document.getElementById('ev-count');
+  const filtered = getFiltered();
+
+  if (count) count.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    list.innerHTML = '';
+    noEv.style.display = 'block';
+  } else {
+    noEv.style.display = 'none';
+    list.innerHTML = renderByMonth(filtered);
+  }
+}
+
+// ── Filtres ─────────────────────────────────────────────────────────────────
+document.getElementById('filter-bar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.ev-filter');
+  if (!btn) return;
+  currentFilter = btn.dataset.filter;
+  document.querySelectorAll('.ev-filter').forEach(b => {
+    b.style.background = 'var(--card)';
+    b.style.color = 'var(--text-light)';
+    b.style.borderColor = 'var(--border)';
+  });
+  btn.style.background = 'var(--blue)';
+  btn.style.color = '#fff';
+  btn.style.borderColor = 'var(--blue)';
+  render();
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+render();
+</script>
