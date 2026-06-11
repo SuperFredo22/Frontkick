@@ -103,6 +103,15 @@ function cardBg(sportKey: string): string {
     : `background-image:${g};`;
 }
 
+// Visuel d'un article : image dédiée (frontmatter) prioritaire, sinon bannière du sport
+function articleBg(a: { data: { sport: string; image?: string } }): string {
+  if (a.data.image) {
+    const g = gradients[a.data.sport] || gradients.mma;
+    return `background-image:url('${a.data.image}'),${g};background-size:cover,cover;background-position:center,center;`;
+  }
+  return cardBg(a.data.sport);
+}
+
 // ── SEO : description dynamique basée sur la une ──────────────────────────
 const seoDesc = featuredArticle
   ? `FightFocus — ${featuredArticle.data.excerpt ?? featuredArticle.data.title}`
@@ -115,7 +124,7 @@ const seoDesc = featuredArticle
   {featuredArticle && (
   <section class="home-hero" aria-label="À la une">
     <a href={`/articles/${featuredArticle.slug}`} class="hero-feature">
-      <div class="hero-feature__media" style={cardBg(featuredArticle.data.sport)}></div>
+      <div class="hero-feature__media" style={articleBg(featuredArticle)}></div>
       <div class="hero-feature__scrim"></div>
       <div class="hero-feature__content">
         <div class="hero-feature__badges">
@@ -188,7 +197,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {spotlight.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={cardBg(a.data.sport)}>
+            <div class="art-image" style={articleBg(a)}>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">
@@ -236,7 +245,7 @@ const seoDesc = featuredArticle
     <div class="art-grid">
       {guides.map(a => (
         <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={cardBg(a.data.sport)}>
+          <div class="art-image" style={articleBg(a)}>
             <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
           </div>
           <div class="art-body">
@@ -264,7 +273,7 @@ const seoDesc = featuredArticle
       <div class="art-grid">
         {section.items.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={cardBg(section.key)}>
+            <div class="art-image" style={articleBg(a)}>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">

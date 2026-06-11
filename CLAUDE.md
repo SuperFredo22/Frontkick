@@ -47,6 +47,7 @@ category: guide               # voir valeurs valides ci-dessous
 date: "2026-04-02"
 excerpt: "Résumé 120-160 caractères"
 featured: false
+image: "/images/articles/mon-slug.jpg"   # optionnel — visuel dédié (cartes + héros article) ; fallback : bannière du sport
 ---
 ```
 

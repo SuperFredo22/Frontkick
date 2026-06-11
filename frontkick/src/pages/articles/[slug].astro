@@ -75,8 +75,9 @@ function getComparisonImage(slugStr: string): string | null {
   if (hasKick && hasMuay) return '/images/banners/muay-thai-vs-kickboxing.png';
   return null;
 }
-// heroImage : '' si pas de bannière → affiche seulement le gradient (propre)
-const heroImage = getComparisonImage(slug) || sportImages[article.data.sport] || '';
+// heroImage : image dédiée de l'article prioritaire, puis visuel de comparaison,
+// puis bannière du sport ; '' si rien → affiche seulement le gradient (propre)
+const heroImage = article.data.image || getComparisonImage(slug) || sportImages[article.data.sport] || '';
 
 const siteUrl = 'https://fightfocus.fr';
 const articleUrl = `${siteUrl}/articles/${slug}`;
@@ -289,7 +290,7 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${share
           <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             {similar.map((a, i) => (
               <a href={`/articles/${a.slug}`} class="similar-item" style={i < similar.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}>
-                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;${(getComparisonImage(a.slug) || sportImages[a.data.sport]) ? `background-image:url('${getComparisonImage(a.slug) || sportImages[a.data.sport]}');background-size:cover;background-position:center;` : ''}`}></div>
+                <div style={`width:44px;height:44px;border-radius:7px;background:${gradients[a.data.sport] || gradients.mma};flex-shrink:0;overflow:hidden;position:relative;${(a.data.image || getComparisonImage(a.slug) || sportImages[a.data.sport]) ? `background-image:url('${a.data.image || getComparisonImage(a.slug) || sportImages[a.data.sport]}');background-size:cover;background-position:center;` : ''}`}></div>
                 <div style="flex:1;min-width:0;">
                   <div class="similar-title" set:html={a.data.title}></div>
                   <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">{sportLabel[a.data.sport] || a.data.sport} · {a.data.date}</div>
