@@ -26,7 +26,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <meta name="google-site-verification" content="s_3JA_wJFz2bQ93Se9Y7qfwhreJA5ZD1F6R04EeJeBc" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Frédéric Laviemienandy" />
-  <meta name="theme-color" content="#0F172A" />
+  <meta name="theme-color" content="#0B0D12" />
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -48,12 +48,13 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Fonts critiques : Bebas Neue (logo/titres) + DM Sans (corps texte) -->
+  <!-- Fonts : Archivo Black (display) + Barlow Condensed (titres) + Inter (corps) -->
   <!-- Chargement non-bloquant avec display=swap -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" /></noscript>
-  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+  <!-- ?v=2 : cache-busting (les /styles/* sont servis en cache immutable 1 an, cf. vercel.json) -->
+  <link rel="stylesheet" href="/styles/global.css?v=2" />
 
   <slot name="head" />
   <!-- JSON-LD : WebSite + SearchAction -->
@@ -113,23 +114,30 @@ const canonicalURL = new URL(currentPath, siteUrl);
 </head>
 <body>
 
+<!-- Thème : sombre par défaut, clair si choisi (appliqué tôt pour éviter le flash) -->
+<script is:inline>
+  if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+</script>
+
+<a class="skip-link" href="#app">Aller au contenu</a>
+
 <!-- HEADER -->
-<header>
+<header id="site-header">
   <div class="header-top">
     <a href="/" class="logo" aria-label="FightFocus — Retour à l'accueil">
       <span class="logo-badge" aria-hidden="true">FF</span>
       <span class="logo-wordmark">Fight<span class="logo-accent">Focus</span></span>
     </a>
     <div class="header-actions">
-      <form id="searchForm" action="/search" method="get">
+      <form id="searchForm" action="/search" method="get" role="search">
         <input type="text" id="searchInput" name="q" placeholder="Rechercher…" aria-label="Rechercher un article" />
         <button type="submit" id="searchBtn" aria-label="Lancer la recherche">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
       </form>
-      <button id="darkModeToggle" aria-label="Basculer mode sombre">
-        <svg id="dm-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg id="dm-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <button id="darkModeToggle" aria-label="Basculer entre thème sombre et clair">
+        <svg id="dm-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="dm-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <button id="hamburger" class="nav-hamburger" aria-label="Menu" aria-expanded="false">
         <svg id="ham-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -158,8 +166,6 @@ const canonicalURL = new URL(currentPath, siteUrl);
   </nav>
 </header>
 
-<div class="hero-accent-band"></div>
-
 <slot />
 
 <!-- Footer ad placeholder (activé après validation AdSense) -->
@@ -167,14 +173,61 @@ const canonicalURL = new URL(currentPath, siteUrl);
   <div class="ad-slot ad-leader"></div>
 </div>
 
+<!-- CTA NEWSLETTER -->
+<section class="footer-cta" aria-label="Newsletter FightFocus">
+  <div class="footer-cta-inner">
+    <div>
+      <div class="footer-cta-kicker">Newsletter</div>
+      <h2 class="footer-cta-title">Le meilleur du combat,<br/>chaque semaine.</h2>
+      <p>Analyses, guides techniques et conseils d'entraînement, sélectionnés par la rédaction. Gratuit, zéro spam, désinscription en un clic.</p>
+    </div>
+    <form class="footer-cta-form" id="footerNlForm">
+      <div class="footer-cta-row">
+        <input type="email" id="nl-email-footer" placeholder="votre@email.com" aria-label="Votre adresse email" required />
+        <button type="submit">S'abonner</button>
+      </div>
+      <div id="nl-feedback-footer" class="footer-cta-feedback" role="status"></div>
+    </form>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer role="contentinfo">
+  <!-- Réassurance -->
+  <div class="footer-trust">
+    <div class="trust-item">
+      <span class="trust-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7z"/></svg>
+      </span>
+      <div>
+        <strong>100 % sports de combat</strong>
+        <span>MMA, boxe, muay thaï, grappling et plus</span>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </span>
+      <div>
+        <strong>Guides pensés pratiquants</strong>
+        <span>Technique, entraînement et équipement</span>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </span>
+      <div>
+        <strong>Indépendant & gratuit</strong>
+        <span>Un média édité par des passionnés</span>
+      </div>
+    </div>
+  </div>
+
   <div class="footer-inner">
     <div class="footer-brand">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.05em;color:#fff;">
-        Fight<span style="color:#38BDF8;">Focus</span>
-      </div>
-      <p>Le média des sports de combat.<br/>Analyses, guides et équipement pour pratiquants et passionnés.</p>
+      <div class="footer-logo">Fight<span class="logo-accent">Focus</span></div>
+      <p>Le média des sports de combat. Analyses, guides et équipement pour pratiquants et passionnés.</p>
     </div>
     <div class="footer-col">
       <h4>Disciplines</h4>
@@ -183,7 +236,7 @@ const canonicalURL = new URL(currentPath, siteUrl);
         <li><a href="/discipline/boxe">Boxe anglaise</a></li>
         <li><a href="/discipline/muay-thai">Muay-Thaï</a></li>
         <li><a href="/discipline/grappling">Grappling</a></li>
-        <li><a href="/autres-disciplines">Kickboxing / K-1</a></li>
+        <li><a href="/discipline/kickboxing">Kickboxing / K-1</a></li>
         <li><a href="/autres-disciplines">Karaté & Autres</a></li>
       </ul>
     </div>
@@ -264,24 +317,46 @@ const canonicalURL = new URL(currentPath, siteUrl);
     });
   }
 
-  // ── Dark mode ──
+  // ── Ombre du header au scroll ──
+  const siteHeader = document.getElementById('site-header');
+  if (siteHeader) {
+    const onScroll = () => siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // ── Thème : sombre par défaut, bascule vers clair ──
   const toggle = document.getElementById('darkModeToggle');
   const dmMoon = document.getElementById('dm-moon');
   const dmSun = document.getElementById('dm-sun');
-  function setDarkIcon(isDark: boolean) {
-    if (dmMoon) (dmMoon as HTMLElement).style.display = isDark ? 'none' : 'block';
-    if (dmSun) (dmSun as HTMLElement).style.display = isDark ? 'block' : 'none';
+  function setThemeIcon(isLight: boolean) {
+    // En sombre on propose le soleil (passer en clair), en clair la lune
+    if (dmSun) (dmSun as HTMLElement).style.display = isLight ? 'none' : 'block';
+    if (dmMoon) (dmMoon as HTMLElement).style.display = isLight ? 'block' : 'none';
   }
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-    setDarkIcon(true);
-  }
+  setThemeIcon(document.body.classList.contains('light-mode'));
   if (toggle) {
     toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      setDarkIcon(isDark);
-      localStorage.setItem('darkMode', String(isDark));
+      const isLight = document.body.classList.toggle('light-mode');
+      setThemeIcon(isLight);
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  }
+
+  // ── Révélation au scroll (désactivée si mouvement réduit) ──
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const revealEls = document.querySelectorAll('.art-card, .sport-hub-card, .hero-feature, .hero-latest, .widget, .nl-widget');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    revealEls.forEach(el => {
+      el.classList.add('will-reveal');
+      io.observe(el);
     });
   }
 
@@ -329,18 +404,51 @@ const canonicalURL = new URL(currentPath, siteUrl);
   (window as any).showCookieBanner = showCookieBanner;
   (window as any).acceptCookies = acceptCookies;
   (window as any).refuseCookies = refuseCookies;
+
+  // ── Newsletter footer (Brevo) ──
+  const footerForm = document.getElementById('footerNlForm');
+  if (footerForm) {
+    footerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailEl = document.getElementById('nl-email-footer') as HTMLInputElement;
+      const fb = document.getElementById('nl-feedback-footer');
+      const email = emailEl?.value?.trim();
+
+      if (!email || !email.includes('@')) {
+        if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#FF6A4D'; }
+        return;
+      }
+      if (fb) { fb.textContent = 'Inscription en cours…'; fb.style.color = ''; }
+
+      try {
+        const res = await fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'api-key': 'BREVO_API_KEY_PLACEHOLDER' // ← Remplacez par votre clé API Brevo (gratuit sur brevo.com)
+          },
+          body: JSON.stringify({
+            email: email,
+            listIds: [2], // ID de la liste Brevo — à ajuster dans votre compte
+            updateEnabled: true,
+            attributes: { SOURCE: 'FightFocus Footer' }
+          })
+        });
+
+        if (res.ok || res.status === 204) {
+          if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#5BD68A'; }
+          if (emailEl) emailEl.value = '';
+        } else if (res.status === 400) {
+          if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#5BD68A'; }
+        } else {
+          throw new Error('API error ' + res.status);
+        }
+      } catch (err) {
+        if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#FF6A4D'; }
+      }
+    });
+  }
 </script>
-
-
-<style>
-  @media (max-width: 768px) {
-    body { overflow-x: hidden; }
-    img { max-width: 100%; height: auto; }
-    button, a.btn, .share-btn { min-height: 44px; }
-  }
-  @media (max-width: 1024px) {
-    .card-grid, .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-</style>
 </body>
 </html>
