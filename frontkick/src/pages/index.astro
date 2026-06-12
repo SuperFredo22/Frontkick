@@ -304,29 +304,21 @@ async function subscribeHome() {
   if (fb) { fb.textContent = 'Inscription en cours…'; fb.style.color = '#94a3b8'; }
 
   try {
-    const res = await fetch('https://api.brevo.com/v3/contacts', {
+    const res = await fetch('/api/newsletter', {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'api-key': 'BREVO_API_KEY_PLACEHOLDER' // ← Remplacez par votre clé API Brevo (gratuit sur brevo.com)
-      },
-      body: JSON.stringify({
-        email: email,
-        listIds: [2], // ID de la liste Brevo — à ajuster dans votre compte
-        updateEnabled: true,
-        attributes: { SOURCE: 'FightFocus Accueil' }
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'accueil' })
     });
+    const data = await res.json().catch(() => null);
 
-    if (res.ok || res.status === 204) {
-      if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#5BD68A'; }
+    if (res.ok && data && data.ok) {
+      const msg = data.status === 'exists'
+        ? '✓ Déjà inscrit — on se retrouve prochainement !'
+        : '✓ Inscrit ! À bientôt dans ta boîte mail.';
+      if (fb) { fb.textContent = msg; fb.style.color = '#5BD68A'; }
       if (emailEl) emailEl.value = '';
-    } else if (res.status === 400) {
-      // Le contact existe peut-être déjà
-      if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#5BD68A'; }
     } else {
-      throw new Error('API error ' + res.status);
+      if (fb) { fb.textContent = (data && data.error) || 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#FF6A4D'; }
     }
   } catch (err) {
     if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#FF6A4D'; }

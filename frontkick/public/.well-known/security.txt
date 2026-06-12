@@ -1,0 +1,5 @@
+# Politique de signalement de vulnérabilités — FightFocus
+Contact: https://fightfocus.fr/contact
+Expires: 2027-06-12T00:00:00.000Z
+Preferred-Languages: fr, en
+Canonical: https://fightfocus.fr/.well-known/security.txt
