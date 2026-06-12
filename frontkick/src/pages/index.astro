@@ -17,51 +17,44 @@ const sorted = [...allArticles].sort((a, b) =>
   parseDate(b.data.date) - parseDate(a.data.date)
 );
 
-// ── À la une : dernière actualité, sinon premier article ───────────────────
+// ── À la une : article featured, sinon dernière actu, sinon plus récent ────
 const featuredArticle =
-  sorted.find(a => a.data.category === 'actualite') ?? sorted[0];
+  sorted.find(a => a.data.featured) ??
+  sorted.find(a => a.data.category === 'actualite') ??
+  sorted[0];
 
-// ── Actualités récentes (sidebar hero + section) ───────────────────────────
-const latestNews = sorted
-  .filter(a => a.data.category === 'actualite' && a.slug !== featuredArticle?.slug)
-  .slice(0, 5);
+// ── Hero sidebar : les 4 publications les plus récentes hors une ──────────
+const heroList = sorted.filter(a => a.slug !== featuredArticle?.slug).slice(0, 4);
 
-// ── Sections par discipline ────────────────────────────────────────────────
-const mmaArticles        = sorted.filter(a => a.data.sport === 'mma').slice(0, 3);
-const boxeArticles       = sorted.filter(a => a.data.sport === 'boxe').slice(0, 3);
-const kickboxingArticles = sorted.filter(a => a.data.sport === 'kickboxing').slice(0, 3);
-const muayThaiArticles   = sorted.filter(a => a.data.sport === 'muay-thai').slice(0, 3);
-const grapplingArticles  = sorted.filter(a => a.data.sport === 'grappling').slice(0, 3);
+// ── À ne pas manquer : 6 articles suivants ────────────────────────────────
+const heroSlugs = new Set([featuredArticle?.slug, ...heroList.map(a => a.slug)]);
+const spotlight = sorted.filter(a => !heroSlugs.has(a.slug)).slice(0, 6);
 
 // ── Guides (non-actualité) ─────────────────────────────────────────────────
 const guides = sorted.filter(a => a.data.category !== 'actualite').slice(0, 4);
 
-// ── Sidebar hero : 4 actus après la une ───────────────────────────────────
-const sidebar = latestNews.slice(0, 4);
-
-// ── Section "Dernières publications" : 6 articles hors une ────────────────
-const recent = sorted.filter(a => a.slug !== featuredArticle?.slug).slice(0, 6);
+// ── Sections par discipline ────────────────────────────────────────────────
+const sportSections = [
+  { key: 'mma',        label: 'MMA',        items: sorted.filter(a => a.data.sport === 'mma').slice(0, 3) },
+  { key: 'boxe',       label: 'Boxe',       items: sorted.filter(a => a.data.sport === 'boxe').slice(0, 3) },
+  { key: 'muay-thai',  label: 'Muay Thaï',  items: sorted.filter(a => a.data.sport === 'muay-thai').slice(0, 3) },
+  { key: 'grappling',  label: 'Grappling',  items: sorted.filter(a => a.data.sport === 'grappling').slice(0, 3) },
+].filter(s => s.items.length > 0);
 
 // ── Données d'affichage ────────────────────────────────────────────────────
 const gradients: Record<string, string> = {
-  mma:         'linear-gradient(135deg, #0F172A 0%, #1E88E5 100%)',
-  boxe:        'linear-gradient(135deg, #7f1d1d 0%, #DC2626 100%)',
-  kickboxing:  'linear-gradient(135deg, #064e3b 0%, #10B981 100%)',
-  'muay-thai': 'linear-gradient(135deg, #78350f 0%, #F59E0B 100%)',
-  grappling:   'linear-gradient(135deg, #1e3a8a 0%, #3B82F6 100%)',
-  karate:      'linear-gradient(135deg, #1a1a1a 0%, #4B5563 100%)',
-  equipement:  'linear-gradient(135deg, #0F172A 0%, #38BDF8 100%)',
-  autres:      'linear-gradient(135deg, #134e4a 0%, #0D9488 100%)',
-  sanda:       'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
-  lethwei:     'linear-gradient(135deg, #1c1917 0%, #a8a29e 100%)',
-  savate:      'linear-gradient(135deg, #1e3a5f 0%, #2563EB 100%)',
-  sambo:       'linear-gradient(135deg, #1a1a1a 0%, #dc2626 100%)',
-  k1:          'linear-gradient(135deg, #1a1a2e 0%, #7C3AED 100%)',
-};
-const emojis: Record<string, string> = {
-  mma: '🥊', boxe: '🥊', kickboxing: '🦵', 'muay-thai': '🦵',
-  grappling: '🤼', karate: '🥋', equipement: '🛒', autres: '🥋',
-  sanda: '🐉', lethwei: '💀', savate: '🇫🇷', sambo: '🇷🇺', k1: '⚡',
+  mma:         'linear-gradient(135deg, #0F1722 0%, #1E4F7A 100%)',
+  boxe:        'linear-gradient(135deg, #4a1212 0%, #B91C1C 100%)',
+  kickboxing:  'linear-gradient(135deg, #06382b 0%, #0E9F6E 100%)',
+  'muay-thai': 'linear-gradient(135deg, #56260b 0%, #D97706 100%)',
+  grappling:   'linear-gradient(135deg, #16284f 0%, #2563EB 100%)',
+  karate:      'linear-gradient(135deg, #16161d 0%, #4B5563 100%)',
+  equipement:  'linear-gradient(135deg, #0F1722 0%, #E63A23 100%)',
+  sanda:       'linear-gradient(135deg, #581f0c 0%, #ea580c 100%)',
+  lethwei:     'linear-gradient(135deg, #1c1917 0%, #78716c 100%)',
+  savate:      'linear-gradient(135deg, #16284f 0%, #2563EB 100%)',
+  sambo:       'linear-gradient(135deg, #161616 0%, #b91c1c 100%)',
+  k1:          'linear-gradient(135deg, #16162a 0%, #6D28D9 100%)',
 };
 const catLabel: Record<string, string> = {
   'guide-debutant':       'Guide Débutant',
@@ -69,7 +62,7 @@ const catLabel: Record<string, string> = {
   'guide-equipement':     'Équipement',
   'analyse':              'Analyse',
   'actualite':            'Actualité',
-  'guide':               'Guide',
+  'guide':                'Guide',
 };
 const sportLabel: Record<string, string> = {
   mma: 'MMA', boxe: 'Boxe', kickboxing: 'Kickboxing', 'muay-thai': 'Muay-Thaï',
@@ -78,12 +71,12 @@ const sportLabel: Record<string, string> = {
 };
 
 const disciplineCards = [
-  { key: 'mma',        name: 'MMA',           emoji: '🥊', origin: 'Mixed Martial Arts · Mondial' },
-  { key: 'boxe',       name: 'Boxe anglaise',  emoji: '🥊', origin: 'Boxing · Grande-Bretagne' },
-  { key: 'kickboxing', name: 'Kickboxing',     emoji: '🦵', origin: 'Full contact · USA / Japon' },
-  { key: 'muay-thai',  name: 'Muay-Thaï',      emoji: '🦵', origin: 'Art martial · Thaïlande' },
-  { key: 'grappling',  name: 'Grappling',      emoji: '🤼', origin: 'BJJ · Judo · Wrestling · Sambo' },
-  { key: 'guides',     name: 'Guides',         emoji: '📖', origin: 'Débutant · Intermédiaire · Avancé' },
+  { key: 'mma',        name: 'MMA',           origin: 'Mixed Martial Arts · Mondial' },
+  { key: 'boxe',       name: 'Boxe anglaise', origin: 'Boxing · Grande-Bretagne' },
+  { key: 'kickboxing', name: 'Kickboxing',    origin: 'Full contact · USA / Japon' },
+  { key: 'muay-thai',  name: 'Muay-Thaï',     origin: 'Art martial · Thaïlande' },
+  { key: 'grappling',  name: 'Grappling',     origin: 'BJJ · Judo · Wrestling · Sambo' },
+  { key: 'guides',     name: 'Guides',        origin: 'Débutant · Intermédiaire · Avancé' },
 ];
 
 const sportImages: Record<string, string> = {
@@ -99,7 +92,6 @@ const sportImages: Record<string, string> = {
   grappling:    '/images/banners/grappling.png',
   karate:       '/images/banners/karate.png',
   guides:       '/images/banners/guide.png',
-  // kickboxing, savate, sambo, sanda, lethwei, k1 → gradient seul (pas de bannière encore)
 };
 
 // Helper : background card propre (évite url('') qui écrase le gradient)
@@ -107,8 +99,17 @@ function cardBg(sportKey: string): string {
   const g = gradients[sportKey] || gradients.mma;
   const img = sportImages[sportKey as keyof typeof sportImages];
   return img
-    ? `background-image:url('${img}'),${g};background-size:cover,cover;background-position:center top,center;position:relative;overflow:hidden;`
-    : `background-image:${g};position:relative;overflow:hidden;`;
+    ? `background-image:url('${img}'),${g};background-size:cover,cover;background-position:center top,center;`
+    : `background-image:${g};`;
+}
+
+// Visuel d'un article : image dédiée (frontmatter) prioritaire, sinon bannière du sport
+function articleBg(a: { data: { sport: string; image?: string } }): string {
+  if (a.data.image) {
+    const g = gradients[a.data.sport] || gradients.mma;
+    return `background-image:url('${a.data.image}'),${g};background-size:cover,cover;background-position:center,center;`;
+  }
+  return cardBg(a.data.sport);
 }
 
 // ── SEO : description dynamique basée sur la une ──────────────────────────
@@ -119,86 +120,92 @@ const seoDesc = featuredArticle
 <Base title="FightFocus - MMA, Boxe, Muay Thai : Actu, Guides et Analyses" description={seoDesc}>
 <div id="app">
 
-  <!-- HERO : À LA UNE + SIDEBAR ACTUS -->
+  <!-- HERO : À LA UNE + LES DERNIÈRES -->
   {featuredArticle && (
-  <div class="hero">
-    <a href={`/articles/${featuredArticle.slug}`} class="featured-card">
-      <div class="featured-image" style={cardBg(featuredArticle.data.sport)}>
-        <span class="fi-badge">À la une</span>
-      </div>
-      <div class="featured-body">
-        <div class="feat-meta">
+  <section class="home-hero" aria-label="À la une">
+    <a href={`/articles/${featuredArticle.slug}`} class="hero-feature">
+      <div class="hero-feature__media" style={articleBg(featuredArticle)}></div>
+      <div class="hero-feature__scrim"></div>
+      <div class="hero-feature__content">
+        <div class="hero-feature__badges">
+          <span class="badge-une"><span>À la une</span></span>
+          <span class="badge-sport">{sportLabel[featuredArticle.data.sport] ?? featuredArticle.data.sport}</span>
+        </div>
+        <h1 class="hero-feature__title" set:html={featuredArticle.data.title}></h1>
+        <p class="hero-feature__excerpt">{featuredArticle.data.excerpt}</p>
+        <div class="hero-feature__meta">
           <span>{catLabel[featuredArticle.data.category] ?? featuredArticle.data.category}</span>
           <span>{featuredArticle.data.date}</span>
+          <span class="read-more">Lire l'article →</span>
         </div>
-        <h1 class="feat-h1" set:html={featuredArticle.data.title}></h1>
-        <p class="feat-desc">{featuredArticle.data.excerpt}</p>
-        <div class="feat-footer"><span class="read-more">Lire l'article →</span></div>
       </div>
     </a>
 
-    {sidebar.length > 0 && (
-    <div class="hero-sidebar">
-      {sidebar.map(a => (
-        <a href={`/articles/${a.slug}`} class="mini-card">
-          <div>
-            <div class="mini-cat">{sportLabel[a.data.sport] ?? a.data.sport} · {catLabel[a.data.category] ?? a.data.category}</div>
-            <div class="mini-title" set:html={a.data.title}></div>
-            <div class="mini-date">{a.data.date}</div>
+    {heroList.length > 0 && (
+    <aside class="hero-latest" aria-label="Dernières publications">
+      <div class="hero-latest__head">Les dernières</div>
+      {heroList.map((a, i) => (
+        <a href={`/articles/${a.slug}`} class="latest-item">
+          <span class="latest-num">{String(i + 1).padStart(2, '0')}</span>
+          <span>
+            <span class="latest-cat">{sportLabel[a.data.sport] ?? a.data.sport} · {catLabel[a.data.category] ?? a.data.category}</span>
+            <span class="latest-title" set:html={a.data.title}></span>
+          </span>
+        </a>
+      ))}
+    </aside>
+    )}
+  </section>
+  )}
+
+  <!-- DISCIPLINES -->
+  <section aria-label="Disciplines">
+    <div class="sec-bar">
+      <h2>Disciplines</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="sports-hub">
+      {disciplineCards.map(d => (
+        <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card">
+          {sportImages[d.key as keyof typeof sportImages] && (
+            <div class="sport-hub-img" style={`background-image:url('${sportImages[d.key as keyof typeof sportImages]}');`}></div>
+          )}
+          <div class="sport-hub-top">
+            <div>
+              <div class="sport-name">{d.name}</div>
+              <div class="sport-origin">{d.origin}</div>
+            </div>
+          </div>
+          <div class="sport-links">
+            <div class="sport-link"><span>Articles</span></div>
+            <div class="sport-link"><span>Explorer →</span></div>
           </div>
         </a>
       ))}
     </div>
-    )}
-  </div>
-  )}
+  </section>
 
-  <!-- DISCIPLINES -->
-  <div class="sec-bar">
-    <h2>Disciplines</h2>
-    <div class="sec-line"></div>
-  </div>
-  <div class="sports-hub">
-    {disciplineCards.map(d => (
-      <a href={d.key === 'guides' ? '/guides' : `/discipline/${d.key}`} class="sport-hub-card" style={`background: ${gradients[d.key] || gradients.mma};`}>
-        {sportImages[d.key as keyof typeof sportImages] && (
-          <div class="sport-hub-img" style={`background-image:url('${sportImages[d.key as keyof typeof sportImages]}');background-size:cover;background-position:center top;`}></div>
-        )}
-        <div class="sport-hub-top">
-          <div>
-            <div class="sport-name">{d.name}</div>
-            <div class="sport-origin">{d.origin}</div>
-          </div>
-        </div>
-        <div class="sport-links">
-          <div class="sport-link"><span>Articles</span></div>
-          <div class="sport-link"><span>Guide →</span></div>
-        </div>
-      </a>
-    ))}
-  </div>
-
-  <!-- DERNIÈRES ACTUALITÉS -->
-  {latestNews.length > 0 && (
+  <!-- À NE PAS MANQUER + SIDEBAR -->
+  {spotlight.length > 0 && (
   <div class="main-layout">
     <main>
       <div class="sec-bar">
-        <h2>Dernières actualités</h2>
+        <h2>À ne pas manquer</h2>
         <div class="sec-line"></div>
-        <a href="/discipline/mma" class="see-all">Toutes les actus →</a>
+        <a href="/guides" class="see-all">Voir tout →</a>
       </div>
       <div class="art-grid">
-        {latestNews.map(a => (
+        {spotlight.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`${cardBg(a.data.sport)}`}>
-              <span class="art-cat-tag">Actualité</span>
+            <div class="art-image" style={articleBg(a)}>
+              <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">
-              <div class="art-title-sm" set:html={a.data.title}></div>
-              <div class="art-excerpt">{a.data.excerpt}</div>
+              <h3 class="art-title-sm" set:html={a.data.title}></h3>
+              <p class="art-excerpt">{a.data.excerpt}</p>
               <div class="art-foot">
                 <span>{a.data.date}</span>
-                <span class="atype t-actu">{sportLabel[a.data.sport] ?? a.data.sport}</span>
+                <span class="atype t-guide">{sportLabel[a.data.sport] ?? a.data.sport}</span>
               </div>
             </div>
           </a>
@@ -209,17 +216,17 @@ const seoDesc = featuredArticle
     <aside class="sidebar-col">
       <div class="nl-widget">
         <div class="widget-head">Newsletter hebdo</div>
-        <p>Les meilleurs articles de la semaine. Gratuit.</p>
-        <input class="nl-input" type="email" id="nl-email-home" placeholder="votre@email.com" />
+        <p>Les meilleurs articles de la semaine, directement dans ta boîte mail. Gratuit.</p>
+        <input class="nl-input" type="email" id="nl-email-home" placeholder="votre@email.com" aria-label="Votre adresse email" />
         <button class="nl-btn" onclick="subscribeHome()">S'abonner</button>
         <div id="nl-feedback-home" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
       </div>
       <div class="widget">
-        <div class="widget-head">Prochains événements</div>
+        <div class="widget-head">Bien débuter</div>
         <div class="widget-body">
-          <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
-          <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
-          <div class="ev-item"><div class="ev-date">06 Sep</div><div>UFC Paris 2026</div></div>
+          <div class="ev-item"><div class="ev-date">Guide</div><a href="/guides">Guides débutants par discipline</a></div>
+          <div class="ev-item"><div class="ev-date">Équip.</div><a href="/equipement">Bien choisir son équipement</a></div>
+          <div class="ev-item"><div class="ev-date">Agenda</div><a href="/evenements">Les prochains événements</a></div>
         </div>
       </div>
       <div class="ad-slot ad-rect"></div>
@@ -229,177 +236,56 @@ const seoDesc = featuredArticle
 
   <!-- GUIDES & ANALYSES -->
   {guides.length > 0 && (
-  <div class="sec-bar" style="margin-top:2.5rem;">
-    <h2>Guides & Analyses</h2>
-    <div class="sec-line"></div>
-    <a href="/guides" class="see-all">Voir tous les guides →</a>
-  </div>
-  )}
-  {guides.length > 0 && (
-  <div class="art-grid" style="padding:0 1.5rem 2rem;">
-    {guides.map(a => (
-      <a href={`/articles/${a.slug}`} class="art-card">
-        <div class="art-image" style={`${cardBg(a.data.sport)}`}>
-          <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
-        </div>
-        <div class="art-body">
-          <div class="art-title-sm" set:html={a.data.title}></div>
-          <div class="art-excerpt">{a.data.excerpt}</div>
-          <div class="art-foot">
-            <span>{a.data.date}</span>
-            <span class="atype t-guide">{sportLabel[a.data.sport] ?? a.data.sport}</span>
-          </div>
-        </div>
-      </a>
-    ))}
-  </div>
-  )}
-
-  <!-- SECTIONS PAR SPORT -->
-  {mmaArticles.length > 0 && (
-  <div style="margin-top:2.5rem;">
+  <section aria-label="Guides et analyses" style="margin-top:3rem;">
     <div class="sec-bar">
-      <h2>MMA</h2>
+      <h2>Guides & Analyses</h2>
       <div class="sec-line"></div>
-      <a href="/discipline/mma" class="see-all">Tous les articles MMA →</a>
+      <a href="/guides" class="see-all">Tous les guides →</a>
     </div>
     <div class="art-grid">
-      {mmaArticles.map(a => (
+      {guides.map(a => (
         <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={`background:${gradients.mma};background-image:url('${sportImages.mma}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
+          <div class="art-image" style={articleBg(a)}>
             <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
           </div>
           <div class="art-body">
-            <div class="art-title-sm" set:html={a.data.title}></div>
-            <div class="art-excerpt">{a.data.excerpt}</div>
-            <div class="art-foot"><span>{a.data.date}</span></div>
+            <h3 class="art-title-sm" set:html={a.data.title}></h3>
+            <p class="art-excerpt">{a.data.excerpt}</p>
+            <div class="art-foot">
+              <span>{a.data.date}</span>
+              <span class="atype t-guide">{sportLabel[a.data.sport] ?? a.data.sport}</span>
+            </div>
           </div>
         </a>
       ))}
     </div>
-  </div>
+  </section>
   )}
 
-  {boxeArticles.length > 0 && (
-  <div style="margin-top:2.5rem;">
-    <div class="sec-bar">
-      <h2>Boxe</h2>
-      <div class="sec-line"></div>
-      <a href="/discipline/boxe" class="see-all">Tous les articles Boxe →</a>
-    </div>
-    <div class="art-grid">
-      {boxeArticles.map(a => (
-        <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={`background:${gradients.boxe};background-image:url('${sportImages.boxe}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
-            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
-          </div>
-          <div class="art-body">
-            <div class="art-title-sm" set:html={a.data.title}></div>
-            <div class="art-excerpt">{a.data.excerpt}</div>
-            <div class="art-foot"><span>{a.data.date}</span></div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </div>
-  )}
-
-  {muayThaiArticles.length > 0 && (
-  <div style="margin-top:2.5rem;">
-    <div class="sec-bar">
-      <h2>Muay Thaï</h2>
-      <div class="sec-line"></div>
-      <a href="/discipline/muay-thai" class="see-all">Tous les articles Muay Thaï →</a>
-    </div>
-    <div class="art-grid">
-      {muayThaiArticles.map(a => (
-        <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={`background:${gradients['muay-thai']};background-image:url('${sportImages['muay-thai']}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
-            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
-          </div>
-          <div class="art-body">
-            <div class="art-title-sm" set:html={a.data.title}></div>
-            <div class="art-excerpt">{a.data.excerpt}</div>
-            <div class="art-foot"><span>{a.data.date}</span></div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </div>
-  )}
-
-  {grapplingArticles.length > 0 && (
-  <div style="margin-top:2.5rem;">
-    <div class="sec-bar">
-      <h2>Grappling</h2>
-      <div class="sec-line"></div>
-      <a href="/discipline/grappling" class="see-all">Tous les articles Grappling →</a>
-    </div>
-    <div class="art-grid">
-      {grapplingArticles.map(a => (
-        <a href={`/articles/${a.slug}`} class="art-card">
-          <div class="art-image" style={`background:${gradients.grappling};background-image:url('${sportImages.grappling}');background-size:cover;background-position:center;position:relative;overflow:hidden;`}>
-            <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
-          </div>
-          <div class="art-body">
-            <div class="art-title-sm" set:html={a.data.title}></div>
-            <div class="art-excerpt">{a.data.excerpt}</div>
-            <div class="art-foot"><span>{a.data.date}</span></div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </div>
-  )}
-
-  <!-- DERNIÈRES PUBLICATIONS (fallback si peu d'articles) -->
-  {latestNews.length === 0 && recent.length > 0 && (
-  <div class="main-layout">
-    <main>
+  <!-- RUBRIQUES PAR DISCIPLINE -->
+  {sportSections.map(section => (
+    <section aria-label={section.label} style="margin-top:3rem;">
       <div class="sec-bar">
-        <h2>Dernières publications</h2>
+        <h2>{section.label}</h2>
         <div class="sec-line"></div>
-        <a href="/guides" class="see-all">Voir tout →</a>
+        <a href={`/discipline/${section.key}`} class="see-all">Tous les articles {section.label} →</a>
       </div>
       <div class="art-grid">
-        {recent.map(a => (
+        {section.items.map(a => (
           <a href={`/articles/${a.slug}`} class="art-card">
-            <div class="art-image" style={`${cardBg(a.data.sport)}`}>
+            <div class="art-image" style={articleBg(a)}>
               <span class="art-cat-tag">{catLabel[a.data.category] ?? a.data.category}</span>
             </div>
             <div class="art-body">
-              <div class="art-title-sm" set:html={a.data.title}></div>
-              <div class="art-excerpt">{a.data.excerpt}</div>
-              <div class="art-foot">
-                <span>{a.data.date}</span>
-                <span class="atype t-guide">{catLabel[a.data.category] ?? a.data.category}</span>
-              </div>
+              <h3 class="art-title-sm" set:html={a.data.title}></h3>
+              <p class="art-excerpt">{a.data.excerpt}</p>
+              <div class="art-foot"><span>{a.data.date}</span></div>
             </div>
           </a>
         ))}
       </div>
-    </main>
-
-    <aside class="sidebar-col">
-      <div class="nl-widget">
-        <div class="widget-head">Newsletter hebdo</div>
-        <p>Les meilleurs articles de la semaine. Gratuit.</p>
-        <input class="nl-input" type="email" id="nl-email-home" placeholder="votre@email.com" />
-        <button class="nl-btn" onclick="subscribeHome()">S'abonner</button>
-        <div id="nl-feedback-home" style="font-size:0.8rem;margin-top:8px;min-height:1.2em;"></div>
-      </div>
-      <div class="widget">
-        <div class="widget-head">Prochains événements</div>
-        <div class="widget-body">
-          <div class="ev-item"><div class="ev-date">12 Avr</div><div>UFC 314 — Miami</div></div>
-          <div class="ev-item"><div class="ev-date">10 Mai</div><div>UFC 315 — Montréal</div></div>
-          <div class="ev-item"><div class="ev-date">06 Sep</div><div>UFC Paris 2026</div></div>
-        </div>
-      </div>
-      <div class="ad-slot ad-rect"></div>
-    </aside>
-  </div>
-  )}
+    </section>
+  ))}
 
 </div>
 
@@ -411,7 +297,7 @@ async function subscribeHome() {
   const email = emailEl?.value?.trim();
 
   if (!email || !email.includes('@')) {
-    if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#ef4444'; }
+    if (fb) { fb.textContent = 'Email invalide'; fb.style.color = '#FF6A4D'; }
     return;
   }
 
@@ -434,16 +320,16 @@ async function subscribeHome() {
     });
 
     if (res.ok || res.status === 204) {
-      if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#10b981'; }
+      if (fb) { fb.textContent = '✓ Inscrit ! À bientôt dans ta boîte mail.'; fb.style.color = '#5BD68A'; }
       if (emailEl) emailEl.value = '';
     } else if (res.status === 400) {
       // Le contact existe peut-être déjà
-      if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#10b981'; }
+      if (fb) { fb.textContent = '✓ Déjà inscrit — on se retrouve prochainement !'; fb.style.color = '#5BD68A'; }
     } else {
       throw new Error('API error ' + res.status);
     }
   } catch (err) {
-    if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#ef4444'; }
+    if (fb) { fb.textContent = 'Erreur — réessaie dans quelques instants.'; fb.style.color = '#FF6A4D'; }
   }
 }
 
