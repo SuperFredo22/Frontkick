@@ -23,7 +23,9 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); sources=[r['source'] for r in d.get\\('redirects',[]\\)]; print\\('\\\\n'.join\\(sources\\)\\)\")",
       "Bash(git add:*)",
       "Bash(git commit -m ':*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__160a7a78-b2b9-4bb6-b153-9b0a8bdc0e1d__list_projects",
+      "mcp__160a7a78-b2b9-4bb6-b153-9b0a8bdc0e1d__list_deployments"
     ]
   }
 }
